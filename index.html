@@ -925,7 +925,18 @@ const projStart = new Date(showroom.startDate + "T00:00:00");
             handleLogin();
         }
     });
-
+	window.handleLogin = handleLogin;
+	window.confirmAddShowroom = confirmAddShowroom;
+	window.openModal = openModal;
+	window.closeModal = closeModal;
+	window.switchShowroom = switchShowroom;
+	window.openShowroom = openShowroom;
+	window.deleteCurrentShowroom = deleteCurrentShowroom;
+	window.resetCurrentShowroom = resetCurrentShowroom;
+	window.savePhaseData = savePhaseData;
+	window.updateStartDate = updateStartDate;
+	window.showMasterDashboard = showMasterDashboard;
+	window.logout = logout;
     window.onload = checkAuth;
 </script>
 </body>
