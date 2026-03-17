@@ -565,24 +565,22 @@ async function saveState() {
 
 try {
 
-for (const showroom of state.showrooms) {
-
-await setDoc(
+const promises = state.showrooms.map(showroom =>
+setDoc(
 doc(window.db, "showrooms", showroom.name),
 showroom
+)
 );
 
-}
+await Promise.all(promises);
 
 } catch (error) {
 
 console.error("Firestore save error:", error);
-alert("Error saving showroom data.");
 
 }
 
 }
-
     /* ========================================
     MASTER DASHBOARD LOGIC
     ========================================
