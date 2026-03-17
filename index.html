@@ -539,7 +539,9 @@ window.db = db;
     INITIALIZATION & STORAGE
     ========================================
     */
-   async function init() {
+  async function init() {
+
+try {
 
 const querySnapshot = await getDocs(collection(window.db, "showrooms"));
 
@@ -552,9 +554,18 @@ state.showrooms.push(docSnap.data());
 renderShowroomList();
 showMasterDashboard();
 
+} catch (error) {
+
+console.error("Firestore load error:", error);
+alert("Unable to load showroom data. Check internet or Firebase settings.");
+
+}
+
 }
 
 async function saveState() {
+
+try {
 
 for (const showroom of state.showrooms) {
 
@@ -562,6 +573,13 @@ await setDoc(
 doc(window.db, "showrooms", showroom.name),
 showroom
 );
+
+}
+
+} catch (error) {
+
+console.error("Firestore save error:", error);
+alert("Error saving showroom data.");
 
 }
 
@@ -677,7 +695,7 @@ showroom
     function openModal() { document.getElementById('modal-overlay').style.display = 'flex'; }
     function closeModal() { document.getElementById('modal-overlay').style.display = 'none'; }
 
-    function confirmAddShowroom() {
+    async function confirmAddShowroom() {
         const name = document.getElementById('new-showroom-name').value.trim();
         const start = document.getElementById('new-showroom-start').value;
 
@@ -699,7 +717,7 @@ showroom
         };
 
         state.showrooms.push(newShowroom);
-        saveState();
+        await saveState();
         closeModal();
         renderShowroomList();
         
