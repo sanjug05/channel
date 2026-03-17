@@ -425,7 +425,32 @@
         <p style="color: #999;" class="viewer-only">No active showrooms found in the database.</p>
     </div>
 </div>
+<script type="module">
 
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { 
+getFirestore, 
+collection, 
+getDocs, 
+setDoc, 
+doc 
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDav3rI7fTr8KrXYxvnz5LB82CgjRq4v20",
+  authDomain: "ais-showroom-dashboard.firebaseapp.com",
+  projectId: "ais-showroom-dashboard",
+  storageBucket: "ais-showroom-dashboard.firebasestorage.app",
+  messagingSenderId: "175667492150",
+  appId: "1:175667492150:web:cb124eb267b4689e6a2f97"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+window.db = db;
+
+</script>
 <script>
     /* ========================================
     AUTHENTICATION LOGIC
@@ -515,24 +540,35 @@
     ========================================
     */
     function init() {
-        try {
-            const saved = localStorage.getItem('ais_showroom_manager');
-            if (saved) {
-                state = JSON.parse(saved);if(!state.showrooms) state = { showrooms: [], currentIndex: -1 };
-            }
-        } catch (e) {
-            console.error("Storage corruption detected. Resetting state.", e);
-            localStorage.removeItem('ais_showroom_manager');
-            state = { showrooms: [], currentIndex: -1 };
-        }
-        
-        renderShowroomList();
-        showMasterDashboard();
-    }
+       async function init() {
 
-    function saveState() {
-        localStorage.setItem('ais_showroom_manager', JSON.stringify(state));
-    }
+const querySnapshot = await getDocs(collection(window.db, "showrooms"));
+
+state.showrooms = [];
+
+querySnapshot.forEach((docSnap) => {
+
+state.showrooms.push(docSnap.data());
+
+});
+
+renderShowroomList();
+showMasterDashboard();
+
+}
+
+async function saveState() {
+
+for (const showroom of state.showrooms) {
+
+await setDoc(
+doc(window.db, "showrooms", showroom.name),
+showroom
+);
+
+}
+
+}
 
     /* ========================================
     MASTER DASHBOARD LOGIC
