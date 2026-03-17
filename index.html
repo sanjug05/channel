@@ -577,6 +577,7 @@ await Promise.all(promises);
 } catch (error) {
 
 console.error("Firestore save error:", error);
+alert("Save failed. Check Firestore rules or internet connection.");
 
 }
 
