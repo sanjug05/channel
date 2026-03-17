@@ -450,7 +450,6 @@ const db = getFirestore(app);
 
 window.db = db;
 
-</script>
     /* ========================================
     AUTHENTICATION LOGIC
     ========================================
@@ -542,7 +541,7 @@ window.db = db;
 
 try {
 
-const querySnapshot = await getDocs(collection(window.db, "showrooms"));
+const querySnapshot = await getDocs(collection(db, "showrooms"));
 
 state.showrooms = [];
 
@@ -565,9 +564,12 @@ async function saveState() {
 try {
 
 const promises = state.showrooms.map(showroom =>
-await setDoc(
+
+setDoc(
 doc(db, "showrooms", showroom.name.replace(/\s+/g, "_")),
 showroom
+)
+
 );
 
 await Promise.all(promises);
@@ -913,5 +915,6 @@ const projStart = new Date(showroom.startDate + "T00:00:00");
     });
 
     window.onload = checkAuth;
+</script>
 </body>
 </html>
