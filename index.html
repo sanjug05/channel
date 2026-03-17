@@ -567,7 +567,7 @@ try {
 
 const promises = state.showrooms.map(showroom =>
 setDoc(
-doc(window.db, "showrooms", showroom.name),
+doc(window.db, "showrooms", showroom.name.replace(/\s+/g, "_")),
 showroom
 )
 );
