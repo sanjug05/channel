@@ -427,13 +427,13 @@
 </div>
 <script type="module">
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { 
 getFirestore, 
 collection, 
 getDocs, 
 setDoc, 
-doc 
+doc,
+deleteDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -732,14 +732,24 @@ alert("Save failed. Check Firestore rules or internet connection.");
         openShowroom(parseInt(index));
     }
 
-    function deleteCurrentShowroom() {
-        if (confirm("Permanently delete this showroom and all its data?")) {
-            state.showrooms.splice(state.currentIndex, 1);
-            saveState();
-            renderShowroomList();
-            showMasterDashboard();
-        }
-    }
+   async function deleteCurrentShowroom() {
+
+if (confirm("Permanently delete this showroom and all its data?")) {
+
+const showroom = state.showrooms[state.currentIndex];
+
+await deleteDoc(
+doc(db, "showrooms", showroom.name.replace(/\s+/g, "_"))
+);
+
+state.showrooms.splice(state.currentIndex, 1);
+
+renderShowroomList();
+showMasterDashboard();
+
+}
+
+}
 
     function resetCurrentShowroom() {
         if (confirm("Reset all completion dates and notes for this showroom?")) {
