@@ -539,17 +539,14 @@ window.db = db;
     INITIALIZATION & STORAGE
     ========================================
     */
-    function init() {
-       async function init() {
+   async function init() {
 
 const querySnapshot = await getDocs(collection(window.db, "showrooms"));
 
 state.showrooms = [];
 
 querySnapshot.forEach((docSnap) => {
-
 state.showrooms.push(docSnap.data());
-
 });
 
 renderShowroomList();
@@ -664,7 +661,6 @@ showroom
 
     function openShowroom(index) {
     state.currentIndex = index;
-    saveState(); // add this
         document.getElementById('master-dashboard-view').style.display = 'none';
         document.getElementById('dashboard-content').style.display = 'block';
         document.getElementById('back-to-dash-btn').style.display = 'inline-flex';
