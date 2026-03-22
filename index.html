@@ -282,7 +282,10 @@
         <button class="btn btn-logout" onclick="logout()">Logout</button>
         <button class="btn btn-print" id="nav-dealer-btn" onclick="initDealerModule()">Dealer Onboarding</button>
         <button class="btn btn-print" id="nav-showroom-btn" onclick="showMasterDashboard()" style="display:none;">Showroom Dashboard</button>
-      </div>
+        <button class="btn btn-print" id="nav-dealer-btn" onclick="initDealerModule()">Dealer Onboarding</button>
+        <button class="btn btn-print" id="nav-showroom-btn" onclick="showMasterDashboard()" style="display:none;">Showroom Dashboard</button>
+        <button class="btn btn-add" onclick="exportDashboardReport()">Download Report</button>
+</div>
     </header>
 
     <!-- MASTER SHOWROOM DASHBOARD -->
@@ -431,6 +434,7 @@
   </div>
 
   <!-- SINGLE SCRIPT (module) -->
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script type="module">
     // =============== FIREBASE IMPORTS ===============
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -624,7 +628,298 @@
       if (bar) bar.style.width = `${p.pct}%`;
       if (txt) txt.textContent = `${p.pct}%`;
     }
+// ===================== EXCEL EXPORT =====================
+/*
+ * Generates: AIS_Dashboard_Report.xlsx
+ * Sheets:
+ * 1) SHOWROOM SUMMARY
+ * 2) SHOWROOM PHASE DETAILS
+ * 3) DEALER SUMMARY
+ * 4) DEALER DOCUMENT TRACKER
+ * 5) PIPELINE SUMMARY
+ * 6) RM PERFORMANCE
+ *
+ * Uses existing:
+ *   - state.showrooms, state.dealers
+ *   - PHASES_CONFIG, DEALER_STAGES, DOC_KEYS
+ *   - formatDate(), calculatePlannedDate(), calculateShowroomStats()
+ *   - autoDetectStage(), docProgress(), calculateDealerTimeline(), computeTimeline()
+ */
+window.exportDashboardReport = () => {
+  try {
+    if (!window.XLSX) {
+      alert('Export library not loaded. Please check the SheetJS CDN script tag.');
+      return;
+    }
 
+    const wb = XLSX.utils.book_new();
+
+    // ---------- Helpers ----------
+    const fmt = (d) => (d ? formatDate(d) : '--');
+
+    const toISODateOnly = (s) => {
+      if (!s) return null;
+      const d = new Date(s + (s.includes('T') ? '' : 'T00:00:00'));
+      return isNaN(d.getTime()) ? null : d;
+    };
+
+    // Compute showroom metrics similar to your dashboard
+    function showroomMetrics(s) {
+      const start = toISODateOnly(s.startDate);
+      const planFinish = start ? calculatePlannedDate(s.startDate) : null;
+
+      // total delay via provided helper
+      const agg = calculateShowroomStats(s); // { pct, delay }
+
+      // completion, on-time/velocity, active phase & projected finish
+      let completed = 0, ontime = 0, activeName = 'Not Started';
+      let projected = null;
+
+      if (start) {
+        const today = new Date(); today.setHours(0,0,0,0);
+        let activeSet = false;
+
+        PHASES_CONFIG.forEach(phase => {
+          const data = (s.data && s.data[phase.id]) || {};
+          const target = new Date(start); target.setDate(start.getDate() + phase.days);
+
+          if (data.actualDate) {
+            const actual = toISODateOnly(data.actualDate);
+            if (actual) {
+              completed++;
+              const diff = Math.ceil((actual - target) / 86400000);
+              if (diff <= 0) ontime++;
+            }
+          } else if (!activeSet) {
+            activeName = phase.name;
+            activeSet = true;
+          }
+        });
+
+        if (!activeSet && PHASES_CONFIG.length) {
+          activeName = 'Project Completed';
+        }
+
+        // Projected finish (pace-based), consistent with your dashboard calc
+        const pct = PHASES_CONFIG.length ? (completed / PHASES_CONFIG.length) * 100 : 0;
+        const elapsed = Math.ceil((today - start) / 86400000);
+        if (pct > 0) {
+          const pace = elapsed / pct; // days per 1%
+          const daysFor100 = pace * 100;
+          projected = new Date(start); projected.setDate(start.getDate() + Math.ceil(daysFor100));
+        }
+      }
+
+      const velocity = completed > 0 ? Math.round((ontime / completed) * 100) : 0;
+
+      return {
+        start, planFinish, projected,
+        completionPct: agg.pct || 0,
+        totalDelay: agg.delay || 0,
+        activePhase: activeName,
+        velocity
+      };
+    }
+
+    // ---------- 1) SHOWROOM SUMMARY ----------
+    {
+      const COLS = [
+        'Showroom Name',
+        'Start Date',
+        'Planned Finish',
+        'Projected Finish',
+        'Completion %',
+        'Total Delay (Days)',
+        'Active Phase',
+        'Velocity %'
+      ];
+
+      const rows = (state.showrooms || []).map(s => {
+        const m = showroomMetrics(s);
+        return {
+          'Showroom Name': s.name || '',
+          'Start Date': fmt(m.start),
+          'Planned Finish': fmt(m.planFinish),
+          'Projected Finish': fmt(m.projected),
+          'Completion %': m.completionPct,
+          'Total Delay (Days)': m.totalDelay,
+          'Active Phase': m.activePhase,
+          'Velocity %': m.velocity
+        };
+      });
+
+      const ws = XLSX.utils.json_to_sheet(rows, { header: COLS });
+      XLSX.utils.book_append_sheet(wb, ws, 'SHOWROOM SUMMARY');
+    }
+
+    // ---------- 2) SHOWROOM PHASE DETAILS ----------
+    {
+      const COLS = [
+        'Showroom Name',
+        'Phase Name',
+        'Planned Days',
+        'Target Date',
+        'Actual Date',
+        'Status',
+        'Variance',
+        'Delay Notes'
+      ];
+
+      const rows = [];
+      (state.showrooms || []).forEach(s => {
+        const start = toISODateOnly(s.startDate);
+        PHASES_CONFIG.forEach(phase => {
+          let target = null, status = '', variance = '', actualStr = '', notes = '';
+          const data = (s.data && s.data[phase.id]) || {};
+          if (start) {
+            target = new Date(start); target.setDate(start.getDate() + phase.days);
+          }
+          const targetStr = fmt(target);
+          if (data.actualDate) {
+            const actual = toISODateOnly(data.actualDate);
+            actualStr = fmt(actual);
+            if (actual && target) {
+              const diff = Math.ceil((actual - target) / 86400000);
+              if (diff < 0) { status = 'Ahead'; variance = `${diff} Days`; }
+              else if (diff === 0) { status = 'On Time'; variance = 'On Track'; }
+              else { status = 'Late'; variance = `+${diff} Days`; }
+            }
+          } else {
+            // same overdue / upcoming logic as UI (needs today)
+            const today = new Date(); today.setHours(0,0,0,0);
+            if (target) {
+              const diff = Math.ceil((today - target) / 86400000);
+              if (diff > 0) { status = 'Overdue'; variance = `+${diff} Days`; }
+              else if (diff === 0) { status = 'Due Today'; variance = '0 Days Left'; }
+              else { status = 'Upcoming'; variance = `${Math.abs(diff)} Days Left`; }
+            }
+          }
+          notes = data.reason || '';
+
+          rows.push({
+            'Showroom Name': s.name || '',
+            'Phase Name': phase.name,
+            'Planned Days': phase.days,
+            'Target Date': targetStr,
+            'Actual Date': actualStr,
+            'Status': status,
+            'Variance': variance,
+            'Delay Notes': notes
+          });
+        });
+      });
+
+      const ws = XLSX.utils.json_to_sheet(rows, { header: COLS });
+      XLSX.utils.book_append_sheet(wb, ws, 'SHOWROOM PHASE DETAILS');
+    }
+
+    // ---------- 3) DEALER SUMMARY ----------
+    {
+      const COLS = [
+        'Dealer Name',
+        'City',
+        'RM',
+        'Start Date',
+        'Current Stage',
+        'Status',
+        'Days Since Start',
+        'Delay Status',
+        'Document %'
+      ];
+
+      const rows = (state.dealers || []).map(d => {
+        const start = toISODateOnly(d.startDate);
+        const tline = calculateDealerTimeline(d) || { diffText: '—', isDelayed: false };
+        const t = computeTimeline(d) || {};
+        const p = docProgress(d.documents);
+        const stage = d.currentStage || autoDetectStage(d);
+        return {
+          'Dealer Name': d.name || '',
+          'City': d.city || '',
+          'RM': d.rm || '',
+          'Start Date': fmt(start),
+          'Current Stage': stage || '',
+          'Status': d.status || '',
+          'Days Since Start': t.sinceStart ?? '',
+          'Delay Status': tline.diffText || '',
+          'Document %': `${p.pct}%`
+        };
+      });
+
+      const ws = XLSX.utils.json_to_sheet(rows, { header: COLS });
+      XLSX.utils.book_append_sheet(wb, ws, 'DEALER SUMMARY');
+    }
+
+    // ---------- 4) DEALER DOCUMENT TRACKER ----------
+    {
+      const COLS = ['Dealer Name', ...DOC_KEYS.map(k => k), 'Total Docs Completed', 'Pending Docs'];
+
+      const rows = (state.dealers || []).map(d => {
+        const docs = normalizeDocs(d.documents);
+        const total = DOC_KEYS.length;
+        const done = DOC_KEYS.reduce((acc, k) => acc + (docs[k] ? 1 : 0), 0);
+        const row = { 'Dealer Name': d.name || '' };
+        DOC_KEYS.forEach(k => { row[k] = docs[k] ? '✔' : '❌'; });
+        row['Total Docs Completed'] = done;
+        row['Pending Docs'] = total - done;
+        return row;
+      });
+
+      const ws = XLSX.utils.json_to_sheet(rows, { header: COLS });
+      XLSX.utils.book_append_sheet(wb, ws, 'DEALER DOC TRACKER');
+    }
+
+    // ---------- 5) PIPELINE SUMMARY ----------
+    {
+      const COLS = ['Stage', 'Count'];
+      const counters = {};
+      DEALER_STAGES.forEach(s => (counters[s] = 0));
+      (state.dealers || []).forEach(d => {
+        // Only count pipeline stages; skip dropped
+        if (d.status === 'Dropped') return;
+        const s = d.currentStage || autoDetectStage(d);
+        if (counters.hasOwnProperty(s)) counters[s] += 1;
+      });
+
+      const rows = DEALER_STAGES.map(s => ({ 'Stage': s, 'Count': counters[s] || 0 }));
+      const ws = XLSX.utils.json_to_sheet(rows, { header: COLS });
+      XLSX.utils.book_append_sheet(wb, ws, 'PIPELINE SUMMARY');
+    }
+
+    // ---------- 6) RM PERFORMANCE ----------
+    {
+      const COLS = ['RM Name', 'Total Dealers', 'Active', 'Completed', 'Dropped'];
+      const byRM = {};
+
+      (state.dealers || []).forEach(d => {
+        const rm = d.rm || 'Unassigned';
+        if (!byRM[rm]) byRM[rm] = { total:0, Active:0, Completed:0, Dropped:0 };
+        byRM[rm].total++;
+        const st = (d.status || 'Active');
+        if (st === 'Completed') byRM[rm].Completed++;
+        else if (st === 'Dropped') byRM[rm].Dropped++;
+        else byRM[rm].Active++;
+      });
+
+      const rows = Object.keys(byRM).sort().map(rm => ({
+        'RM Name': rm,
+        'Total Dealers': byRM[rm].total,
+        'Active': byRM[rm].Active,
+        'Completed': byRM[rm].Completed,
+        'Dropped': byRM[rm].Dropped
+      }));
+
+      const ws = XLSX.utils.json_to_sheet(rows, { header: COLS });
+      XLSX.utils.book_append_sheet(wb, ws, 'RM PERFORMANCE');
+    }
+
+    // ---------- Download ----------
+    XLSX.writeFile(wb, "AIS_Dashboard_Report.xlsx");
+  } catch (err) {
+    console.error('Export failed:', err);
+    alert('Export failed. See console for details.');
+  }
+};
     // =============== AUTH ===============
     window.handleLogin = async () => {
       const u = document.getElementById('username').value;
