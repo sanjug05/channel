@@ -17,9 +17,16 @@
       --border-color: #e1e8ed;
       --active-highlight: #ebf5ff;
       --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      --text-muted: #7f8c8d;
+      --hover-bg: #f5f5f5;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+    }
+    
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: var(--bg-color);
@@ -27,9 +34,13 @@
       line-height: 1.6;
     }
 
+    /* Login Screen */
     #login-screen {
       position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
+      top: 0; 
+      left: 0; 
+      width: 100%; 
+      height: 100%;
       background: var(--primary-blue);
       display: flex;
       justify-content: center;
@@ -45,17 +56,58 @@
       width: 100%;
       max-width: 400px;
       text-align: center;
+      animation: fadeIn 0.3s ease;
     }
 
-    .login-card h2 { color: var(--primary-blue); margin-bottom: 10px; }
-    .login-card p { color: #666; margin-bottom: 25px; font-size: 0.9rem; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-    .login-field { margin-bottom: 20px; text-align: left; }
-    .login-field label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 0.85rem; }
-    .login-field input { width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 6px; }
+    .login-card h2 { 
+      color: var(--primary-blue); 
+      margin-bottom: 10px; 
+    }
+    
+    .login-card p { 
+      color: #666; 
+      margin-bottom: 25px; 
+      font-size: 0.9rem; 
+    }
 
-    #login-error { color: var(--delay-red); font-size: 0.85rem; margin-top: 10px; display: none; }
+    .login-field { 
+      margin-bottom: 20px; 
+      text-align: left; 
+    }
+    
+    .login-field label { 
+      display: block; 
+      font-weight: 600; 
+      margin-bottom: 5px; 
+      font-size: 0.85rem; 
+    }
+    
+    .login-field input { 
+      width: 100%; 
+      padding: 12px; 
+      border: 1px solid var(--border-color); 
+      border-radius: 6px;
+      transition: border-color 0.2s;
+    }
+    
+    .login-field input:focus {
+      outline: none;
+      border-color: var(--primary-blue);
+    }
 
+    #login-error { 
+      color: var(--delay-red); 
+      font-size: 0.85rem; 
+      margin-top: 10px; 
+      display: none; 
+    }
+
+    /* Role Badges */
     .role-badge {
       padding: 4px 12px;
       border-radius: 4px;
@@ -64,11 +116,26 @@
       text-transform: uppercase;
       margin-right: 15px;
     }
-    .badge-admin { background: #e1effe; color: var(--primary-blue); }
-    .badge-viewer { background: #f3f4f6; color: #4b5563; }
+    
+    .badge-admin { 
+      background: #e1effe; 
+      color: var(--primary-blue); 
+    }
+    
+    .badge-viewer { 
+      background: #f3f4f6; 
+      color: #4b5563; 
+    }
 
-    .container { max-width: 1400px; margin: 0 auto; padding: 20px; display: none; }
+    /* Container */
+    .container { 
+      max-width: 1400px; 
+      margin: 0 auto; 
+      padding: 20px; 
+      display: none; 
+    }
 
+    /* Header */
     header {
       display: flex;
       justify-content: space-between;
@@ -79,13 +146,30 @@
       box-shadow: var(--shadow);
       margin-bottom: 25px;
       border-top: 5px solid var(--primary-blue);
+      flex-wrap: wrap;
+      gap: 15px;
     }
 
-    .brand h1 { font-size: 1.6rem; color: var(--primary-blue); text-transform: uppercase; letter-spacing: 1px; }
-    .brand span { font-weight: 300; color: var(--slate-grey); }
+    .brand h1 { 
+      font-size: 1.6rem; 
+      color: var(--primary-blue); 
+      text-transform: uppercase; 
+      letter-spacing: 1px; 
+    }
+    
+    .brand span { 
+      font-weight: 300; 
+      color: var(--slate-grey); 
+    }
 
-    .controls { display: flex; gap: 15px; align-items: center; }
+    .controls { 
+      display: flex; 
+      gap: 12px; 
+      align-items: center;
+      flex-wrap: wrap;
+    }
 
+    /* Stats Grid */
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -93,21 +177,44 @@
       margin-bottom: 25px;
     }
 
+    /* Cards */
     .card {
       background: var(--white);
       padding: 20px;
       border-radius: 12px;
       box-shadow: var(--shadow);
       text-align: center;
-      transition: transform 0.2s ease;
-      position: relative;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .card h3 { font-size: 0.75rem; text-transform: uppercase; color: #7f8c8d; margin-bottom: 8px; letter-spacing: 0.5px; }
-    .card .value { font-size: 1.4rem; font-weight: 700; color: var(--primary-blue); display: block; }
-    .card .sub-text { font-size: 0.7rem; color: #95a5a6; margin-top: 5px; font-weight: bold; }
-    .card.active-phase-card .value { font-size: 1rem; }
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    }
 
+    .card h3 { 
+      font-size: 0.75rem; 
+      text-transform: uppercase; 
+      color: var(--text-muted); 
+      margin-bottom: 8px; 
+      letter-spacing: 0.5px; 
+    }
+    
+    .card .value { 
+      font-size: 1.4rem; 
+      font-weight: 700; 
+      color: var(--primary-blue); 
+      display: block; 
+    }
+    
+    .card .sub-text { 
+      font-size: 0.7rem; 
+      color: #95a5a6; 
+      margin-top: 5px; 
+      font-weight: bold; 
+    }
+
+    /* Master Grid */
     #master-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -115,17 +222,34 @@
       margin-top: 30px;
     }
 
-    .card, .showroom-card {
-      background: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+    .showroom-card {
+      background: var(--white);
+      padding: 16px;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      transition: all 0.2s ease;
     }
 
-    .showroom-card h4 { font-size: 1.1rem; color: var(--primary-blue); }
-    .showroom-meta { font-size: 0.85rem; color: #666; display: flex; justify-content: space-between; }
-    .showroom-card .btn { width: 100%; justify-content: center; margin-top: 10px; }
+    .showroom-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    }
 
+    .showroom-card h4 { 
+      font-size: 1.1rem; 
+      color: var(--primary-blue);
+      margin-bottom: 8px;
+    }
+    
+    .showroom-meta { 
+      font-size: 0.85rem; 
+      color: #666; 
+      display: flex; 
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    /* Table */
     .table-section {
       background: var(--white);
       border-radius: 12px;
@@ -134,23 +258,47 @@
       margin-bottom: 25px;
     }
 
-    .table-responsive { overflow-x: auto; }
+    .table-responsive { 
+      overflow-x: auto; 
+    }
 
-    table { width: 100%; border-collapse: collapse; min-width: 1200px; }
+    table { 
+      width: 100%; 
+      border-collapse: collapse; 
+      min-width: 1000px;
+    }
+    
     th {
       background: #fcfcfc;
       padding: 12px 15px;
       text-align: left;
       font-size: 0.7rem;
       text-transform: uppercase;
-      color: #7f8c8d;
+      color: var(--text-muted);
       border-bottom: 2px solid var(--border-color);
+      font-weight: 700;
     }
-    td { padding: 12px 15px; border-bottom: 1px solid var(--border-color); font-size: 0.85rem; }
+    
+    td { 
+      padding: 12px 15px; 
+      border-bottom: 1px solid var(--border-color); 
+      font-size: 0.85rem; 
+    }
 
-    .phase-row-active { background-color: var(--active-highlight); border-left: 5px solid var(--primary-blue); }
+    tr:hover {
+      background-color: var(--hover-bg);
+    }
 
-    input[type="date"], input[type="text"], select, textarea {
+    .phase-row-active { 
+      background-color: var(--active-highlight); 
+      border-left: 5px solid var(--primary-blue); 
+    }
+
+    /* Form Elements */
+    input[type="date"], 
+    input[type="text"], 
+    select, 
+    textarea {
       padding: 6px 10px;
       border: 1px solid var(--border-color);
       border-radius: 6px;
@@ -159,10 +307,21 @@
       outline: none;
       font-size: 0.85rem;
       width: 100%;
+      transition: border-color 0.2s;
     }
-    input:focus, textarea:focus { border-color: var(--primary-blue); }
-    textarea { height: 35px; resize: vertical; display: block; }
+    
+    input:focus, 
+    textarea:focus { 
+      border-color: var(--primary-blue);
+    }
+    
+    textarea { 
+      height: 35px; 
+      resize: vertical; 
+      display: block; 
+    }
 
+    /* Status Pills */
     .status-pill {
       padding: 4px 10px;
       border-radius: 20px;
@@ -171,10 +330,23 @@
       text-transform: uppercase;
       display: inline-block;
     }
-    .status-upcoming { background: #eee; color: #777; }
-    .status-ontime { background: #d4edda; color: var(--success-green); }
-    .status-delayed { background: #f8d7da; color: var(--delay-red); }
+    
+    .status-upcoming { 
+      background: #eee; 
+      color: #777; 
+    }
+    
+    .status-ontime { 
+      background: #d4edda; 
+      color: var(--success-green); 
+    }
+    
+    .status-delayed { 
+      background: #f8d7da; 
+      color: var(--delay-red); 
+    }
 
+    /* Progress Bar */
     .progress-section {
       background: var(--white);
       padding: 25px;
@@ -182,10 +354,31 @@
       box-shadow: var(--shadow);
       margin-bottom: 25px;
     }
-    .progress-info { display: flex; justify-content: space-between; margin-bottom: 12px; font-weight: 700; font-size: 0.85rem; }
-    .progress-bar-container { height: 10px; background: #e9ecef; border-radius: 10px; overflow: hidden; }
-    .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--primary-blue), #3498db); width: 0%; transition: width 0.8s ease; }
+    
+    .progress-info { 
+      display: flex; 
+      justify-content: space-between; 
+      margin-bottom: 12px; 
+      font-weight: 700; 
+      font-size: 0.85rem; 
+    }
+    
+    .progress-bar-container { 
+      height: 10px; 
+      background: #e9ecef; 
+      border-radius: 10px; 
+      overflow: hidden; 
+    }
+    
+    .progress-bar-fill { 
+      height: 100%; 
+      background: linear-gradient(90deg, var(--primary-blue), #3498db); 
+      width: 0%; 
+      transition: width 0.8s ease; 
+      border-radius: 10px;
+    }
 
+    /* Buttons */
     .btn {
       padding: 8px 16px;
       border: none;
@@ -198,12 +391,51 @@
       align-items: center;
       gap: 6px;
     }
-    .btn-add { background: var(--primary-blue); color: white; }
-    .btn-delete { background: #fdf2f2; color: var(--delay-red); border: 1px solid #fecaca; }
-    .btn-print { background: #f1f3f5; color: var(--slate-grey); border: 1px solid #dee2e6; }
-    .btn-logout { background: #334155; color: white; }
-    .btn-reset { background: #fffbeb; color: #92400e; border: 1px solid #fde68a; }
+    
+    .btn:hover {
+      transform: translateY(-1px);
+      filter: brightness(0.95);
+    }
+    
+    .btn:active {
+      transform: translateY(0);
+    }
+    
+    .btn-add { 
+      background: var(--primary-blue); 
+      color: white; 
+    }
+    
+    .btn-delete { 
+      background: #fdf2f2; 
+      color: var(--delay-red); 
+      border: 1px solid #fecaca; 
+    }
+    
+    .btn-print { 
+      background: #f1f3f5; 
+      color: var(--slate-grey); 
+      border: 1px solid #dee2e6; 
+    }
+    
+    .btn-logout { 
+      background: #334155; 
+      color: white; 
+    }
+    
+    .btn-reset { 
+      background: #fffbeb; 
+      color: #92400e; 
+      border: 1px solid #fde68a; 
+    }
+    
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
 
+    /* Modals */
     #modal-overlay,
     #modal-dealer-overlay {
       position: fixed;
@@ -216,53 +448,224 @@
       justify-content: center;
       align-items: center;
       z-index: 1000;
+      backdrop-filter: blur(2px);
     }
-    .modal { background: white; padding: 30px; border-radius: 12px; width: 400px; box-shadow: var(--shadow); }
-    .modal h2 { margin-bottom: 20px; font-size: 1.2rem; }
-    .modal .field { margin-bottom: 15px; }
-    .modal label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.85rem; }
-    .modal input { width: 100%; }
-    .modal-btns { display: flex; gap: 10px; margin-top: 20px; }
-
-    @media print {
-      .controls, #modal-overlay, .btn, .project-settings, #login-screen { display: none !important; }
-      .container { display: block !important; }
+    
+    .modal { 
+      background: white; 
+      padding: 30px; 
+      border-radius: 12px; 
+      width: 90%;
+      max-width: 450px;
+      box-shadow: var(--shadow);
+      animation: fadeIn 0.2s ease;
+    }
+    
+    .modal h2 { 
+      margin-bottom: 20px; 
+      font-size: 1.2rem; 
+      color: var(--primary-blue);
+    }
+    
+    .modal .field { 
+      margin-bottom: 15px; 
+    }
+    
+    .modal label { 
+      display: block; 
+      margin-bottom: 5px; 
+      font-weight: 600; 
+      font-size: 0.85rem; 
+    }
+    
+    .modal input { 
+      width: 100%; 
+    }
+    
+    .modal-btns { 
+      display: flex; 
+      gap: 10px; 
+      margin-top: 20px; 
     }
 
-    /* Subtle loading state for modal primary button */
-    #modal-dealer-overlay .btn.is-loading {
-      opacity: .75;
+    /* Search */
+    .search-container {
+      margin-bottom: 20px;
+    }
+    
+    .search-container input {
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    /* Loading State */
+    .btn.is-loading {
+      opacity: 0.7;
       pointer-events: none;
       position: relative;
     }
-    #modal-dealer-overlay .btn.is-loading::after {
-      content: "…";
+    
+    .btn.is-loading::after {
+      content: "...";
       margin-left: 6px;
-      letter-spacing: 2px;
+    }
+
+    .loading-spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid #f3f3f3;
+      border-top: 2px solid var(--primary-blue);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-right: 8px;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Error Message */
+    .error-message {
+      background: #fef2f2;
+      border-left: 4px solid var(--delay-red);
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 6px;
+      color: var(--delay-red);
+      font-size: 0.85rem;
+    }
+
+    /* Success Message */
+    .success-message {
+      background: #f0fdf4;
+      border-left: 4px solid var(--success-green);
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 6px;
+      color: var(--success-green);
+      font-size: 0.85rem;
+    }
+
+    /* Stage Stepper */
+    .stage-item {
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .stage-item:hover:not([style*="cursor: default"]) {
+      transform: translateY(-2px);
+    }
+
+    /* Dealer Detail */
+    #dealer-detail-view .card {
+      text-align: left;
+    }
+
+    /* Document Checklist */
+    .doc-toggle {
+      margin-right: 10px;
+      cursor: pointer;
+    }
+    
+    .doc-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 8px 0;
+      cursor: pointer;
+    }
+    
+    .doc-label:hover {
+      background: var(--hover-bg);
+      padding: 4px;
+      margin: 4px 0;
+      border-radius: 6px;
+    }
+
+    /* Print Styles */
+    @media print {
+      .controls, 
+      #modal-overlay, 
+      .btn, 
+      .project-settings, 
+      #login-screen,
+      .admin-only { 
+        display: none !important; 
+      }
+      .container { 
+        display: block !important; 
+      }
+      .card, .showroom-card {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .controls {
+        justify-content: center;
+      }
+      
+      .stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 12px;
+      }
+      
+      .card .value {
+        font-size: 1.2rem;
+      }
+      
+      .modal {
+        width: 95%;
+        padding: 20px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- LOGIN -->
+  <!-- Login Screen -->
   <div id="login-screen">
     <div class="login-card">
       <img src="https://www.aiswindows.com/assets/images/ais-windows-logo.svg" alt="AIS Logo" style="height: 40px; margin-bottom: 20px;">
       <h2>Showroom Dashboard</h2>
       <p>Project Intelligence Portal</p>
-      <div class="login-field"><label>Username</label><input type="text" id="username"></div>
-      <div class="login-field"><label>Password</label><input type="password" id="password"></div>
+      <div class="login-field">
+        <label>Username</label>
+        <input type="text" id="username" placeholder="Enter username">
+      </div>
+      <div class="login-field">
+        <label>Password</label>
+        <input type="password" id="password" placeholder="Enter password">
+      </div>
       <button class="btn btn-add" style="width: 100%; justify-content: center;" onclick="handleLogin()">Login</button>
       <div id="login-error">Invalid credentials</div>
     </div>
   </div>
 
-  <!-- ADD SHOWROOM MODAL -->
+  <!-- Add Showroom Modal -->
   <div id="modal-overlay">
     <div class="modal">
       <h2>Add New Showroom</h2>
-      <div class="field"><label>Name</label><input type="text" id="new-showroom-name"></div>
-      <div class="field"><label>Start Date</label><input type="date" id="new-showroom-start"></div>
+      <div class="field">
+        <label>Name</label>
+        <input type="text" id="new-showroom-name" placeholder="Enter showroom name">
+      </div>
+      <div class="field">
+        <label>Start Date</label>
+        <input type="date" id="new-showroom-start">
+      </div>
       <div class="modal-btns">
         <button class="btn btn-add" onclick="confirmAddShowroom()">Create</button>
         <button class="btn btn-print" onclick="closeModal()">Cancel</button>
@@ -270,39 +673,51 @@
     </div>
   </div>
 
+  <!-- Main Container -->
   <div class="container" id="main-container">
-    <header>
-      <div class="brand"><h1 id="header-title">AIS <span>Command Center</span></h1></div>
-      <div class="controls">
-        <span id="role-badge-container"></span>
-        <button class="btn btn-print" id="back-to-dash-btn" onclick="showMasterDashboard()" style="display: none;">← Dashboard</button>
-        <select id="showroom-selector" onchange="switchShowroom(this.value)" style="display: none;"></select>
-        <button class="btn btn-add admin-only" id="add-main-btn"></button>
-        <button class="btn btn-print" onclick="window.print()">Print</button>
-        <button class="btn btn-logout" onclick="logout()">Logout</button>
-        <button class="btn btn-print" id="nav-dealer-btn" onclick="initDealerModule()">Dealer Onboarding</button>
-        <button class="btn btn-print" id="nav-showroom-btn" onclick="showMasterDashboard()" style="display:none;">Showroom Dashboard</button>
-        <button class="btn btn-print" id="nav-dealer-btn" onclick="initDealerModule()">Dealer Onboarding</button>
-        <button class="btn btn-print" id="nav-showroom-btn" onclick="showMasterDashboard()" style="display:none;">Showroom Dashboard</button>
-        <button class="btn btn-add" onclick="exportDashboardReport()">Download Report</button>
-</div>
-    </header>
+<header>
+  <div class="brand">
+    <h1 id="header-title">AIS <span>Command Center</span></h1>
+  </div>
+  <div class="controls">
+    <span id="role-badge-container"></span>
+    <button class="btn btn-print" id="back-to-dash-btn" onclick="showMasterDashboard()" style="display: none;">← Dashboard</button>
+    <select id="showroom-selector" onchange="switchShowroom(this.value)" style="display: none;"></select>
+    <button class="btn btn-add admin-only" id="add-main-btn"></button>
+    <button class="btn btn-print" onclick="window.print()">Print</button>
+    <button class="btn btn-logout" onclick="logout()">Logout</button>
+    <button class="btn btn-print" id="nav-dealer-btn" onclick="initDealerModule()">Dealer Onboarding</button>
+    <button class="btn btn-print" id="nav-showroom-btn" onclick="showMasterDashboard()" style="display: none;">Showroom Dashboard</button>
+    <button class="btn btn-add" onclick="exportDashboardReport()">Download Report</button>
+  </div>
+</header>
 
-    <!-- MASTER SHOWROOM DASHBOARD -->
+    <!-- Master Showroom Dashboard -->
     <div id="master-dashboard-view">
       <div class="stats-grid">
-        <div class="card"><h3>Total Sites</h3><div class="value" id="global-total-showrooms">0</div></div>
-        <div class="card"><h3>Avg Completion</h3><div class="value" id="global-avg-completion">0%</div></div>
-        <div class="card"><h3>Active Delays</h3><div class="value" id="global-total-delay" style="color: var(--delay-red);">0</div></div>
-        <div class="card"><h3>Ready to Launch</h3><div class="value" id="global-completed-count">0</div></div>
+        <div class="card">
+          <h3>Total Sites</h3>
+          <div class="value" id="global-total-showrooms">0</div>
+        </div>
+        <div class="card">
+          <h3>Avg Completion</h3>
+          <div class="value" id="global-avg-completion">0%</div>
+        </div>
+        <div class="card">
+          <h3>Active Delays</h3>
+          <div class="value" id="global-total-delay" style="color: var(--delay-red);">0</div>
+        </div>
+        <div class="card">
+          <h3>Ready to Launch</h3>
+          <div class="value" id="global-completed-count">0</div>
+        </div>
       </div>
       <div id="master-grid"></div>
     </div>
 
-    <!-- SHARED WRAPPER (Dealer + Showroom detail) -->
+    <!-- Shared Wrapper -->
     <div id="dashboard-content" style="display: none;">
-
-      <!-- DEALER DASHBOARD -->
+      <!-- Dealer Dashboard -->
       <div id="dealer-dashboard-view" style="display: none;">
         <div class="stats-grid">
           <div class="card"><h3>Total Dealers</h3><div class="value" id="dealer-stat-total">0</div></div>
@@ -311,14 +726,16 @@
           <div class="card"><h3>Dropped</h3><div class="value" id="dealer-stat-dropped" style="color: var(--delay-red);">0</div></div>
           <div class="card"><h3>Delayed</h3><div class="value" id="dealer-stat-delayed" style="color: var(--warning-orange);">0</div></div>
         </div>
-        <div class="search-container" style="margin-bottom: 20px; display: flex; gap: 10px;">
-          <input type="text" id="dealer-search" placeholder="Search by Dealer or City..." style="flex: 1; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color);">
+        
+        <div class="search-container">
+          <input type="text" id="dealer-search" placeholder="Search by Dealer or City..." onkeyup="filterDealers()">
         </div>
+        
         <div class="controls" style="margin-bottom: 20px;">
           <button class="btn btn-add admin-only" id="add-dealer-btn">+ Add New Dealer</button>
         </div>
 
-        <div id="dealer-analytics-grid" class="stats-grid" style="margin-top: -10px;">
+        <div class="stats-grid" style="margin-top: -10px;">
           <div class="card"><h3>Avg Onboarding Days</h3><div class="value" id="stat-avg-onboard-days">--</div></div>
           <div class="card"><h3>Delayed Dealers</h3><div class="value" id="stat-delayed-count">0</div></div>
           <div class="card"><h3>Docs Pending</h3><div class="value" id="stat-docs-pending">0</div></div>
@@ -332,10 +749,10 @@
         <div id="dealer-grid" class="stats-grid" style="grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));"></div>
       </div>
 
-      <!-- DEALER DETAIL -->
+      <!-- Dealer Detail View -->
       <div id="dealer-detail-view" style="display: none;">
         <div class="card" style="text-align: left; padding: 30px; margin-bottom: 25px;">
-          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 15px;">
             <div>
               <h2 id="det-dealer-name" style="color: var(--primary-blue);">Dealer Name</h2>
               <p id="det-dealer-meta" style="color: #666; font-size: 0.9rem;">City | RM Name</p>
@@ -344,8 +761,8 @@
           </div>
 
           <div style="margin-top: 30px;">
-            <label style="font-weight: 700; font-size: 0.75rem; color: #7f8c8d; text-transform: uppercase;">Onboarding Journey</label>
-            <div id="stage-stepper" style="display: flex; justify-content: space-between; margin-top: 15px; position: relative;"></div>
+            <label style="font-weight: 700; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Onboarding Journey</label>
+            <div id="stage-stepper" style="display: flex; justify-content: space-between; margin-top: 15px; position: relative; flex-wrap: wrap; gap: 10px;"></div>
           </div>
         </div>
 
@@ -369,13 +786,13 @@
         </div>
       </div>
 
-      <!-- DEALER MODAL (single, cleaned) -->
-      <div id="modal-dealer-overlay" class="modal-overlay" style="position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 1000;">
+      <!-- Dealer Modal -->
+      <div id="modal-dealer-overlay" style="position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 1000;">
         <div class="modal">
           <h2>Add New Dealer</h2>
-          <div class="field"><label>Dealer Name</label><input type="text" id="new-dealer-name"></div>
-          <div class="field"><label>City</label><input type="text" id="new-dealer-city"></div>
-          <div class="field"><label>RM Name</label><input type="text" id="new-dealer-rm"></div>
+          <div class="field"><label>Dealer Name</label><input type="text" id="new-dealer-name" placeholder="Enter dealer name"></div>
+          <div class="field"><label>City</label><input type="text" id="new-dealer-city" placeholder="Enter city"></div>
+          <div class="field"><label>RM Name</label><input type="text" id="new-dealer-rm" placeholder="Enter RM name"></div>
           <div class="field"><label>Start Date</label><input type="date" id="new-dealer-start"></div>
           <div class="modal-btns">
             <button class="btn btn-add" id="create-dealer-btn" onclick="confirmAddDealer()">Create Dealer</button>
@@ -385,7 +802,7 @@
         </div>
       </div>
 
-      <!-- SHOWROOM DETAIL (tracker) -->
+      <!-- Showroom Detail -->
       <div class="stats-grid">
         <div class="card"><h3>Completion</h3><div class="value" id="stat-completion">0%</div></div>
         <div class="card"><h3>Planned Finish</h3><div class="value" id="stat-planned-date">--</div><div class="sub-text" id="stat-variance-summary">Calculating...</div></div>
@@ -394,9 +811,9 @@
         <div class="card active-phase-card"><h3>Current Active</h3><div class="value" id="stat-active">--</div></div>
       </div>
 
-      <div class="project-settings" style="margin-bottom: 25px; background: white; padding: 20px; border-radius:12px; box-shadow: var(--shadow); display: flex; gap: 20px; align-items: center;">
+      <div class="project-settings" style="margin-bottom: 25px; background: white; padding: 20px; border-radius:12px; box-shadow: var(--shadow); display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
         <div style="flex: 1;">
-          <label style="font-size: 0.75rem; font-weight: 700; color: #7f8c8d;">PROJECT HANDOVER DATE</label>
+          <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted);">PROJECT HANDOVER DATE</label>
           <input type="date" id="current-start-date" class="admin-editable" style="width: auto; display: block; margin-top: 5px;" onchange="updateStartDate(this.value)">
         </div>
         <div class="admin-only" style="display: flex; gap: 10px;">
@@ -433,10 +850,9 @@
     </div>
   </div>
 
-  <!-- SINGLE SCRIPT (module) -->
-<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script type="module">
-    // =============== FIREBASE IMPORTS ===============
+    // =============== IMPORTS ===============
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
     import {
@@ -447,10 +863,12 @@
       deleteDoc,
       onSnapshot,
       addDoc,
-      updateDoc
+      updateDoc,
+      query,
+      where
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-    // =============== FIREBASE CONFIG ===============
+    // =============== CONFIGURATION ===============
     const firebaseConfig = {
       apiKey: "AIzaSyDav3rI7fTr8KrXYxvnz5LB82CgjRq4v20",
       authDomain: "ais-showroom-dashboard.firebaseapp.com",
@@ -459,60 +877,57 @@
       messagingSenderId: "175667492150",
       appId: "1:175667492150:web:cb124eb267b4689e6a2f97"
     };
+    
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     window.db = db;
 
-    // =============== GLOBAL STATE ===============
+    // User credentials (should be moved to backend in production)
     const USERS = {
       'AISteam': { pass: 'AIS@005', role: 'viewer' },
       'channeladmin': { pass: 'Shivji$01', role: 'admin' }
     };
 
+    // Phase Configuration
     const PHASES_CONFIG = [
       { id: 'dim',      name: "Dimensions Submission",         days: 5  },
       { id: 'cad',      name: "CAD Preparation",                days: 12 },
-      { id: 'plan',     name: "Planning &amp; Order Loading",   days: 15 },
-      { id: 'civil',    name: "Structure &amp; Civil Work",     days: 30 },
+      { id: 'plan',     name: "Planning & Order Loading",       days: 15 },
+      { id: 'civil',    name: "Structure & Civil Work",         days: 30 },
       { id: 'interior', name: "Interior Development",           days: 50 },
-      { id: 'brand',    name: "Branding &amp; Display Setup",   days: 65 },
+      { id: 'brand',    name: "Branding & Display Setup",       days: 65 },
       { id: 'window',   name: "Window Installation",            days: 85 },
       { id: 'launch',   name: "Final Handover / Launch",        days: 90 }
     ];
 
     const DEALER_STAGES = ['Interested', 'Shortlisted', 'CFT Selected', 'Documentation', 'Onboarded'];
-    const STAGE_INDEX   = Object.fromEntries(DEALER_STAGES.map((s, i) => [s, i]));
-
+    const STAGE_INDEX = Object.fromEntries(DEALER_STAGES.map((s, i) => [s, i]));
+    
     const DOC_KEYS = [
-      'securityDeposit',
-      'crmCharges',
-      'agreement',
-      'gst',
-      'pan',
-      'aadhaar',
-      'bankDetails',
-      'cheque',
-      'passportPhotos',
-      'companyRegistration',
-      'windowOrder',
-      'spaceFinalized'
+      'securityDeposit', 'crmCharges', 'agreement', 'gst', 'pan', 
+      'aadhaar', 'bankDetails', 'cheque', 'passportPhotos', 
+      'companyRegistration', 'windowOrder', 'spaceFinalized'
     ];
-    const DOC_ALIASES = { space: 'spaceFinalized' };
+    
+    const IDEAL = {
+      Interested_to_Shortlisted: 3,
+      Shortlisted_to_CFT: 5,
+      CFT_to_Onboarding: 7
+    };
 
+    // =============== HELPER FUNCTIONS ===============
     function normalizeDocs(docObj = {}) {
       const out = {};
-      for (const key of Object.keys(docObj || {})) {
-        const k = DOC_ALIASES[key] || key;
-        out[k] = Boolean(docObj[key]);
+      for (const key of DOC_KEYS) {
+        out[key] = Boolean(docObj[key]);
       }
-      for (const dk of DOC_KEYS) if (!(dk in out)) out[dk] = false;
       return out;
     }
 
     function docProgress(docObj) {
       const d = normalizeDocs(docObj);
       const total = DOC_KEYS.length;
-      const done  = DOC_KEYS.reduce((acc, k) => acc + (d[k] ? 1 : 0), 0);
+      const done = DOC_KEYS.reduce((acc, k) => acc + (d[k] ? 1 : 0), 0);
       return { total, done, pct: Math.round((done / total) * 100) };
     }
 
@@ -528,7 +943,7 @@
       if (allDoc) return 'Onboarded';
       if (anyDoc) return 'Documentation';
       if (dealer.stageLog?.['CFT Selected']) return 'CFT Selected';
-      if (dealer.stageLog?.['Shortlisted'])  return 'Shortlisted';
+      if (dealer.stageLog?.['Shortlisted']) return 'Shortlisted';
       return 'Interested';
     }
 
@@ -538,475 +953,184 @@
       return log;
     }
 
-    const IDEAL = {
-      Interested_to_Shortlisted: 3,
-      Shortlisted_to_CFT: 5,
-      CFT_to_Onboarding: 7
-    };
-
-    function computeTimeline(dealer) {
-      const start = dealer.startDate ? new Date(dealer.startDate) : null;
-      const today = new Date(); today.setHours(0,0,0,0);
-
-      const sinceStart = start ? Math.max(0, Math.floor((today - start)/86400000)) : null;
-
-      const A = dealer.stageLog || {};
-      const tInterested  = A['Interested']  ? new Date(A['Interested'])  : start;
-      const tShortlisted = A['Shortlisted'] ? new Date(A['Shortlisted']) : null;
-      const tCFT         = A['CFT Selected']? new Date(A['CFT Selected']): null;
-      const tOnboarded   = A['Onboarded']   ? new Date(A['Onboarded'])   : null;
-
-      const span = (a,b)=> (a&&b) ? Math.max(0, Math.floor((b-a)/86400000)) : null;
-
-      const days_to_shortlisted = span(tInterested,  tShortlisted);
-      const days_to_cft         = span(tShortlisted, tCFT);
-      const days_to_onboard     = span(tCFT,         tOnboarded);
-
-      const delta_1 = (days_to_shortlisted==null)? null : (days_to_shortlisted - IDEAL.Interested_to_Shortlisted);
-      const delta_2 = (days_to_cft==null)        ? null : (days_to_cft - IDEAL.Shortlisted_to_CFT);
-      const delta_3 = (days_to_onboard==null)    ? null : (days_to_onboard - IDEAL.CFT_to_Onboarding);
-
-      return {
-        sinceStart,
-        stages: {
-          Interested_to_Shortlisted: { actual: days_to_shortlisted, ideal: IDEAL.Interested_to_Shortlisted, delta: delta_1 },
-          Shortlisted_to_CFT:        { actual: days_to_cft,         ideal: IDEAL.Shortlisted_to_CFT,        delta: delta_2 },
-          CFT_to_Onboarding:         { actual: days_to_onboard,     ideal: IDEAL.CFT_to_Onboarding,         delta: delta_3 }
-        }
-      };
+    function formatDate(date) {
+      if (!date || isNaN(new Date(date).getTime())) return "--";
+      const d = new Date(date);
+      return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
     }
 
-    let state = {
-      showrooms: [],
-      dealers: [],
-      currentIndex: -1,
-      currentDealerId: null,
-      view: 'showroom'
-    };
-
-    // ===== Helpers =====
-    const calculatePlannedDate = (start) => {
+    function calculatePlannedDate(start) {
       if (!start) return null;
       const d = new Date(start + "T00:00:00");
       if (isNaN(d.getTime())) return null;
       d.setDate(d.getDate() + 90);
       return d;
-    };
-
-    const formatDate = (date) => {
-      if (!date || isNaN(new Date(date).getTime())) return "--";
-      const d = new Date(date);
-      return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
-    };
-
-    function bindClickOnce(el, handler) {
-      if (!el || el.dataset.bound === '1') return;
-      el.addEventListener('click', handler, { passive: true });
-      el.dataset.bound = '1';
     }
-    function ensureClick(el, handler) {
-      if (!el) return;
-      const hasInline = !!el.getAttribute('onclick');
-      if (!hasInline) bindClickOnce(el, handler);
-    }
-    function wireButtons() {
-      const innerAddDealer = document.getElementById('add-dealer-btn');
-      if (innerAddDealer) {
-        ensureClick(innerAddDealer, () => openDealerModal());
-        innerAddDealer.style.display = 'none';
+
+    function showLoading(button) {
+      if (button) {
+        button.classList.add('is-loading');
+        button.disabled = true;
       }
-      const createDealerBtn = document.getElementById('create-dealer-btn');
-      ensureClick(createDealerBtn, () => confirmAddDealer());
-      const showroomCreateBtn = document.querySelector('#modal-overlay .btn.btn-add');
-      ensureClick(showroomCreateBtn, () => confirmAddShowroom());
     }
 
-    function updateDocProgressUI(dealer) {
-      const p = docProgress(dealer.documents);
-      const bar = document.getElementById('doc-progress-bar');
-      const txt = document.getElementById('doc-progress-pct');
-      if (bar) bar.style.width = `${p.pct}%`;
-      if (txt) txt.textContent = `${p.pct}%`;
-    }
-// ===================== EXCEL EXPORT =====================
-/*
- * Generates: AIS_Dashboard_Report.xlsx
- * Sheets:
- * 1) SHOWROOM SUMMARY
- * 2) SHOWROOM PHASE DETAILS
- * 3) DEALER SUMMARY
- * 4) DEALER DOCUMENT TRACKER
- * 5) PIPELINE SUMMARY
- * 6) RM PERFORMANCE
- *
- * Uses existing:
- *   - state.showrooms, state.dealers
- *   - PHASES_CONFIG, DEALER_STAGES, DOC_KEYS
- *   - formatDate(), calculatePlannedDate(), calculateShowroomStats()
- *   - autoDetectStage(), docProgress(), calculateDealerTimeline(), computeTimeline()
- */
-window.exportDashboardReport = () => {
-  try {
-    if (!window.XLSX) {
-      alert('Export library not loaded. Please check the SheetJS CDN script tag.');
-      return;
+    function hideLoading(button) {
+      if (button) {
+        button.classList.remove('is-loading');
+        button.disabled = false;
+      }
     }
 
-    const wb = XLSX.utils.book_new();
+    function showError(element, message) {
+      if (element) {
+        element.textContent = message;
+        element.style.display = 'block';
+        setTimeout(() => {
+          element.style.display = 'none';
+        }, 5000);
+      }
+    }
 
-    // ---------- Helpers ----------
-    const fmt = (d) => (d ? formatDate(d) : '--');
-
-    const toISODateOnly = (s) => {
-      if (!s) return null;
-      const d = new Date(s + (s.includes('T') ? '' : 'T00:00:00'));
-      return isNaN(d.getTime()) ? null : d;
+    // =============== STATE MANAGEMENT ===============
+    const state = {
+      showrooms: [],
+      dealers: [],
+      currentIndex: -1,
+      currentDealerId: null,
+      view: 'showroom',
+      searchTerm: '',
+      unsubscribeDealers: null,
+      unsubscribeShowrooms: null
     };
 
-    // Compute showroom metrics similar to your dashboard
-    function showroomMetrics(s) {
-      const start = toISODateOnly(s.startDate);
-      const planFinish = start ? calculatePlannedDate(s.startDate) : null;
+    // =============== AUTHENTICATION ===============
+window.handleLogin = async () => {
+  const u = document.getElementById('username').value.trim();
+  const p = document.getElementById('password').value;
+  const loginError = document.getElementById('login-error');
+  const loginBtn = document.querySelector('#login-screen .btn-add');
 
-      // total delay via provided helper
-      const agg = calculateShowroomStats(s); // { pct, delay }
-
-      // completion, on-time/velocity, active phase & projected finish
-      let completed = 0, ontime = 0, activeName = 'Not Started';
-      let projected = null;
-
-      if (start) {
-        const today = new Date(); today.setHours(0,0,0,0);
-        let activeSet = false;
-
-        PHASES_CONFIG.forEach(phase => {
-          const data = (s.data && s.data[phase.id]) || {};
-          const target = new Date(start); target.setDate(start.getDate() + phase.days);
-
-          if (data.actualDate) {
-            const actual = toISODateOnly(data.actualDate);
-            if (actual) {
-              completed++;
-              const diff = Math.ceil((actual - target) / 86400000);
-              if (diff <= 0) ontime++;
-            }
-          } else if (!activeSet) {
-            activeName = phase.name;
-            activeSet = true;
-          }
-        });
-
-        if (!activeSet && PHASES_CONFIG.length) {
-          activeName = 'Project Completed';
-        }
-
-        // Projected finish (pace-based), consistent with your dashboard calc
-        const pct = PHASES_CONFIG.length ? (completed / PHASES_CONFIG.length) * 100 : 0;
-        const elapsed = Math.ceil((today - start) / 86400000);
-        if (pct > 0) {
-          const pace = elapsed / pct; // days per 1%
-          const daysFor100 = pace * 100;
-          projected = new Date(start); projected.setDate(start.getDate() + Math.ceil(daysFor100));
-        }
-      }
-
-      const velocity = completed > 0 ? Math.round((ontime / completed) * 100) : 0;
-
-      return {
-        start, planFinish, projected,
-        completionPct: agg.pct || 0,
-        totalDelay: agg.delay || 0,
-        activePhase: activeName,
-        velocity
-      };
+  if (USERS[u] && USERS[u].pass === p) {
+    try {
+      // Disable button and show loading
+      loginBtn.disabled = true;
+      loginBtn.textContent = 'Logging in...';
+      loginError.style.display = 'none';
+      
+      // Store role first
+      sessionStorage.setItem("ais_user_role", USERS[u].role);
+      
+      // Try anonymous auth
+      const auth = getAuth();
+      await signInAnonymously(auth);
+      
+      // Small delay to ensure Firebase state is ready
+      setTimeout(() => {
+        checkAuth();
+      }, 100);
+      
+    } catch (e) {
+      console.error('Anonymous sign-in failed:', e);
+      // If anonymous auth fails, still allow login for demo purposes
+      // This ensures the app works even if Firebase auth has issues
+      sessionStorage.setItem("ais_user_role", USERS[u].role);
+      setTimeout(() => {
+        checkAuth();
+      }, 100);
+    } finally {
+      loginBtn.disabled = false;
+      loginBtn.textContent = 'Login';
     }
-
-    // ---------- 1) SHOWROOM SUMMARY ----------
-    {
-      const COLS = [
-        'Showroom Name',
-        'Start Date',
-        'Planned Finish',
-        'Projected Finish',
-        'Completion %',
-        'Total Delay (Days)',
-        'Active Phase',
-        'Velocity %'
-      ];
-
-      const rows = (state.showrooms || []).map(s => {
-        const m = showroomMetrics(s);
-        return {
-          'Showroom Name': s.name || '',
-          'Start Date': fmt(m.start),
-          'Planned Finish': fmt(m.planFinish),
-          'Projected Finish': fmt(m.projected),
-          'Completion %': m.completionPct,
-          'Total Delay (Days)': m.totalDelay,
-          'Active Phase': m.activePhase,
-          'Velocity %': m.velocity
-        };
-      });
-
-      const ws = XLSX.utils.json_to_sheet(rows, { header: COLS });
-      XLSX.utils.book_append_sheet(wb, ws, 'SHOWROOM SUMMARY');
-    }
-
-    // ---------- 2) SHOWROOM PHASE DETAILS ----------
-    {
-      const COLS = [
-        'Showroom Name',
-        'Phase Name',
-        'Planned Days',
-        'Target Date',
-        'Actual Date',
-        'Status',
-        'Variance',
-        'Delay Notes'
-      ];
-
-      const rows = [];
-      (state.showrooms || []).forEach(s => {
-        const start = toISODateOnly(s.startDate);
-        PHASES_CONFIG.forEach(phase => {
-          let target = null, status = '', variance = '', actualStr = '', notes = '';
-          const data = (s.data && s.data[phase.id]) || {};
-          if (start) {
-            target = new Date(start); target.setDate(start.getDate() + phase.days);
-          }
-          const targetStr = fmt(target);
-          if (data.actualDate) {
-            const actual = toISODateOnly(data.actualDate);
-            actualStr = fmt(actual);
-            if (actual && target) {
-              const diff = Math.ceil((actual - target) / 86400000);
-              if (diff < 0) { status = 'Ahead'; variance = `${diff} Days`; }
-              else if (diff === 0) { status = 'On Time'; variance = 'On Track'; }
-              else { status = 'Late'; variance = `+${diff} Days`; }
-            }
-          } else {
-            // same overdue / upcoming logic as UI (needs today)
-            const today = new Date(); today.setHours(0,0,0,0);
-            if (target) {
-              const diff = Math.ceil((today - target) / 86400000);
-              if (diff > 0) { status = 'Overdue'; variance = `+${diff} Days`; }
-              else if (diff === 0) { status = 'Due Today'; variance = '0 Days Left'; }
-              else { status = 'Upcoming'; variance = `${Math.abs(diff)} Days Left`; }
-            }
-          }
-          notes = data.reason || '';
-
-          rows.push({
-            'Showroom Name': s.name || '',
-            'Phase Name': phase.name,
-            'Planned Days': phase.days,
-            'Target Date': targetStr,
-            'Actual Date': actualStr,
-            'Status': status,
-            'Variance': variance,
-            'Delay Notes': notes
-          });
-        });
-      });
-
-      const ws = XLSX.utils.json_to_sheet(rows, { header: COLS });
-      XLSX.utils.book_append_sheet(wb, ws, 'SHOWROOM PHASE DETAILS');
-    }
-
-    // ---------- 3) DEALER SUMMARY ----------
-    {
-      const COLS = [
-        'Dealer Name',
-        'City',
-        'RM',
-        'Start Date',
-        'Current Stage',
-        'Status',
-        'Days Since Start',
-        'Delay Status',
-        'Document %'
-      ];
-
-      const rows = (state.dealers || []).map(d => {
-        const start = toISODateOnly(d.startDate);
-        const tline = calculateDealerTimeline(d) || { diffText: '—', isDelayed: false };
-        const t = computeTimeline(d) || {};
-        const p = docProgress(d.documents);
-        const stage = d.currentStage || autoDetectStage(d);
-        return {
-          'Dealer Name': d.name || '',
-          'City': d.city || '',
-          'RM': d.rm || '',
-          'Start Date': fmt(start),
-          'Current Stage': stage || '',
-          'Status': d.status || '',
-          'Days Since Start': t.sinceStart ?? '',
-          'Delay Status': tline.diffText || '',
-          'Document %': `${p.pct}%`
-        };
-      });
-
-      const ws = XLSX.utils.json_to_sheet(rows, { header: COLS });
-      XLSX.utils.book_append_sheet(wb, ws, 'DEALER SUMMARY');
-    }
-
-    // ---------- 4) DEALER DOCUMENT TRACKER ----------
-    {
-      const COLS = ['Dealer Name', ...DOC_KEYS.map(k => k), 'Total Docs Completed', 'Pending Docs'];
-
-      const rows = (state.dealers || []).map(d => {
-        const docs = normalizeDocs(d.documents);
-        const total = DOC_KEYS.length;
-        const done = DOC_KEYS.reduce((acc, k) => acc + (docs[k] ? 1 : 0), 0);
-        const row = { 'Dealer Name': d.name || '' };
-        DOC_KEYS.forEach(k => { row[k] = docs[k] ? '✔' : '❌'; });
-        row['Total Docs Completed'] = done;
-        row['Pending Docs'] = total - done;
-        return row;
-      });
-
-      const ws = XLSX.utils.json_to_sheet(rows, { header: COLS });
-      XLSX.utils.book_append_sheet(wb, ws, 'DEALER DOC TRACKER');
-    }
-
-    // ---------- 5) PIPELINE SUMMARY ----------
-    {
-      const COLS = ['Stage', 'Count'];
-      const counters = {};
-      DEALER_STAGES.forEach(s => (counters[s] = 0));
-      (state.dealers || []).forEach(d => {
-        // Only count pipeline stages; skip dropped
-        if (d.status === 'Dropped') return;
-        const s = d.currentStage || autoDetectStage(d);
-        if (counters.hasOwnProperty(s)) counters[s] += 1;
-      });
-
-      const rows = DEALER_STAGES.map(s => ({ 'Stage': s, 'Count': counters[s] || 0 }));
-      const ws = XLSX.utils.json_to_sheet(rows, { header: COLS });
-      XLSX.utils.book_append_sheet(wb, ws, 'PIPELINE SUMMARY');
-    }
-
-    // ---------- 6) RM PERFORMANCE ----------
-    {
-      const COLS = ['RM Name', 'Total Dealers', 'Active', 'Completed', 'Dropped'];
-      const byRM = {};
-
-      (state.dealers || []).forEach(d => {
-        const rm = d.rm || 'Unassigned';
-        if (!byRM[rm]) byRM[rm] = { total:0, Active:0, Completed:0, Dropped:0 };
-        byRM[rm].total++;
-        const st = (d.status || 'Active');
-        if (st === 'Completed') byRM[rm].Completed++;
-        else if (st === 'Dropped') byRM[rm].Dropped++;
-        else byRM[rm].Active++;
-      });
-
-      const rows = Object.keys(byRM).sort().map(rm => ({
-        'RM Name': rm,
-        'Total Dealers': byRM[rm].total,
-        'Active': byRM[rm].Active,
-        'Completed': byRM[rm].Completed,
-        'Dropped': byRM[rm].Dropped
-      }));
-
-      const ws = XLSX.utils.json_to_sheet(rows, { header: COLS });
-      XLSX.utils.book_append_sheet(wb, ws, 'RM PERFORMANCE');
-    }
-
-    // ---------- Download ----------
-    XLSX.writeFile(wb, "AIS_Dashboard_Report.xlsx");
-  } catch (err) {
-    console.error('Export failed:', err);
-    alert('Export failed. See console for details.');
+  } else {
+    showError(loginError, 'Invalid username or password');
   }
 };
-    // =============== AUTH ===============
-    window.handleLogin = async () => {
-      const u = document.getElementById('username').value;
-      const p = document.getElementById('password').value;
-
-      if (USERS[u] && USERS[u].pass === p) {
-        sessionStorage.setItem("ais_user_role", USERS[u].role);
-        try {
-          const auth = getAuth();
-          await signInAnonymously(auth);
-        } catch (e) {
-          console.error('Anonymous sign-in failed', e);
-        }
-        checkAuth();
-      } else {
-        document.getElementById('login-error').style.display = 'block';
-      }
+    window.logout = () => { 
+      sessionStorage.removeItem("ais_user_role"); 
+      if (state.unsubscribeDealers) state.unsubscribeDealers();
+      if (state.unsubscribeShowrooms) state.unsubscribeShowrooms();
+      window.location.reload(); 
     };
-    window.logout = () => { sessionStorage.removeItem("ais_user_role"); window.location.reload(); };
 
     function checkAuth() {
-      const role = sessionStorage.getItem("ais_user_role");
-      if (role) {
-        document.getElementById('login-screen').style.display = 'none';
-        document.getElementById('main-container').style.display = 'block';
-        applyPermissions(role);
-        init();
-      } else {
-        document.getElementById('login-screen').style.display = 'flex';
-        document.getElementById('main-container').style.display = 'none';
-      }
+  const role = sessionStorage.getItem("ais_user_role");
+  const loginScreen = document.getElementById('login-screen');
+  const mainContainer = document.getElementById('main-container');
+  
+  if (role && loginScreen && mainContainer) {
+    // Only proceed if not already shown
+    if (loginScreen.style.display !== 'none') {
+      loginScreen.style.display = 'none';
+      mainContainer.style.display = 'block';
+      applyPermissions(role);
+      init();
     }
+  } else {
+    if (loginScreen) loginScreen.style.display = 'flex';
+    if (mainContainer) mainContainer.style.display = 'none';
+  }
+}
 
     function applyPermissions(role) {
       const isAdmin = (role === 'admin');
-      document.querySelectorAll('.admin-only').forEach(el => el.style.display = isAdmin ? '' : 'none');
-      document.querySelectorAll('.viewer-only').forEach(el => el.style.display = isAdmin ? 'none' : '');
-      document.querySelectorAll('.admin-editable').forEach(el => el.disabled = !isAdmin);
+      document.querySelectorAll('.admin-only').forEach(el => {
+        if (el.style) el.style.display = isAdmin ? '' : 'none';
+      });
+      document.querySelectorAll('.admin-editable').forEach(el => {
+        if (el.disabled !== undefined) el.disabled = !isAdmin;
+      });
+      
       const badgeCont = document.getElementById('role-badge-container');
-      badgeCont.innerHTML = isAdmin
-        ? `<span class="role-badge badge-admin">Admin Mode</span>`
-        : `<span class="role-badge badge-viewer">Viewer Mode</span>`;
+      if (badgeCont) {
+        badgeCont.innerHTML = isAdmin
+          ? `<span class="role-badge badge-admin">Admin Mode</span>`
+          : `<span class="role-badge badge-viewer">Viewer Mode</span>`;
+      }
     }
 
-    // =============== DATA INIT ===============
+    // =============== DATA INITIALIZATION ===============
     function init() {
-      onSnapshot(
+      // Subscribe to showrooms
+      state.unsubscribeShowrooms = onSnapshot(
         collection(db, "showrooms"),
         (snapshot) => {
-          // Keep a usable id for delete/save
           state.showrooms = snapshot.docs.map(d => ({ id: d.data().id || d.id, ...d.data() }));
-          renderShowroomList?.();
-
-          if (state.currentIndex === -1) showMasterDashboard();
-          else renderDashboard();
-
+          renderShowroomList();
+          
           const masterVisible = document.getElementById('master-dashboard-view')?.style.display !== 'none';
           if (masterVisible) renderMasterGrid();
+          else if (state.currentIndex !== -1) renderDashboard();
         },
         (error) => {
-          console.error("Realtime sync error:", error);
+          console.error("Showroom sync error:", error);
+          showError(document.getElementById('master-grid'), 'Failed to load showrooms. Please refresh.');
         }
       );
     }
 
-    let dealersUnsub = null;
     function loadDealersRealtime() {
-      if (dealersUnsub) { dealersUnsub(); dealersUnsub = null; }
-      const grid  = document.getElementById('dealer-grid');
-      const errEl = document.getElementById('dealer-modal-error');
-
-      dealersUnsub = onSnapshot(
+      if (state.unsubscribeDealers) {
+        state.unsubscribeDealers();
+      }
+      
+      state.unsubscribeDealers = onSnapshot(
         collection(db, "dealerOnboarding"),
         (snapshot) => {
-          if (errEl) { errEl.style.display = 'none'; errEl.textContent = ''; }
           state.dealers = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-          renderDealerDashboard();
+          if (state.view === 'dealer') {
+            renderDealerDashboard();
+          }
         },
         (error) => {
           console.error('Dealer stream error:', error);
+          const grid = document.getElementById('dealer-grid');
           if (grid) {
             grid.innerHTML = `
               <div class="card" style="grid-column: 1/-1; border-left:4px solid var(--delay-red); text-align:left;">
-                <h4 style="color:var(--delay-red); margin-bottom:6px;">Can’t load dealers</h4>
+                <h4 style="color:var(--delay-red); margin-bottom:6px;">⚠️ Can't load dealers</h4>
                 <div style="color:#666; font-size:.9rem;">
-                  ${error?.message || 'Unknown error'}<br>
-                  Ensure Firestore rules allow read access (and write for creating dealers).
+                  ${error?.message || 'Network error. Please check your connection.'}<br>
+                  <button class="btn btn-print" style="margin-top:10px;" onclick="location.reload()">Retry</button>
                 </div>
               </div>`;
           }
@@ -1014,366 +1138,233 @@ window.exportDashboardReport = () => {
       );
     }
 
-    async function saveState() {
+    async function saveShowroom(showroom) {
       try {
-        const promises = state.showrooms.map(showroom =>
-          setDoc(doc(db, "showrooms", showroom.id || showroom.name.replace(/\s+/g, "_")), showroom)
-        );
-        await Promise.all(promises);
+        const docId = showroom.id || showroom.name.replace(/\s+/g, "_");
+        await setDoc(doc(db, "showrooms", docId), showroom);
       } catch (error) {
         console.error("Firestore save error:", error);
+        throw new Error('Failed to save showroom. Please try again.');
       }
     }
 
     // =============== VIEW SWITCHERS ===============
     window.showMasterDashboard = () => {
-      state.view = 'showroom';
-      const addMainBtn = document.getElementById('add-main-btn');
-      addMainBtn.innerText = '+ Add Showroom';
-      addMainBtn.onclick = openModal;
-
-      document.getElementById('dealer-dashboard-view').style.display = 'none';
-      document.getElementById('dealer-detail-view').style.display    = 'none';
-
-      document.getElementById('master-dashboard-view').style.display  = 'block';
-      document.getElementById('dashboard-content').style.display      = 'none';
-
-      document.getElementById('nav-dealer-btn').style.display   = 'inline-flex';
-      document.getElementById('nav-showroom-btn').style.display = 'none';
-
-      document.getElementById('back-to-dash-btn').style.display = 'none';
-      document.getElementById('showroom-selector').style.display = 'none';
-
-      document.getElementById('header-title').innerHTML = 'AIS <span>Command Center</span>';
-      renderMasterGrid();
-      wireButtons();
-    };
+  state.view = 'showroom';
+  state.currentIndex = -1;
+  
+  const addMainBtn = document.getElementById('add-main-btn');
+  addMainBtn.innerText = '+ Add Showroom';
+  addMainBtn.onclick = () => openModal();
+  addMainBtn.style.display = sessionStorage.getItem("ais_user_role") === 'admin' ? 'inline-flex' : 'none';
+  
+  document.getElementById('dealer-dashboard-view').style.display = 'none';
+  document.getElementById('dealer-detail-view').style.display = 'none';
+  document.getElementById('master-dashboard-view').style.display = 'block';
+  document.getElementById('dashboard-content').style.display = 'none';
+  
+  // In showroom master view: Show Dealer Onboarding button, hide Showroom Dashboard button
+  document.getElementById('nav-dealer-btn').style.display = 'inline-flex';
+  document.getElementById('nav-showroom-btn').style.display = 'none';
+  
+  document.getElementById('back-to-dash-btn').style.display = 'none';
+  document.getElementById('showroom-selector').style.display = 'none';
+  document.getElementById('header-title').innerHTML = 'AIS <span>Command Center</span>';
+  
+  renderMasterGrid();
+};
 
     window.initDealerModule = () => {
-      state.view = 'dealer';
-      const addMainBtn = document.getElementById('add-main-btn');
-      addMainBtn.innerText = '+ Add Dealer';
-      addMainBtn.onclick = openDealerModal;
-
-      document.getElementById('master-dashboard-view').style.display = 'none';
-
-      const dash = document.getElementById('dashboard-content');
-      dash.style.display = 'block';
-      document.getElementById('dealer-dashboard-view').style.display = 'block';
-      document.getElementById('dealer-detail-view').style.display    = 'none';
-
-      document.getElementById('nav-dealer-btn').style.display   = 'none';
-      document.getElementById('nav-showroom-btn').style.display = 'inline-flex';
-
-      document.getElementById('back-to-dash-btn').style.display = 'none';
-      document.getElementById('showroom-selector').style.display = 'none';
-
-      document.getElementById('header-title').innerHTML = 'AIS <span>Dealer Onboarding</span>';
-
-      loadDealersRealtime();
-      wireButtons();
-    };
-
-    // =============== DEALER RENDERING & HANDLERS ===============
-    function renderDealerDocs(dealer) {
-      const host = document.getElementById('doc-checklist');
-      const docs = normalizeDocs(dealer.documents);
-
-      host.innerHTML = DOC_KEYS.map(k => {
-        const label = k.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase());
-        const checked = docs[k] ? 'checked' : '';
-        return `
-          <label style="display:flex;align-items:center;gap:10px;margin:8px 0;">
-            <input type="checkbox" class="doc-toggle" data-doc="${k}" ${checked} />
-            <span style="font-weight:600;">${label}</span>
-            <span style="font-size:.8rem;color:${docs[k] ? 'var(--success-green)' : '#999'}">
-              ${docs[k] ? '✔ Completed' : '⏳ Pending'}
-            </span>
-          </label>`;
-      }).join('');
-
-      host.querySelectorAll('.doc-toggle').forEach(box => {
-        box.addEventListener('change', async (e) => {
-          const key = e.currentTarget.getAttribute('data-doc');
-          const val = e.currentTarget.checked;
-
-          const id  = state.currentDealerId;
-          const dRef= doc(db, "dealerOnboarding", id);
-          await updateDoc(dRef, { [`documents.${key}`]: val });
-
-          const dealerNow = state.dealers.find(d => d.id===id) || {};
-          const nextStage = autoDetectStage({ ...dealerNow, documents: { ...(dealerNow.documents||{}), [key]: val }});
-          if (nextStage !== dealerNow.currentStage && !isDropped(dealerNow)) {
-            await updateDoc(dRef, {
-              currentStage: nextStage,
-              status: nextStage==='Onboarded' ? 'Completed' : 'Active',
-              stageLog: logStageChange(dealerNow, nextStage)
-            });
-          }
-
-          updateDocProgressUI({ ...dealerNow, documents: { ...(dealerNow.documents||{}), [key]: val }});
-        }, { passive:true });
-      });
-
-      updateDocProgressUI(dealer);
-    }
-
-    window.calculateDealerTimeline = (d) => {
-      if(!d.startDate) return { diffText: "No Date", isDelayed: false };
-      const start = new Date(d.startDate);
-      const today = new Date();
-      const daysElapsed = Math.floor((today - start) / (1000 * 60 * 60 * 24));
-      const stageTargets = { 'Interested': 0, 'Shortlisted': 5, 'CFT Selected': 10, 'Documentation': 17, 'Onboarded': 20 };
-      const target = stageTargets[d.currentStage] || 0;
-      const diff = daysElapsed - target;
-      return { isDelayed: diff > 2, diffText: diff <= 0 ? "On Track" : `+${diff}d Delay` };
-    };
-
-    window.openDealer = (id) => {
-      const dealer = state.dealers.find(d => d.id === id);
-      if (!dealer) { alert('Dealer not found or has been removed.'); renderDealerDashboard(); return; }
-      state.currentDealerId = id;
-
-      document.getElementById('dealer-dashboard-view').style.display = 'none';
-      document.getElementById('dealer-detail-view').style.display    = 'block';
-
-      document.getElementById('det-dealer-name').innerText = dealer.name || '';
-      document.getElementById('det-dealer-meta').innerText = `${dealer.city || ''} | RM: ${dealer.rm || ''}`;
-
-      const statusEl = document.getElementById('det-dealer-status');
-      statusEl.innerText = dealer.status || 'Active';
-      statusEl.className = `status-pill ${
-        isDropped(dealer) ? 'status-delayed'
-          : (dealer.status === 'Completed' ? 'status-ontime' : 'status-upcoming')
-      }`;
-
-      if (!isDropped(dealer)) {
-        const detected = autoDetectStage(dealer);
-        if (detected !== (dealer.currentStage || 'Interested')) {
-          const dRef = doc(db, "dealerOnboarding", id);
-          updateDoc(dRef, {
-            currentStage: detected,
-            status: detected==='Onboarded' ? 'Completed' : 'Active',
-            stageLog: logStageChange(dealer, detected)
-          });
-        }
-      }
-
-      renderDealerStages(dealer);
-      renderDealerDocs(dealer);
-
-      const t = computeTimeline(dealer);
-      const tHost = document.getElementById('dealer-timeline-status');
-      if (tHost) {
-        const fmt = (obj) => obj==null||obj.actual==null ? '--' :
-          `${obj.delta>0?'+':''}${obj.delta??0}d ${obj.delta>0?'delay':obj.delta<0?'faster':'on track'}`;
-        tHost.innerHTML = `
-          <div style="font-size:.9rem;color:#555;">
-            <div><strong>Days since Start:</strong> ${t.sinceStart ?? '--'}</div>
-            <div>Interested → Shortlisted: ${fmt(t.stages.Interested_to_Shortlisted)}</div>
-            <div>Shortlisted → CFT: ${fmt(t.stages.Shortlisted_to_CFT)}</div>
-            <div>CFT → Onboarded: ${fmt(t.stages.CFT_to_Onboarding)}</div>
-          </div>`;
-      }
-
-      const adminCtrls = document.querySelector('.admin-only');
-      if (adminCtrls && !adminCtrls.querySelector('#btn-delete-dealer')) {
-        const btn = document.createElement('button');
-        btn.id = 'btn-delete-dealer';
-        btn.className = 'btn btn-delete';
-        btn.textContent = 'Delete Dealer';
-        btn.style.marginLeft = '10px';
-        btn.addEventListener('click', () => deleteDealer(id));
-        adminCtrls.appendChild(btn);
-      }
-    };
-
-    window.dropDealer = async (reason) => {
-      const id = state.currentDealerId;
-      if (!id) return;
-
-      const dRef = doc(db, "dealerOnboarding", id);
-      const flags = {};
-      if (reason === 'cftRejected')  flags.cftRejected  = true;
-      if (reason === 'backout')      flags.prospectBackout = true;
-
-      await updateDoc(dRef, {
-        status: 'Dropped',
-        flags: { ...(state.dealers.find(d => d.id===id)?.flags || {}), ...flags }
-      });
-
-      openDealer(id);
-    };
-
-    function renderDealerStages(dealer) {
-      const stepper = document.getElementById('stage-stepper');
-      const dropped = isDropped(dealer);
-      const current = dealer.currentStage || 'Interested';
-      const curIdx  = STAGE_INDEX[current] ?? 0;
-
-      stepper.innerHTML = DEALER_STAGES.map((stage, i) => {
-        const isDone  = i <= curIdx;
-        const isActive= i === curIdx;
-        const dotColor = dropped ? 'var(--delay-red)' : (isDone ? 'var(--success-green)' : '#eee');
-        const borderColor = dropped ? 'var(--delay-red)' : (isActive ? 'var(--primary-blue)' : 'transparent');
-        const clickable = !dropped;
-
-        return `
-          <div class="stage-item" data-stage="${stage}" style="cursor:${clickable?'pointer':'default'}; text-align:center; flex:1;">
-            <div style="width:20px;height:20px;border-radius:50%;background:${dotColor};margin:0 auto 5px;border:2px solid ${borderColor}"></div>
-            <span style="font-size:0.65rem;font-weight:bold;color:${isDone ? 'var(--slate-grey)' : '#ccc'}">${stage}</span>
-          </div>`;
-      }).join('');
-
-      if (!dropped) {
-        stepper.querySelectorAll('.stage-item').forEach(el => {
-          el.addEventListener('click', async () => {
-            const target = el.getAttribute('data-stage');
-            await setDealerStage(target);
-          }, { passive:true });
-        });
-      }
-    }
-
-    window.setDealerStage = async (targetStage) => {
-      const id = state.currentDealerId;
-      if (!id) return;
-
-      const dealer = state.dealers.find(d => d.id === id);
-      if (!dealer) return;
-      if (isDropped(dealer)) return;
-
-      const cur  = dealer.currentStage || 'Interested';
-      let next   = targetStage;
-
-      if (targetStage === cur) {
-        const backIdx = Math.max(0, (STAGE_INDEX[cur] ?? 0) - 1);
-        next = DEALER_STAGES[backIdx];
-      }
-
-      const dRef = doc(db, "dealerOnboarding", id);
-      const newLog = logStageChange(dealer, next);
-      const newStatus = (next === 'Onboarded') ? 'Completed' : 'Active';
-
-      await updateDoc(dRef, {
-        currentStage: next,
-        status: newStatus,
-        stageLog: newLog
-      });
-
-      openDealer(id);
-    };
-
-    window.updateStage = async (newStage) => {
-      const dRef = doc(db, "dealerOnboarding", state.currentDealerId);
-      await updateDoc(dRef, {
-        currentStage: newStage,
-        status: newStage === 'Onboarded' ? 'Completed' : 'Active'
-      });
-      openDealer(state.currentDealerId);
-    };
-
-    window.confirmAddDealer = async () => {
-      const name = document.getElementById('new-dealer-name').value.trim();
-      const city = document.getElementById('new-dealer-city').value.trim();
-      const rm   = document.getElementById('new-dealer-rm').value.trim();
-      const startDate = document.getElementById('new-dealer-start').value;
-
-      const errEl = document.getElementById('dealer-modal-error');
-      const btn   = document.getElementById('create-dealer-btn');
-
-      if (errEl) { errEl.style.display = 'none'; errEl.textContent = ''; }
-      if (!name || !city || !rm || !startDate) {
-        if (errEl) { errEl.textContent = 'Please fill all fields (Dealer, City, RM, Start Date).'; errEl.style.display = 'block'; }
-        return;
-      }
-
-      if (btn) btn.classList.add('is-loading');
-      try {
-        const dealer = { name, city, rm, startDate, currentStage: 'Interested', status: 'Active', documents: {}, createdAt: new Date().toISOString() };
-        const ref = await addDoc(collection(db, "dealerOnboarding"), dealer);
-
-        // Optimistic UI
-        state.dealers = [{ id: ref.id, ...dealer }, ...state.dealers];
-
-        // Close & reset
-        document.getElementById('modal-dealer-overlay').style.display = 'none';
-        document.getElementById('new-dealer-name').value = '';
-        document.getElementById('new-dealer-city').value = '';
-        document.getElementById('new-dealer-rm').value = '';
-        document.getElementById('new-dealer-start').value = '';
-
-        renderDealerDashboard();
-      } catch (e) {
-        console.error('Create dealer failed:', e);
-        if (errEl) {
-          const readable =
-            e?.code === 'permission-denied' ? 'Permission denied by Firestore rules. Allow write access or sign in before creating dealers.' :
-            e?.message || 'Unknown error while creating dealer.';
-          errEl.textContent = readable;
-          errEl.style.display = 'block';
-        }
-      } finally {
-        if (btn) btn.classList.remove('is-loading');
-      }
-    };
-
-    window.deleteDealer = async (id) => {
-      if (!id) return;
-      if (!confirm("Permanently delete this dealer?")) return;
-      await deleteDoc(doc(db, "dealerOnboarding", id));
-      initDealerModule();
-    };
-
-    window.openDealerModal = () => document.getElementById('modal-dealer-overlay').style.display = 'flex';
-
-    // =============== SHOWROOM RENDERING ===============
-    function renderMasterGrid() {
-      const grid = document.getElementById('master-grid');
-      let totalPct = 0, totalDelay = 0, completedShowrooms = 0;
-
-      grid.innerHTML = state.showrooms.map((s, idx) => {
-        const stats = calculateShowroomStats(s);
-        totalPct += stats.pct;
-        totalDelay += stats.delay;
-        if(stats.pct === 100) completedShowrooms++;
-
-        return `<div class="showroom-card" style="padding:16px;">
-          <h4>${s.name}</h4>
-          <div class="showroom-meta">
-            <span><strong>Progress:</strong> ${stats.pct}%</span>
-            <span style="color:${stats.delay > 0 ? 'var(--delay-red)' : 'var(--success-green)'}"><strong>Delay:</strong> ${stats.delay}d</span>
-          </div>
-          <div class="progress-bar-container" style="height:6px"><div class="progress-bar-fill" style="width:${stats.pct}%"></div></div>
-          <button class="btn btn-add" onclick="openShowroom(${idx})">Open Tracker</button>
-        </div>`;
-      }).join('');
-
-      document.getElementById('global-total-showrooms').innerText   = state.showrooms.length;
-      document.getElementById('global-avg-completion').innerText    = state.showrooms.length ? Math.round(totalPct / state.showrooms.length) + '%' : '0%';
-      document.getElementById('global-total-delay').innerText        = totalDelay;
-      document.getElementById('global-completed-count').innerText    = completedShowrooms;
-    }
+  state.view = 'dealer';
+  state.currentDealerId = null;
+  
+  const addMainBtn = document.getElementById('add-main-btn');
+  addMainBtn.innerText = '+ Add Dealer';
+  addMainBtn.onclick = () => openDealerModal();
+  addMainBtn.style.display = sessionStorage.getItem("ais_user_role") === 'admin' ? 'inline-flex' : 'none';
+  
+  document.getElementById('master-dashboard-view').style.display = 'none';
+  document.getElementById('dashboard-content').style.display = 'block';
+  document.getElementById('dealer-dashboard-view').style.display = 'block';
+  document.getElementById('dealer-detail-view').style.display = 'none';
+  
+  // In dealer list view: Show Showroom Dashboard button, hide Dealer Onboarding button
+  document.getElementById('nav-dealer-btn').style.display = 'none';
+  document.getElementById('nav-showroom-btn').style.display = 'inline-flex';
+  
+  document.getElementById('back-to-dash-btn').style.display = 'none';
+  document.getElementById('showroom-selector').style.display = 'none';
+  
+  // HIDE SHOWROOM-SPECIFIC SECTIONS
+  const showroomStatsGrid = document.querySelector('#dashboard-content .stats-grid:first-of-type');
+  if (showroomStatsGrid) {
+    showroomStatsGrid.style.display = 'none';
+  }
+  
+  const projectSettings = document.querySelector('.project-settings');
+  if (projectSettings) {
+    projectSettings.style.display = 'none';
+  }
+  
+  const tableSection = document.querySelector('.table-section');
+  if (tableSection) {
+    tableSection.style.display = 'none';
+  }
+  
+  const progressSection = document.querySelector('#dashboard-content .progress-section:last-of-type');
+  if (progressSection) {
+    progressSection.style.display = 'none';
+  }
+  
+  document.getElementById('header-title').innerHTML = 'AIS <span>Dealer Onboarding</span>';
+  
+  loadDealersRealtime();
+};
 
     window.openShowroom = (idx) => {
-      state.currentIndex = idx;
-      document.getElementById('master-dashboard-view').style.display = 'none';
-      document.getElementById('dashboard-content').style.display     = 'block';
-      document.getElementById('back-to-dash-btn').style.display      = 'inline-flex';
-      document.getElementById('showroom-selector').style.display     = 'inline-block';
-      document.getElementById('showroom-selector').value             = idx;
-      document.getElementById('header-title').innerHTML              = `AIS <span>${state.showrooms[idx].name}</span>`;
-      renderDashboard();
-    };
+  if (!state.showrooms[idx]) {
+    showError(document.getElementById('master-grid'), 'Showroom not found');
+    return;
+  }
+  
+  state.currentIndex = idx;
+  document.getElementById('master-dashboard-view').style.display = 'none';
+  document.getElementById('dashboard-content').style.display = 'block';
+  document.getElementById('back-to-dash-btn').style.display = 'inline-flex';
+  document.getElementById('showroom-selector').style.display = 'inline-block';
+  document.getElementById('showroom-selector').value = idx;
+  document.getElementById('header-title').innerHTML = `AIS <span>${state.showrooms[idx].name}</span>`;
+  
+  // SHOW SHOWROOM-SPECIFIC SECTIONS
+  const showroomStatsGrid = document.querySelector('#dashboard-content .stats-grid:first-of-type');
+  if (showroomStatsGrid) {
+    showroomStatsGrid.style.display = 'grid';
+  }
+  
+  const projectSettings = document.querySelector('.project-settings');
+  if (projectSettings) {
+    projectSettings.style.display = 'flex';
+  }
+  
+  const tableSection = document.querySelector('.table-section');
+  if (tableSection) {
+    tableSection.style.display = 'block';
+  }
+  
+  const progressSection = document.querySelector('#dashboard-content .progress-section:last-of-type');
+  if (progressSection) {
+    progressSection.style.display = 'block';
+  }
+  
+  renderDashboard();
+};
+
+    window.switchShowroom = (i) => openShowroom(parseInt(i));
+
+    // =============== SHOWROOM RENDERING ===============
+    function renderShowroomList() {
+      const selector = document.getElementById('showroom-selector');
+      if (!selector) return;
+      
+      selector.innerHTML = state.showrooms
+        .map((s, i) => `<option value="${i}" ${state.currentIndex === i ? 'selected' : ''}>${escapeHtml(s.name)}</option>`)
+        .join('');
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function calculateShowroomStats(s) {
+  if (!s || !s.startDate) return { pct: 0, avgDelay: 0, maxDelay: 0 };
+  const start = new Date(s.startDate + "T00:00:00");
+  const today = new Date(); 
+  today.setHours(0,0,0,0);
+  let totalDelay = 0, comp = 0, delayCount = 0;
+
+  if (isNaN(start.getTime())) return { pct: 0, avgDelay: 0, maxDelay: 0 };
+
+  PHASES_CONFIG.forEach(p => {
+    const target = new Date(start);
+    target.setDate(start.getDate() + p.days);
+
+    const data = (s.data && s.data[p.id]) || {};
+    if (data.actualDate) {
+      comp++;
+      const actual = new Date(data.actualDate + "T00:00:00");
+      const d = Math.ceil((actual - target) / 86400000);
+      if (d > 0) {
+        totalDelay += d;
+        delayCount++;
+      }
+    } else {
+      const d = Math.ceil((today - target) / 86400000);
+      if (d > 0) {
+        totalDelay += d;
+        delayCount++;
+      }
+    }
+  });
+  
+  const avgDelay = delayCount > 0 ? Math.round(totalDelay / delayCount) : 0;
+  const pct = Math.round((comp / PHASES_CONFIG.length) * 100);
+  
+  return { pct, avgDelay, totalDelay };
+}
+
+    function renderMasterGrid() {
+  const grid = document.getElementById('master-grid');
+  let totalPct = 0, totalAvgDelay = 0, completedShowrooms = 0, activeDelayCount = 0;
+
+  if (!state.showrooms.length) {
+    grid.innerHTML = '<div class="card" style="grid-column: 1/-1;">No showrooms yet. Click "+ Add Showroom" to get started.</div>';
+    document.getElementById('global-total-showrooms').innerText = '0';
+    document.getElementById('global-avg-completion').innerText = '0%';
+    document.getElementById('global-total-delay').innerText = '0';
+    document.getElementById('global-completed-count').innerText = '0';
+    return;
+  }
+
+  grid.innerHTML = state.showrooms.map((s, idx) => {
+    const stats = calculateShowroomStats(s);
+    totalPct += stats.pct;
+    if (stats.avgDelay > 0) {
+      totalAvgDelay += stats.avgDelay;
+      activeDelayCount++;
+    }
+    if (stats.pct === 100) completedShowrooms++;
+
+    return `<div class="showroom-card">
+      <h4>${escapeHtml(s.name)}</h4>
+      <div class="showroom-meta">
+        <span><strong>Progress:</strong> ${stats.pct}%</span>
+        <span style="color:${stats.avgDelay > 0 ? 'var(--delay-red)' : 'var(--success-green)'}"><strong>Avg Delay:</strong> ${stats.avgDelay}d</span>
+      </div>
+      <div class="progress-bar-container" style="height:6px"><div class="progress-bar-fill" style="width:${stats.pct}%"></div></div>
+      <button class="btn btn-add" onclick="openShowroom(${idx})" style="margin-top:12px; width:100%;">Open Tracker</button>
+    </div>`;
+  }).join('');
+
+  const globalAvgDelay = activeDelayCount > 0 ? Math.round(totalAvgDelay / activeDelayCount) : 0;
+  
+  document.getElementById('global-total-showrooms').innerText = state.showrooms.length;
+  document.getElementById('global-avg-completion').innerText = state.showrooms.length ? Math.round(totalPct / state.showrooms.length) + '%' : '0%';
+  document.getElementById('global-total-delay').innerText = globalAvgDelay; // Now shows average delay
+  document.getElementById('global-completed-count').innerText = completedShowrooms;
+}
 
     function renderDashboard() {
       const showroom = state.showrooms[state.currentIndex];
       if (!showroom) return;
+      
       document.getElementById('current-start-date').value = showroom.startDate || "";
+      const isAdmin = sessionStorage.getItem("ais_user_role") === 'admin';
 
       const tbody = document.getElementById('tracker-body');
       const planFinish = calculatePlannedDate(showroom.startDate);
-      const isAdmin = sessionStorage.getItem("ais_user_role") === 'admin';
 
       tbody.innerHTML = PHASES_CONFIG.map(phase => {
         const data = (showroom.data && showroom.data[phase.id]) || {};
@@ -1386,9 +1377,10 @@ window.exportDashboardReport = () => {
           <td class="variance-cell">--</td>
           <td>${formatDate(planFinish)}</td>
           <td class="projected-cell">--</td>
-          <td><textarea class="admin-editable" ${!isAdmin ? 'disabled' : ''} onchange="savePhaseData('${phase.id}', 'reason', this.value)" placeholder="${isAdmin ? 'Add notes...' : ''}">${data.reason || ''}</textarea></td>
+          <td><textarea class="admin-editable" ${!isAdmin ? 'disabled' : ''} onchange="savePhaseData('${phase.id}', 'reason', this.value)" placeholder="${isAdmin ? 'Add notes...' : ''}">${escapeHtml(data.reason || '')}</textarea></td>
         </tr>`;
       }).join('');
+      
       calculateDashboard();
     }
 
@@ -1396,41 +1388,43 @@ window.exportDashboardReport = () => {
       const showroom = state.showrooms[state.currentIndex];
       if (!showroom || !showroom.startDate) {
         document.getElementById('stat-completion').innerText = '0%';
-        document.getElementById('stat-active').innerText      = "Not Started";
-        document.getElementById('progress-bar').style.width   = '0%';
+        document.getElementById('stat-active').innerText = "Not Started";
+        document.getElementById('progress-bar').style.width = '0%';
         document.getElementById('progress-val-text').innerText = '0%';
-        document.getElementById('stat-planned-date').innerText  = '--';
+        document.getElementById('stat-planned-date').innerText = '--';
         document.getElementById('stat-projected-date').innerText = '--';
-        document.getElementById('stat-velocity').innerText       = '0%';
+        document.getElementById('stat-velocity').innerText = '0%';
         document.getElementById('stat-variance-summary').innerText = "No Start Date";
-        document.getElementById('stat-variance-summary').style.color = "inherit";
         return;
       }
 
       const start = new Date(showroom.startDate + "T00:00:00");
       if (isNaN(start.getTime())) return;
 
-      const today = new Date(); today.setHours(0,0,0,0);
+      const today = new Date(); 
+      today.setHours(0,0,0,0);
       const plannedFinish = calculatePlannedDate(showroom.startDate);
 
       let totalDelay = 0, completedCount = 0, onTimeCount = 0, activeSet = false;
 
       PHASES_CONFIG.forEach(phase => {
         const row = document.getElementById(`row-${phase.id}`);
-        if(!row) return;
+        if (!row) return;
+        
         const data = (showroom.data && showroom.data[phase.id]) || {};
-
         const target = new Date(start);
         target.setDate(start.getDate() + phase.days);
 
         row.querySelector('.target-date').innerText = formatDate(target);
-        const statusCell = row.querySelector('.status-pill'), varCell = row.querySelector('.variance-cell');
+        const statusCell = row.querySelector('.status-pill');
+        const varCell = row.querySelector('.variance-cell');
         row.classList.remove('phase-row-active');
 
         if (data.actualDate) {
           const actual = new Date(data.actualDate + "T00:00:00");
           const diff = Math.ceil((actual - target) / 86400000);
           completedCount++;
+          
           if (diff < 0) {
             onTimeCount++;
             statusCell.className = 'status-pill status-ontime';
@@ -1451,7 +1445,12 @@ window.exportDashboardReport = () => {
             totalDelay += diff;
           }
         } else {
-          if (!activeSet) { row.classList.add('phase-row-active'); document.getElementById('stat-active').innerText = phase.name; activeSet = true; }
+          if (!activeSet) { 
+            row.classList.add('phase-row-active'); 
+            document.getElementById('stat-active').innerText = phase.name; 
+            activeSet = true; 
+          }
+          
           const diff = Math.ceil((today - target) / 86400000);
           if (diff > 0) {
             statusCell.className = 'status-pill status-delayed';
@@ -1475,9 +1474,8 @@ window.exportDashboardReport = () => {
 
       const pct = Math.round((completedCount / PHASES_CONFIG.length) * 100);
       document.getElementById('stat-completion').innerText = pct + '%';
-      document.getElementById('progress-bar').style.width  = pct + '%';
+      document.getElementById('progress-bar').style.width = pct + '%';
       document.getElementById('progress-val-text').innerText = pct + '%';
-
       document.getElementById('stat-planned-date').innerText = formatDate(plannedFinish);
 
       const elapsed = Math.ceil((today - start) / 86400000);
@@ -1485,20 +1483,29 @@ window.exportDashboardReport = () => {
         const pace = elapsed / pct;
         const projectedDate = new Date(start);
         projectedDate.setDate(start.getDate() + (pace * 100));
-        if(!isNaN(projectedDate.getTime())) {
+        if (!isNaN(projectedDate.getTime())) {
           document.getElementById('stat-projected-date').innerText = formatDate(projectedDate);
           document.querySelectorAll('.projected-cell').forEach(c => c.innerText = formatDate(projectedDate));
+          
           const vSum = Math.ceil((projectedDate - plannedFinish) / 86400000);
           const vEl = document.getElementById('stat-variance-summary');
-          if (vSum > 0) { vEl.innerText = `+${vSum} Days Delayed`; vEl.style.color = 'var(--delay-red)'; }
-          else if (vSum < 0) { vEl.innerText = `${vSum} Days Ahead`; vEl.style.color = 'var(--success-green)'; }
-          else { vEl.innerText = "On Track"; vEl.style.color = 'var(--success-green)'; }
+          if (vSum > 0) { 
+            vEl.innerText = `+${vSum} Days Delayed`; 
+            vEl.style.color = 'var(--delay-red)'; 
+          } else if (vSum < 0) { 
+            vEl.innerText = `${vSum} Days Ahead`; 
+            vEl.style.color = 'var(--success-green)'; 
+          } else { 
+            vEl.innerText = "On Track"; 
+            vEl.style.color = 'var(--success-green)'; 
+          }
         }
       } else {
         document.getElementById('stat-projected-date').innerText = "--";
         document.querySelectorAll('.projected-cell').forEach(c => c.innerText = "--");
         const vEl = document.getElementById('stat-variance-summary');
-        vEl.innerText = "Awaiting Progress"; vEl.style.color = "#777";
+        vEl.innerText = "Awaiting Progress";
+        vEl.style.color = "#777";
       }
 
       const velocity = completedCount > 0 ? Math.round((onTimeCount / completedCount) * 100) : 0;
@@ -1509,164 +1516,656 @@ window.exportDashboardReport = () => {
       if (!activeSet) document.getElementById('stat-active').innerText = "Project Completed";
     }
 
-    function calculateShowroomStats(s) {
-      if (!s || !s.startDate) return { pct: 0, delay: 0 };
-      const start = new Date(s.startDate + "T00:00:00");
-      const today = new Date(); today.setHours(0,0,0,0);
-      let delay = 0, comp = 0;
-
-      if(isNaN(start.getTime())) return { pct: 0, delay: 0 };
-
-      PHASES_CONFIG.forEach(p => {
-        const target = new Date(start);
-        target.setDate(start.getDate() + p.days);
-
-        const data = (s.data && s.data[p.id]) || {};
-        if (data.actualDate) {
-          comp++;
-          const actual = new Date(data.actualDate + "T00:00:00");
-          const d = Math.ceil((actual - target) / 86400000);
-          if (d > 0) delay += d;
-        } else {
-          const d = Math.ceil((today - target) / 86400000);
-          if (d > 0) delay += d;
-        }
-      });
-      return { pct: Math.round((comp / PHASES_CONFIG.length) * 100), delay };
-    }
-
-    // =============== INTERACTIONS ===============
-    window.savePhaseData = (id, field, val) => {
+    // =============== SHOWROOM ACTIONS ===============
+    window.savePhaseData = async (id, field, val) => {
       if (state.currentIndex === -1) return;
+      
       if (field === 'actualDate' && val) {
         const projStart = new Date(state.showrooms[state.currentIndex].startDate + "T00:00:00");
-        const compDate  = new Date(val + "T00:00:00");
+        const compDate = new Date(val + "T00:00:00");
         if (compDate < projStart) {
           alert("Actual completion date cannot be earlier than project start date.");
-          renderDashboard(); return;
+          renderDashboard();
+          return;
         }
       }
+      
       if (!state.showrooms[state.currentIndex].data) state.showrooms[state.currentIndex].data = {};
       if (!state.showrooms[state.currentIndex].data[id]) state.showrooms[state.currentIndex].data[id] = {};
       state.showrooms[state.currentIndex].data[id][field] = val;
-      saveState(); calculateDashboard(); renderMasterGrid();
+      
+      try {
+        await saveShowroom(state.showrooms[state.currentIndex]);
+        calculateDashboard();
+        renderMasterGrid();
+      } catch (error) {
+        showError(document.getElementById('tracker-body'), error.message);
+      }
     };
 
-    window.updateStartDate = (d) => {
-      if(state.currentIndex === -1) return;
+    window.updateStartDate = async (d) => {
+      if (state.currentIndex === -1) return;
       state.showrooms[state.currentIndex].startDate = d;
-      saveState(); calculateDashboard(); renderMasterGrid();
+      
+      try {
+        await saveShowroom(state.showrooms[state.currentIndex]);
+        calculateDashboard();
+        renderMasterGrid();
+      } catch (error) {
+        showError(document.getElementById('tracker-body'), error.message);
+      }
     };
 
-    if (typeof window.confirmAddShowroom !== 'function') {
-      window.confirmAddShowroom = async () => {
-        const n = document.getElementById('new-showroom-name')?.value?.trim();
-        const s = document.getElementById('new-showroom-start')?.value;
-
-        if (!n || !s) { alert('Please fill in both fields.'); return; }
-
-        if (state.showrooms.some(sh => sh.name?.toLowerCase() === n.toLowerCase())) {
-          alert('A showroom with this name already exists.');
-          return;
+    window.resetCurrentShowroom = async () => {
+      if (!confirm("Are you sure you want to reset all progress for this showroom? This action cannot be undone.")) return;
+      
+      if (state.currentIndex !== -1) {
+        state.showrooms[state.currentIndex].data = {};
+        
+        try {
+          await saveShowroom(state.showrooms[state.currentIndex]);
+          renderDashboard();
+          renderMasterGrid();
+        } catch (error) {
+          showError(document.getElementById('tracker-body'), error.message);
         }
+      }
+    };
 
-        const showroom = { id: Date.now().toString(), name: n, startDate: s, data: {} };
+    window.deleteCurrentShowroom = async () => {
+      if (state.currentIndex === -1) return;
+      const showroom = state.showrooms[state.currentIndex];
+      if (!showroom) return;
+
+      if (!confirm(`Are you sure you want to permanently delete "${showroom.name}" and all its data?`)) return;
+
+      try {
+        const docId = showroom.id || showroom.name.replace(/\s+/g, "_");
+        await deleteDoc(doc(db, "showrooms", docId));
+        state.showrooms.splice(state.currentIndex, 1);
+        state.currentIndex = -1;
+        showMasterDashboard();
+      } catch (error) {
+        console.error('Delete showroom failed:', error);
+        alert('Failed to delete showroom. Please try again.');
+      }
+    };
+
+    window.confirmAddShowroom = async () => {
+      const name = document.getElementById('new-showroom-name')?.value?.trim();
+      const start = document.getElementById('new-showroom-start')?.value;
+      const addBtn = document.querySelector('#modal-overlay .btn.btn-add');
+
+      if (!name || !start) {
+        alert('Please fill in both fields.');
+        return;
+      }
+
+      if (state.showrooms.some(sh => sh.name?.toLowerCase() === name.toLowerCase())) {
+        alert('A showroom with this name already exists.');
+        return;
+      }
+
+      showLoading(addBtn);
+      
+      try {
+        const showroom = { 
+          id: Date.now().toString(), 
+          name: name, 
+          startDate: start, 
+          data: {},
+          createdAt: new Date().toISOString()
+        };
+        
+        await saveShowroom(showroom);
         state.showrooms.push(showroom);
+        
+        document.getElementById('modal-overlay').style.display = 'none';
+        document.getElementById('new-showroom-name').value = '';
+        document.getElementById('new-showroom-start').value = '';
+        
+        renderMasterGrid();
+        renderShowroomList();
+      } catch (error) {
+        console.error('Create showroom failed:', error);
+        alert('Failed to create showroom. Please try again.');
+      } finally {
+        hideLoading(addBtn);
+      }
+    };
 
-        try {
-          await saveState();
+    // =============== DEALER RENDERING ===============
+    window.filterDealers = () => {
+      state.searchTerm = document.getElementById('dealer-search')?.value?.toLowerCase() || '';
+      renderDealerDashboard();
+    };
 
-          document.getElementById('modal-overlay').style.display = 'none';
-          document.getElementById('new-showroom-name').value = '';
-          document.getElementById('new-showroom-start').value = '';
+function renderDealerDashboard() {
+  if (state.view !== 'dealer') return;
+  
+  const grid = document.getElementById('dealer-grid');
+  let dealers = state.dealers || [];
+  
+  // Apply search filter
+  if (state.searchTerm) {
+    dealers = dealers.filter(d => 
+      (d.name?.toLowerCase() || '').includes(state.searchTerm) ||
+      (d.city?.toLowerCase() || '').includes(state.searchTerm)
+    );
+  }
+  
+  // Update stats with accurate delay calculation
+  const total = dealers.length;
+  const active = dealers.filter(d => d.status === 'Active' && !isDropped(d)).length;
+  const completed = dealers.filter(d => d.status === 'Completed').length;
+  const dropped = dealers.filter(d => isDropped(d)).length;
+  
+  // Calculate delayed dealers properly
+  const delayedDealers = dealers.filter(d => {
+    if (isDropped(d) || d.status === 'Completed') return false;
+    const timeline = calculateDealerTimeline(d);
+    return timeline.isDelayed;
+  });
+  const delayed = delayedDealers.length;
+  
+  // Calculate total delay days sum for average
+  const totalDelayDays = dealers.reduce((sum, d) => {
+    const timeline = calculateDealerTimeline(d);
+    return sum + (timeline.delayDays || 0);
+  }, 0);
+  const avgDelayDays = dealers.length > 0 ? Math.round(totalDelayDays / dealers.length) : 0;
+  
+  document.getElementById('dealer-stat-total').innerText = total;
+  document.getElementById('dealer-stat-active').innerText = active;
+  document.getElementById('dealer-stat-completed').innerText = completed;
+  document.getElementById('dealer-stat-dropped').innerText = dropped;
+  document.getElementById('dealer-stat-delayed').innerText = delayed;
+  
+  // Calculate average onboarding days (only for onboarded dealers)
+  const onboardedDealers = dealers.filter(d => d.stageLog?.Onboarded);
+  const avgOnboardDays = onboardedDealers.length > 0 
+    ? Math.round(onboardedDealers.reduce((sum, d) => {
+        const start = new Date(d.startDate);
+        const onboard = new Date(d.stageLog.Onboarded);
+        return sum + Math.floor((onboard - start) / 86400000);
+      }, 0) / onboardedDealers.length)
+    : '--';
+  document.getElementById('stat-avg-onboard-days').innerHTML = avgOnboardDays === '--' ? '--' : `${avgOnboardDays} days`;
+  
+  // Update delayed count with average delay
+  document.getElementById('stat-delayed-count').innerHTML = `${delayed} dealers<br><span style="font-size:0.7rem;">Avg delay: ${avgDelayDays}d</span>`;
+  
+  const docsPending = dealers.reduce((sum, d) => sum + (DOC_KEYS.length - docProgress(d.documents).done), 0);
+  document.getElementById('stat-docs-pending').innerHTML = `${docsPending}<br><span style="font-size:0.7rem;">total missing</span>`;
+  
+  // RM Analytics
+  const rmMap = new Map();
+  dealers.forEach(d => {
+    const rm = d.rm || 'Unassigned';
+    if (!rmMap.has(rm)) {
+      rmMap.set(rm, { total: 0, completed: 0, active: 0, dropped: 0 });
+    }
+    const stats = rmMap.get(rm);
+    stats.total++;
+    if (d.status === 'Completed') stats.completed++;
+    else if (isDropped(d)) stats.dropped++;
+    else if (d.status === 'Active') stats.active++;
+  });
+  
+  const rmHtml = Array.from(rmMap.entries())
+    .map(([rm, stats]) => `<div style="margin-bottom:10px; padding:8px; background:#f8f9fa; border-radius:6px;">
+      <strong>${escapeHtml(rm)}</strong><br>
+      Total: ${stats.total} | Active: ${stats.active} | Completed: ${stats.completed} | Dropped: ${stats.dropped}
+    </div>`).join('');
+  document.getElementById('rm-analytics-body').innerHTML = rmHtml || '<div>No data available</div>';
+  
+  // Render dealer cards
+  grid.innerHTML = dealers.map(d => {
+    const status = d.status || 'Active';
+    const badgeClass = isDropped(d) ? 'status-delayed' :
+                      status === 'Completed' ? 'status-ontime' : 'status-upcoming';
+    const stage = d.currentStage || autoDetectStage(d);
+    
+    return `
+      <div class="showroom-card" style="border-left:4px solid var(--primary-blue);">
+        <h4>${escapeHtml(d.name || '')}</h4>
+        <div class="showroom-meta">
+          <span>${escapeHtml(d.city || '')} | RM: ${escapeHtml(d.rm || '')}</span>
+          <span class="status-pill ${badgeClass}">${status}</span>
+        </div>
+        <div style="font-size:.75rem;margin-top:6px;">Stage: <strong>${escapeHtml(stage)}</strong></div>
+        <button class="btn btn-add" style="margin-top:10px; width:100%;" onclick="openDealer('${d.id}')">Open Dealer</button>
+      </div>`;
+  }).join('');
+  
+  if (dealers.length === 0) {
+    grid.innerHTML = '<div class="card" style="grid-column: 1/-1;">No dealers found. Click "+ Add Dealer" to get started.</div>';
+  }
+}
 
-          renderShowroomList();
-          renderMasterGrid();
-        } catch (e) {
-          console.error('Create showroom failed:', e);
+    function calculateDealerTimeline(d) {
+  if (!d.startDate) return { diffText: "No Date", isDelayed: false, delayDays: 0 };
+  
+  const start = new Date(d.startDate);
+  const today = new Date();
+  const daysElapsed = Math.floor((today - start) / (1000 * 60 * 60 * 24));
+  
+  // Define expected days for each stage (cumulative)
+  const stageTargets = { 
+    'Interested': 0, 
+    'Shortlisted': 3, 
+    'CFT Selected': 8, 
+    'Documentation': 15, 
+    'Onboarded': 22 
+  };
+  
+  const currentStage = d.currentStage || autoDetectStage(d);
+  const targetDays = stageTargets[currentStage] || 0;
+  const delayDays = Math.max(0, daysElapsed - targetDays);
+  const isDelayed = delayDays > 3; // Delayed if more than 3 days behind
+  
+  let diffText = "On Track";
+  if (delayDays > 0) {
+    diffText = `+${delayDays}d Delay`;
+  }
+  
+  return { diffText, isDelayed, delayDays };
+}
+
+    function computeTimeline(dealer) {
+      const start = dealer.startDate ? new Date(dealer.startDate) : null;
+      const today = new Date(); 
+      today.setHours(0,0,0,0);
+
+      const sinceStart = start ? Math.max(0, Math.floor((today - start) / 86400000)) : null;
+
+      const A = dealer.stageLog || {};
+      const tInterested = A['Interested'] ? new Date(A['Interested']) : start;
+      const tShortlisted = A['Shortlisted'] ? new Date(A['Shortlisted']) : null;
+      const tCFT = A['CFT Selected'] ? new Date(A['CFT Selected']) : null;
+      const tOnboarded = A['Onboarded'] ? new Date(A['Onboarded']) : null;
+
+      const span = (a, b) => (a && b) ? Math.max(0, Math.floor((b - a) / 86400000)) : null;
+
+      const days_to_shortlisted = span(tInterested, tShortlisted);
+      const days_to_cft = span(tShortlisted, tCFT);
+      const days_to_onboard = span(tCFT, tOnboarded);
+
+      const delta_1 = (days_to_shortlisted == null) ? null : (days_to_shortlisted - IDEAL.Interested_to_Shortlisted);
+      const delta_2 = (days_to_cft == null) ? null : (days_to_cft - IDEAL.Shortlisted_to_CFT);
+      const delta_3 = (days_to_onboard == null) ? null : (days_to_onboard - IDEAL.CFT_to_Onboarding);
+
+      return {
+        sinceStart,
+        stages: {
+          Interested_to_Shortlisted: { actual: days_to_shortlisted, ideal: IDEAL.Interested_to_Shortlisted, delta: delta_1 },
+          Shortlisted_to_CFT: { actual: days_to_cft, ideal: IDEAL.Shortlisted_to_CFT, delta: delta_2 },
+          CFT_to_Onboarding: { actual: days_to_onboard, ideal: IDEAL.CFT_to_Onboarding, delta: delta_3 }
         }
       };
     }
 
-    window.openModal   = () => document.getElementById('modal-overlay').style.display = 'flex';
-    window.closeModal  = () => { ['modal-overlay','modal-dealer-overlay'].forEach(id => { const el = document.getElementById(id); if (el) el.style.display = 'none'; }); };
-    window.switchShowroom = (i) => openShowroom(parseInt(i));
+    function renderDealerStages(dealer) {
+      const stepper = document.getElementById('stage-stepper');
+      const dropped = isDropped(dealer);
+      const current = dealer.currentStage || autoDetectStage(dealer);
+      const curIdx = STAGE_INDEX[current] ?? 0;
 
-    // Render showroom selector
-    if (typeof window.renderShowroomList !== 'function') {
-      window.renderShowroomList = () => {
-        const selector = document.getElementById('showroom-selector');
-        if (!selector) return;
-        selector.innerHTML = state.showrooms
-          .map((s, i) => `<option value="${i}" ${state.currentIndex === i ? 'selected' : ''}>${s.name}</option>`)
-          .join('');
-      };
+      stepper.innerHTML = DEALER_STAGES.map((stage, i) => {
+        const isDone = i <= curIdx;
+        const isActive = i === curIdx;
+        const dotColor = dropped ? 'var(--delay-red)' : (isDone ? 'var(--success-green)' : '#eee');
+        const borderColor = dropped ? 'var(--delay-red)' : (isActive ? 'var(--primary-blue)' : 'transparent');
+        const clickable = !dropped && !isActive;
+
+        return `
+          <div class="stage-item" data-stage="${stage}" style="cursor:${clickable ? 'pointer' : 'default'}; text-align:center; flex:1; min-width:70px;">
+            <div style="width:20px;height:20px;border-radius:50%;background:${dotColor};margin:0 auto 5px;border:2px solid ${borderColor}"></div>
+            <span style="font-size:0.65rem;font-weight:bold;color:${isDone ? 'var(--slate-grey)' : '#ccc'}">${stage}</span>
+          </div>`;
+      }).join('');
+
+      if (!dropped) {
+        stepper.querySelectorAll('.stage-item').forEach(el => {
+          const stage = el.getAttribute('data-stage');
+          const stageIdx = STAGE_INDEX[stage];
+          if (stageIdx > curIdx) {
+            el.addEventListener('click', async () => {
+              await setDealerStage(stage);
+            });
+          }
+        });
+      }
     }
 
-    // Minimal dealer dashboard renderer (needed by loadDealersRealtime)
-    if (typeof window.renderDealerDashboard !== 'function') {
-      window.renderDealerDashboard = () => {
-        if (state.view !== 'dealer') return;
-        const grid = document.getElementById('dealer-grid');
-        const dealers = state.dealers || [];
+    function renderDealerDocs(dealer) {
+      const host = document.getElementById('doc-checklist');
+      const docs = normalizeDocs(dealer.documents);
 
-        grid.innerHTML = dealers.map(d => {
-          const status = d.status || 'Active';
-          const badgeClass =
-            status === 'Dropped'   ? 'status-delayed' :
-            status === 'Completed' ? 'status-ontime' : 'status-upcoming';
+      host.innerHTML = DOC_KEYS.map(k => {
+        const label = k.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase());
+        const checked = docs[k] ? 'checked' : '';
+        return `
+          <label class="doc-label">
+            <input type="checkbox" class="doc-toggle" data-doc="${k}" ${checked} />
+            <span style="font-weight:600; flex:1;">${label}</span>
+            <span style="font-size:.8rem;color:${docs[k] ? 'var(--success-green)' : '#999'}">
+              ${docs[k] ? '✔ Completed' : '⏳ Pending'}
+            </span>
+          </label>`;
+      }).join('');
 
-          return `
-            <div class="showroom-card" style="border-left:4px solid var(--primary-blue); padding:16px;">
-              <h4>${d.name || ''}</h4>
-              <div class="showroom-meta">
-                <span>${d.city || ''} | RM: ${d.rm || ''}</span>
-                <span class="status-pill ${badgeClass}">${status}</span>
-              </div>
-              <div style="font-size:.75rem;margin-top:6px;">Stage: <strong>${d.currentStage || 'Interested'}</strong></div>
-              <button class="btn btn-add" style="margin-top:10px;" onclick="openDealer('${d.id}')">Open Dealer</button>
-            </div>`;
-        }).join('');
-      };
+      host.querySelectorAll('.doc-toggle').forEach(box => {
+        box.addEventListener('change', async (e) => {
+          const key = e.currentTarget.getAttribute('data-doc');
+          const val = e.currentTarget.checked;
+          const id = state.currentDealerId;
+          
+          if (!id) return;
+          
+          const dRef = doc(db, "dealerOnboarding", id);
+          await updateDoc(dRef, { [`documents.${key}`]: val });
+
+          const dealerNow = state.dealers.find(d => d.id === id) || {};
+          const nextStage = autoDetectStage({ ...dealerNow, documents: { ...(dealerNow.documents || {}), [key]: val } });
+          
+          if (nextStage !== dealerNow.currentStage && !isDropped(dealerNow)) {
+            await updateDoc(dRef, {
+              currentStage: nextStage,
+              status: nextStage === 'Onboarded' ? 'Completed' : 'Active',
+              stageLog: logStageChange(dealerNow, nextStage)
+            });
+          }
+          
+          updateDocProgressUI({ ...dealerNow, documents: { ...(dealerNow.documents || {}), [key]: val } });
+        });
+      });
+
+      updateDocProgressUI(dealer);
     }
 
-    // Delete current showroom (button calls this)
-    if (typeof window.deleteCurrentShowroom !== 'function') {
-      window.deleteCurrentShowroom = async () => {
-        if (state.currentIndex === -1) return;
-        const showroom = state.showrooms[state.currentIndex];
-        if (!showroom) return;
+    function updateDocProgressUI(dealer) {
+      const p = docProgress(dealer.documents);
+      const bar = document.getElementById('doc-progress-bar');
+      const txt = document.getElementById('doc-progress-pct');
+      if (bar) bar.style.width = `${p.pct}%`;
+      if (txt) txt.textContent = `${p.pct}%`;
+    }
 
-        if (!confirm("Permanently delete this showroom and all its data?")) return;
+    window.openDealer = (id) => {
+  const dealer = state.dealers.find(d => d.id === id);
+  if (!dealer) {
+    alert('Dealer not found or has been removed.');
+    renderDealerDashboard();
+    return;
+  }
+  
+  state.currentDealerId = id;
 
-        try {
-          const docId = showroom.id || showroom.name.replace(/\s+/g, "_");
-          await deleteDoc(doc(db, "showrooms", docId));
+  // Hide dealer dashboard, show dealer detail
+  document.getElementById('dealer-dashboard-view').style.display = 'none';
+  document.getElementById('dealer-detail-view').style.display = 'block';
+  
+  // Show back button, HIDE ALL navigation buttons
+  document.getElementById('back-to-dash-btn').style.display = 'inline-flex';
+  document.getElementById('nav-dealer-btn').style.display = 'none';
+  document.getElementById('nav-showroom-btn').style.display = 'none';  // Hide Showroom Dashboard button
+  document.getElementById('add-main-btn').style.display = 'none';
+  
+  // Update back button to return to dealer dashboard
+  const backBtn = document.getElementById('back-to-dash-btn');
+  backBtn.onclick = () => {
+    // Return to dealer dashboard
+    document.getElementById('dealer-detail-view').style.display = 'none';
+    document.getElementById('dealer-dashboard-view').style.display = 'block';
+    document.getElementById('back-to-dash-btn').style.display = 'none';
+    
+    // Show ONLY the Showroom Dashboard button in dealer list view (not Dealer Onboarding)
+    document.getElementById('nav-dealer-btn').style.display = 'none';
+    document.getElementById('nav-showroom-btn').style.display = 'inline-flex';  // Show Showroom Dashboard button
+    document.getElementById('add-main-btn').style.display = sessionStorage.getItem("ais_user_role") === 'admin' ? 'inline-flex' : 'none';
+    document.getElementById('header-title').innerHTML = 'AIS <span>Dealer Onboarding</span>';
+    renderDealerDashboard();
+  };
+  
+  document.getElementById('header-title').innerHTML = `AIS <span>Dealer: ${escapeHtml(dealer.name || '')}</span>`;
 
-          state.showrooms.splice(state.currentIndex, 1);
-          state.currentIndex = -1;
+  document.getElementById('det-dealer-name').innerText = dealer.name || '';
+  document.getElementById('det-dealer-meta').innerHTML = `${escapeHtml(dealer.city || '')} | RM: ${escapeHtml(dealer.rm || '')}`;
 
-          showMasterDashboard();
-          renderMasterGrid();
-        } catch (e) {
-          console.error('Delete showroom failed:', e);
-          alert('Failed to delete showroom. See console for details.');
+  const statusEl = document.getElementById('det-dealer-status');
+  statusEl.innerText = dealer.status || 'Active';
+  statusEl.className = `status-pill ${
+    isDropped(dealer) ? 'status-delayed'
+      : (dealer.status === 'Completed' ? 'status-ontime' : 'status-upcoming')
+  }`;
+
+  if (!isDropped(dealer)) {
+    const detected = autoDetectStage(dealer);
+    if (detected !== (dealer.currentStage || 'Interested')) {
+      const dRef = doc(db, "dealerOnboarding", id);
+      updateDoc(dRef, {
+        currentStage: detected,
+        status: detected === 'Onboarded' ? 'Completed' : 'Active',
+        stageLog: logStageChange(dealer, detected)
+      });
+    }
+  }
+
+  renderDealerStages(dealer);
+  renderDealerDocs(dealer);
+
+  const t = computeTimeline(dealer);
+  const tHost = document.getElementById('dealer-timeline-status');
+  if (tHost) {
+    const fmt = (obj) => obj == null || obj.actual == null ? '--' :
+      `${obj.delta > 0 ? '+' : ''}${obj.delta ?? 0}d ${obj.delta > 0 ? 'delay' : obj.delta < 0 ? 'faster' : 'on track'}`;
+    tHost.innerHTML = `
+      <div style="font-size:.9rem;color:#555;">
+        <div><strong>Days since Start:</strong> ${t.sinceStart ?? '--'}</div>
+        <div>Interested → Shortlisted: ${fmt(t.stages.Interested_to_Shortlisted)}</div>
+        <div>Shortlisted → CFT: ${fmt(t.stages.Shortlisted_to_CFT)}</div>
+        <div>CFT → Onboarded: ${fmt(t.stages.CFT_to_Onboarding)}</div>
+      </div>`;
+  }
+};
+
+    window.setDealerStage = async (targetStage) => {
+      const id = state.currentDealerId;
+      if (!id) return;
+
+      const dealer = state.dealers.find(d => d.id === id);
+      if (!dealer || isDropped(dealer)) return;
+
+      const dRef = doc(db, "dealerOnboarding", id);
+      const newLog = logStageChange(dealer, targetStage);
+      const newStatus = (targetStage === 'Onboarded') ? 'Completed' : 'Active';
+
+      await updateDoc(dRef, {
+        currentStage: targetStage,
+        status: newStatus,
+        stageLog: newLog
+      });
+
+      openDealer(id);
+    };
+
+    window.dropDealer = async (reason) => {
+      const id = state.currentDealerId;
+      if (!id) return;
+
+      if (!confirm(`Are you sure you want to mark this dealer as ${reason === 'backout' ? 'Backout' : 'CFT Rejected'}?`)) return;
+
+      const dRef = doc(db, "dealerOnboarding", id);
+      const flags = {};
+      if (reason === 'cftRejected') flags.cftRejected = true;
+      if (reason === 'backout') flags.prospectBackout = true;
+
+      await updateDoc(dRef, {
+        status: 'Dropped',
+        flags: { ...(state.dealers.find(d => d.id === id)?.flags || {}), ...flags }
+      });
+
+      openDealer(id);
+    };
+
+    window.confirmAddDealer = async () => {
+      const name = document.getElementById('new-dealer-name').value.trim();
+      const city = document.getElementById('new-dealer-city').value.trim();
+      const rm = document.getElementById('new-dealer-rm').value.trim();
+      const startDate = document.getElementById('new-dealer-start').value;
+      const errEl = document.getElementById('dealer-modal-error');
+      const btn = document.getElementById('create-dealer-btn');
+
+      if (errEl) {
+        errEl.style.display = 'none';
+        errEl.textContent = '';
+      }
+      
+      if (!name || !city || !rm || !startDate) {
+        if (errEl) {
+          errEl.textContent = 'Please fill all fields (Dealer, City, RM, Start Date).';
+          errEl.style.display = 'block';
         }
-      };
+        return;
+      }
+
+      showLoading(btn);
+      
+      try {
+        const dealer = { 
+          name, 
+          city, 
+          rm, 
+          startDate, 
+          currentStage: 'Interested', 
+          status: 'Active', 
+          documents: {}, 
+          createdAt: new Date().toISOString() 
+        };
+        
+        await addDoc(collection(db, "dealerOnboarding"), dealer);
+
+        document.getElementById('modal-dealer-overlay').style.display = 'none';
+        document.getElementById('new-dealer-name').value = '';
+        document.getElementById('new-dealer-city').value = '';
+        document.getElementById('new-dealer-rm').value = '';
+        document.getElementById('new-dealer-start').value = '';
+        
+        renderDealerDashboard();
+      } catch (error) {
+        console.error('Create dealer failed:', error);
+        if (errEl) {
+          const readable = error?.code === 'permission-denied' 
+            ? 'Permission denied. Please contact administrator.' 
+            : error?.message || 'Unknown error while creating dealer.';
+          errEl.textContent = readable;
+          errEl.style.display = 'block';
+        }
+      } finally {
+        hideLoading(btn);
+      }
+    };
+
+    window.deleteDealer = async (id) => {
+      if (!id) return;
+      if (!confirm("Permanently delete this dealer? This action cannot be undone.")) return;
+      
+      try {
+        await deleteDoc(doc(db, "dealerOnboarding", id));
+        initDealerModule();
+      } catch (error) {
+        console.error('Delete dealer failed:', error);
+        alert('Failed to delete dealer. Please try again.');
+      }
+    };
+
+    window.openDealerModal = () => {
+      document.getElementById('modal-dealer-overlay').style.display = 'flex';
+    };
+
+    window.closeModal = () => {
+      const modals = ['modal-overlay', 'modal-dealer-overlay'];
+      modals.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'none';
+      });
+    };
+
+    // =============== EXPORT FUNCTION ===============
+window.exportDashboardReport = () => {
+  try {
+    if (!window.XLSX) {
+      alert('Export library not loaded. Please refresh the page.');
+      return;
     }
 
-    // Global hotkey: Enter on login
-    document.addEventListener("keydown", function(e){
-      if(e.key === "Enter" && document.getElementById("login-screen").style.display !== "none"){
+    const wb = XLSX.utils.book_new();
+
+    // Showroom Summary
+    const showroomSummary = state.showrooms.map(s => {
+      const stats = calculateShowroomStats(s);
+      return {
+        'Showroom Name': s.name || '',
+        'Start Date': formatDate(s.startDate),
+        'Completion %': stats.pct,
+        'Avg Delay (Days)': stats.avgDelay  // Fixed: was stats.delay which doesn't exist
+      };
+    });
+    
+    const ws1 = XLSX.utils.json_to_sheet(showroomSummary);
+    XLSX.utils.book_append_sheet(wb, ws1, 'SHOWROOM SUMMARY');
+
+    // Dealer Summary
+    const dealerSummary = state.dealers.map(d => ({
+      'Dealer Name': d.name || '',
+      'City': d.city || '',
+      'RM': d.rm || '',
+      'Start Date': formatDate(d.startDate),
+      'Current Stage': d.currentStage || autoDetectStage(d),
+      'Status': d.status || 'Active',
+      'Document %': `${docProgress(d.documents).pct}%`
+    }));
+    
+    const ws2 = XLSX.utils.json_to_sheet(dealerSummary);
+    XLSX.utils.book_append_sheet(wb, ws2, 'DEALER SUMMARY');
+
+    XLSX.writeFile(wb, `AIS_Dashboard_Report_${new Date().toISOString().slice(0,10)}.xlsx`);
+  } catch (err) {
+    console.error('Export failed:', err);
+    alert('Export failed. Please try again.');
+  }
+};
+    // =============== EVENT LISTENERS ===============
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && document.getElementById("login-screen").style.display !== "none") {
         handleLogin();
       }
     });
 
-    // Bind buttons on load (safe-guard) and start auth check
+    // Initialize
     window.addEventListener('load', () => {
-      wireButtons();
+      checkAuth();
+      
+      // Set up add button reference
+      const addMainBtn = document.getElementById('add-main-btn');
+      if (addMainBtn) {
+        addMainBtn.onclick = () => {
+          if (state.view === 'showroom') openModal();
+          else openDealerModal();
+        };
+      }
+      
+      // Set up dealer add button
+      const addDealerBtn = document.getElementById('add-dealer-btn');
+      if (addDealerBtn) {
+        addDealerBtn.onclick = openDealerModal;
+      }
     });
-    window.onload = checkAuth;
+    
+    window.openModal = () => {
+      document.getElementById('modal-overlay').style.display = 'flex';
+    };
   </script>
 </body>
 </html>
