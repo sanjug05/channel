@@ -34,6 +34,29 @@
       line-height: 1.6;
     }
 
+    /* Toast Notifications */
+    #toast-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 9999;
+    }
+    
+    .toast {
+      animation: slideIn 0.3s ease;
+      margin-bottom: 10px;
+    }
+    
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    
+    @keyframes slideOut {
+      from { transform: translateX(0); opacity: 1; }
+      to { transform: translateX(100%); opacity: 0; }
+    }
+
     /* Login Screen */
     #login-screen {
       position: fixed;
@@ -214,6 +237,27 @@
       font-weight: bold; 
     }
 
+    /* Filter Bar */
+    .filter-bar {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    
+    .filter-bar select, .filter-bar input {
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      font-size: 0.85rem;
+    }
+    
+    .filter-bar input {
+      flex: 1;
+      min-width: 200px;
+    }
+
     /* Master Grid */
     #master-grid {
       display: grid;
@@ -247,6 +291,96 @@
       display: flex; 
       justify-content: space-between;
       margin-bottom: 12px;
+    }
+
+    /* Analytics Dashboard */
+    .analytics-section {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 25px;
+      box-shadow: var(--shadow);
+    }
+    
+    .analytics-section h2 {
+      color: var(--primary-blue);
+      margin-bottom: 20px;
+      font-size: 1.3rem;
+    }
+    
+    .chart-container {
+      background: var(--white);
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+    
+    .chart-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 25px;
+      margin-bottom: 25px;
+    }
+    
+    .rm-leaderboard {
+      background: #f8f9fa;
+      border-radius: 12px;
+      padding: 15px;
+    }
+    
+    .rm-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .rm-item:last-child {
+      border-bottom: none;
+    }
+    
+    .rm-name {
+      font-weight: 600;
+    }
+    
+    .rm-stats {
+      display: flex;
+      gap: 15px;
+      font-size: 0.85rem;
+    }
+    
+    .rm-success-rate {
+      color: var(--success-green);
+      font-weight: 700;
+    }
+    
+    .delay-distribution {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    
+    .delay-bar {
+      flex: 1;
+      height: 30px;
+      background: #e9ecef;
+      border-radius: 6px;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .delay-fill {
+      height: 100%;
+      background: var(--delay-red);
+      width: 0%;
+      transition: width 0.5s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 700;
     }
 
     /* Table */
@@ -429,6 +563,22 @@
       border: 1px solid #fde68a; 
     }
     
+    .btn-backup {
+      background: #e8f0fe;
+      color: var(--primary-blue);
+      border: 1px solid var(--primary-blue);
+    }
+    
+    .btn-analytics {
+      background: #2c3e50;
+      color: white;
+    }
+    
+    .btn-email {
+      background: #27ae60;
+      color: white;
+    }
+    
     .btn:disabled {
       opacity: 0.6;
       cursor: not-allowed;
@@ -437,7 +587,9 @@
 
     /* Modals */
     #modal-overlay,
-    #modal-dealer-overlay {
+    #modal-dealer-overlay,
+    #bulk-import-modal,
+    #email-report-modal {
       position: fixed;
       top: 0;
       left: 0;
@@ -456,7 +608,7 @@
       padding: 30px; 
       border-radius: 12px; 
       width: 90%;
-      max-width: 450px;
+      max-width: 500px;
       box-shadow: var(--shadow);
       animation: fadeIn 0.2s ease;
     }
@@ -478,8 +630,12 @@
       font-size: 0.85rem; 
     }
     
-    .modal input { 
+    .modal input, .modal select, .modal textarea { 
       width: 100%; 
+    }
+    
+    .modal textarea {
+      height: 80px;
     }
     
     .modal-btns { 
@@ -511,44 +667,6 @@
     .btn.is-loading::after {
       content: "...";
       margin-left: 6px;
-    }
-
-    .loading-spinner {
-      display: inline-block;
-      width: 16px;
-      height: 16px;
-      border: 2px solid #f3f3f3;
-      border-top: 2px solid var(--primary-blue);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin-right: 8px;
-    }
-    
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    /* Error Message */
-    .error-message {
-      background: #fef2f2;
-      border-left: 4px solid var(--delay-red);
-      padding: 12px;
-      margin: 10px 0;
-      border-radius: 6px;
-      color: var(--delay-red);
-      font-size: 0.85rem;
-    }
-
-    /* Success Message */
-    .success-message {
-      background: #f0fdf4;
-      border-left: 4px solid var(--success-green);
-      padding: 12px;
-      margin: 10px 0;
-      border-radius: 6px;
-      color: var(--success-green);
-      font-size: 0.85rem;
     }
 
     /* Stage Stepper */
@@ -587,6 +705,18 @@
       border-radius: 6px;
     }
 
+    /* Dealer Card Actions */
+    .dealer-card-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    
+    .dealer-card-actions .btn {
+      flex: 1;
+      justify-content: center;
+    }
+
     /* Print Styles */
     @media print {
       .controls, 
@@ -594,7 +724,8 @@
       .btn, 
       .project-settings, 
       #login-screen,
-      .admin-only { 
+      .admin-only,
+      .dealer-card-actions { 
         display: none !important; 
       }
       .container { 
@@ -629,6 +760,18 @@
       .modal {
         width: 95%;
         padding: 20px;
+      }
+      
+      .filter-bar {
+        flex-direction: column;
+      }
+      
+      .filter-bar input, .filter-bar select {
+        width: 100%;
+      }
+      
+      .chart-grid {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -673,24 +816,72 @@
     </div>
   </div>
 
+  <!-- Bulk Import Modal -->
+  <div id="bulk-import-modal">
+    <div class="modal">
+      <h2>Bulk Import Dealers</h2>
+      <p style="font-size: 0.85rem; color: #666; margin-bottom: 15px;">Upload Excel/CSV with columns: Name, City, RM, Start Date</p>
+      <div class="field">
+        <label>Select File</label>
+        <input type="file" id="bulk-import-file" accept=".xlsx,.xls,.csv">
+      </div>
+      <div class="modal-btns">
+        <button class="btn btn-add" onclick="bulkImportDealers()">Import</button>
+        <button class="btn btn-print" onclick="closeBulkImportModal()">Cancel</button>
+      </div>
+      <div id="bulk-import-status" style="margin-top: 10px; font-size: 0.85rem;"></div>
+    </div>
+  </div>
+
+  <!-- Email Report Modal -->
+  <div id="email-report-modal">
+    <div class="modal">
+      <h2>📧 Send Email Report</h2>
+      <div class="field">
+        <label>Recipient Email</label>
+        <input type="email" id="email-recipient" placeholder="team@ais.com">
+      </div>
+      <div class="field">
+        <label>Report Type</label>
+        <select id="email-report-type">
+          <option value="summary">Daily Summary Report</option>
+          <option value="delays">Delay Alerts Only</option>
+          <option value="full">Full Dashboard Report</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Additional Notes (Optional)</label>
+        <textarea id="email-notes" placeholder="Any specific notes for the recipient..."></textarea>
+      </div>
+      <div class="modal-btns">
+        <button class="btn btn-add" onclick="sendEmailReport()">Send Report</button>
+        <button class="btn btn-print" onclick="closeEmailModal()">Cancel</button>
+      </div>
+      <div id="email-status" style="margin-top: 10px; font-size: 0.85rem;"></div>
+    </div>
+  </div>
+
   <!-- Main Container -->
   <div class="container" id="main-container">
-<header>
-  <div class="brand">
-    <h1 id="header-title">AIS <span>Command Center</span></h1>
-  </div>
-  <div class="controls">
-    <span id="role-badge-container"></span>
-    <button class="btn btn-print" id="back-to-dash-btn" onclick="showMasterDashboard()" style="display: none;">← Dashboard</button>
-    <select id="showroom-selector" onchange="switchShowroom(this.value)" style="display: none;"></select>
-    <button class="btn btn-add admin-only" id="add-main-btn"></button>
-    <button class="btn btn-print" onclick="window.print()">Print</button>
-    <button class="btn btn-logout" onclick="logout()">Logout</button>
-    <button class="btn btn-print" id="nav-dealer-btn" onclick="initDealerModule()">Dealer Onboarding</button>
-    <button class="btn btn-print" id="nav-showroom-btn" onclick="showMasterDashboard()" style="display: none;">Showroom Dashboard</button>
-    <button class="btn btn-add" onclick="exportDashboardReport()">Download Report</button>
-  </div>
-</header>
+    <header>
+      <div class="brand">
+        <h1 id="header-title">AIS <span>Command Center</span></h1>
+      </div>
+      <div class="controls">
+        <span id="role-badge-container"></span>
+        <button class="btn btn-print" id="back-to-dash-btn" onclick="showMasterDashboard()" style="display: none;">← Dashboard</button>
+        <select id="showroom-selector" onchange="switchShowroom(this.value)" style="display: none;"></select>
+        <button class="btn btn-add admin-only" id="add-main-btn"></button>
+        <button class="btn btn-backup admin-only" onclick="backupData()">💾 Backup</button>
+        <button class="btn btn-analytics" onclick="showAnalyticsDashboard()">📊 Analytics</button>
+        <button class="btn btn-email admin-only" onclick="openEmailModal()">📧 Email Report</button>
+        <button class="btn btn-print" onclick="window.print()">Print</button>
+        <button class="btn btn-logout" onclick="logout()">Logout</button>
+        <button class="btn btn-print" id="nav-dealer-btn" onclick="initDealerModule()">Dealer Onboarding</button>
+        <button class="btn btn-print" id="nav-showroom-btn" onclick="showMasterDashboard()" style="display: none;">Showroom Dashboard</button>
+        <button class="btn btn-add" onclick="exportDashboardReport()">Download Report</button>
+      </div>
+    </header>
 
     <!-- Master Showroom Dashboard -->
     <div id="master-dashboard-view">
@@ -715,6 +906,66 @@
       <div id="master-grid"></div>
     </div>
 
+    <!-- Analytics Dashboard View -->
+    <div id="analytics-dashboard-view" style="display: none;">
+      <div class="analytics-section">
+        <h2>📊 Performance Analytics</h2>
+        <div class="stats-grid">
+          <div class="card">
+            <h3>Overall Showroom Velocity</h3>
+            <div class="value" id="analytics-velocity">0%</div>
+            <div class="sub-text">On-time completion rate</div>
+          </div>
+          <div class="card">
+            <h3>Dealer Conversion Rate</h3>
+            <div class="value" id="analytics-conversion">0%</div>
+            <div class="sub-text">Interested → Onboarded</div>
+          </div>
+          <div class="card">
+            <h3>Avg Onboarding Time</h3>
+            <div class="value" id="analytics-onboard-time">0</div>
+            <div class="sub-text">Days (Target: 22)</div>
+          </div>
+          <div class="card">
+            <h3>Active Delayed Projects</h3>
+            <div class="value" id="analytics-delayed-count" style="color: var(--delay-red);">0</div>
+            <div class="sub-text">Requires attention</div>
+          </div>
+        </div>
+
+        <div class="chart-grid">
+          <div class="chart-container">
+            <h3 style="margin-bottom: 15px;">🎯 Dealer Onboarding Funnel</h3>
+            <canvas id="funnel-chart" height="200"></canvas>
+          </div>
+          <div class="chart-container">
+            <h3 style="margin-bottom: 15px;">📈 Showroom Completion Trend</h3>
+            <canvas id="trend-chart" height="200"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-grid">
+          <div class="chart-container">
+            <h3 style="margin-bottom: 15px;">👥 RM Performance Leaderboard</h3>
+            <div id="rm-leaderboard" class="rm-leaderboard"></div>
+          </div>
+          <div class="chart-container">
+            <h3 style="margin-bottom: 15px;">⏰ Delay Distribution</h3>
+            <div id="delay-distribution"></div>
+            <div style="margin-top: 20px;">
+              <h4 style="font-size: 0.85rem; margin-bottom: 10px;">Delay Severity Breakdown</h4>
+              <div id="delay-severity"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chart-container">
+          <h3 style="margin-bottom: 15px;">📋 Document Completion by Stage</h3>
+          <canvas id="docs-chart" height="150"></canvas>
+        </div>
+      </div>
+    </div>
+
     <!-- Shared Wrapper -->
     <div id="dashboard-content" style="display: none;">
       <!-- Dealer Dashboard -->
@@ -727,12 +978,32 @@
           <div class="card"><h3>Delayed</h3><div class="value" id="dealer-stat-delayed" style="color: var(--warning-orange);">0</div></div>
         </div>
         
-        <div class="search-container">
-          <input type="text" id="dealer-search" placeholder="Search by Dealer or City..." onkeyup="filterDealers()">
+        <!-- Enhanced Filter Bar -->
+        <div class="filter-bar">
+          <select id="filter-status" onchange="filterDealers()">
+            <option value="all">All Status</option>
+            <option value="active">Active</option>
+            <option value="completed">Completed</option>
+            <option value="delayed">Delayed</option>
+            <option value="dropped">Dropped</option>
+          </select>
+          <select id="filter-stage" onchange="filterDealers()">
+            <option value="all">All Stages</option>
+            <option value="Interested">Interested</option>
+            <option value="Shortlisted">Shortlisted</option>
+            <option value="CFT Selected">CFT Selected</option>
+            <option value="Documentation">Documentation</option>
+            <option value="Onboarded">Onboarded</option>
+          </select>
+          <select id="filter-rm" onchange="filterDealers()">
+            <option value="all">All RMs</option>
+          </select>
+          <input type="text" id="dealer-search" placeholder="Search by name or city..." onkeyup="filterDealers()">
         </div>
         
-        <div class="controls" style="margin-bottom: 20px;">
+        <div class="controls" style="margin-bottom: 20px; flex-wrap: wrap;">
           <button class="btn btn-add admin-only" id="add-dealer-btn">+ Add New Dealer</button>
+          <button class="btn btn-add admin-only" onclick="openBulkImportModal()">📁 Bulk Import</button>
         </div>
 
         <div class="stats-grid" style="margin-top: -10px;">
@@ -746,7 +1017,7 @@
           <div id="rm-analytics-body" style="margin-top:10px; font-size:.9rem; color:#444;"></div>
         </div>
 
-        <div id="dealer-grid" class="stats-grid" style="grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));"></div>
+        <div id="dealer-grid" class="stats-grid" style="grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));"></div>
       </div>
 
       <!-- Dealer Detail View -->
@@ -778,9 +1049,10 @@
               <div class="progress-info"><span>Documentation Progress</span><span id="doc-progress-pct">0%</span></div>
               <div class="progress-bar-container"><div class="progress-bar-fill" id="doc-progress-bar"></div></div>
             </div>
-            <div style="margin-top: 20px;" class="admin-only">
+            <div style="margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap;" class="admin-only">
               <button class="btn btn-delete" onclick="dropDealer('backout')">Mark as Backout</button>
               <button class="btn btn-delete" style="background: #fff5f5;" onclick="dropDealer('cftRejected')">CFT Rejected</button>
+              <button class="btn btn-delete" onclick="deleteDealerFromDetail()">🗑️ Delete Permanently</button>
             </div>
           </div>
         </div>
@@ -824,9 +1096,9 @@
 
       <div class="table-section">
         <div class="table-responsive">
-          <table>
+           <table>
             <thead>
-              <tr>
+               <tr>
                 <th width="15%">Phase</th>
                 <th width="5%">Plan</th>
                 <th width="10%">Target Date</th>
@@ -836,10 +1108,10 @@
                 <th width="10%">Planned Comp</th>
                 <th width="10%">Projected Comp</th>
                 <th>Delay Notes</th>
-              </tr>
+               </tr>
             </thead>
             <tbody id="tracker-body"></tbody>
-          </table>
+           </table>
         </div>
       </div>
 
@@ -850,7 +1122,11 @@
     </div>
   </div>
 
+  <div id="toast-container"></div>
+
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <script type="module">
     // =============== IMPORTS ===============
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -882,7 +1158,15 @@
     const db = getFirestore(app);
     window.db = db;
 
-    // User credentials (should be moved to backend in production)
+    // EmailJS Configuration
+    emailjs.init("oLdnaI84a1fhwmZr2");
+    
+    const EMAILJS_CONFIG = {
+      serviceId: "service_xg1cj6m",
+      templateId: "template_ew3tqbg"
+    };
+
+    // User credentials
     const USERS = {
       'AISteam': { pass: 'AIS@005', role: 'viewer' },
       'channeladmin': { pass: 'Shivji$01', role: 'admin' }
@@ -915,7 +1199,32 @@
       CFT_to_Onboarding: 7
     };
 
+    // Filter state
+    let filterState = {
+      status: 'all',
+      stage: 'all',
+      rm: 'all'
+    };
+    
+    // Chart instances
+    let funnelChart = null;
+    let trendChart = null;
+    let docsChart = null;
+
     // =============== HELPER FUNCTIONS ===============
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = `toast`;
+      const bgColor = type === 'success' ? '#27ae60' : type === 'error' ? '#e74c3c' : type === 'warning' ? '#f39c12' : '#3498db';
+      toast.innerHTML = `<div style="background:${bgColor}; color:white; padding:12px 20px; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.1);">${message}</div>`;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
     function normalizeDocs(docObj = {}) {
       const out = {};
       for (const key of DOC_KEYS) {
@@ -981,16 +1290,6 @@
       }
     }
 
-    function showError(element, message) {
-      if (element) {
-        element.textContent = message;
-        element.style.display = 'block';
-        setTimeout(() => {
-          element.style.display = 'none';
-        }, 5000);
-      }
-    }
-
     // =============== STATE MANAGEMENT ===============
     const state = {
       showrooms: [],
@@ -1004,47 +1303,43 @@
     };
 
     // =============== AUTHENTICATION ===============
-window.handleLogin = async () => {
-  const u = document.getElementById('username').value.trim();
-  const p = document.getElementById('password').value;
-  const loginError = document.getElementById('login-error');
-  const loginBtn = document.querySelector('#login-screen .btn-add');
+    window.handleLogin = async () => {
+      const u = document.getElementById('username').value.trim();
+      const p = document.getElementById('password').value;
+      const loginError = document.getElementById('login-error');
+      const loginBtn = document.querySelector('#login-screen .btn-add');
 
-  if (USERS[u] && USERS[u].pass === p) {
-    try {
-      // Disable button and show loading
-      loginBtn.disabled = true;
-      loginBtn.textContent = 'Logging in...';
-      loginError.style.display = 'none';
-      
-      // Store role first
-      sessionStorage.setItem("ais_user_role", USERS[u].role);
-      
-      // Try anonymous auth
-      const auth = getAuth();
-      await signInAnonymously(auth);
-      
-      // Small delay to ensure Firebase state is ready
-      setTimeout(() => {
-        checkAuth();
-      }, 100);
-      
-    } catch (e) {
-      console.error('Anonymous sign-in failed:', e);
-      // If anonymous auth fails, still allow login for demo purposes
-      // This ensures the app works even if Firebase auth has issues
-      sessionStorage.setItem("ais_user_role", USERS[u].role);
-      setTimeout(() => {
-        checkAuth();
-      }, 100);
-    } finally {
-      loginBtn.disabled = false;
-      loginBtn.textContent = 'Login';
-    }
-  } else {
-    showError(loginError, 'Invalid username or password');
-  }
-};
+      if (USERS[u] && USERS[u].pass === p) {
+        try {
+          loginBtn.disabled = true;
+          loginBtn.textContent = 'Logging in...';
+          loginError.style.display = 'none';
+          
+          sessionStorage.setItem("ais_user_role", USERS[u].role);
+          
+          const auth = getAuth();
+          await signInAnonymously(auth);
+          
+          setTimeout(() => {
+            checkAuth();
+          }, 100);
+          
+        } catch (e) {
+          console.error('Anonymous sign-in failed:', e);
+          sessionStorage.setItem("ais_user_role", USERS[u].role);
+          setTimeout(() => {
+            checkAuth();
+          }, 100);
+        } finally {
+          loginBtn.disabled = false;
+          loginBtn.textContent = 'Login';
+        }
+      } else {
+        showToast('Invalid username or password', 'error');
+        loginError.style.display = 'block';
+      }
+    };
+    
     window.logout = () => { 
       sessionStorage.removeItem("ais_user_role"); 
       if (state.unsubscribeDealers) state.unsubscribeDealers();
@@ -1053,23 +1348,22 @@ window.handleLogin = async () => {
     };
 
     function checkAuth() {
-  const role = sessionStorage.getItem("ais_user_role");
-  const loginScreen = document.getElementById('login-screen');
-  const mainContainer = document.getElementById('main-container');
-  
-  if (role && loginScreen && mainContainer) {
-    // Only proceed if not already shown
-    if (loginScreen.style.display !== 'none') {
-      loginScreen.style.display = 'none';
-      mainContainer.style.display = 'block';
-      applyPermissions(role);
-      init();
+      const role = sessionStorage.getItem("ais_user_role");
+      const loginScreen = document.getElementById('login-screen');
+      const mainContainer = document.getElementById('main-container');
+      
+      if (role && loginScreen && mainContainer) {
+        if (loginScreen.style.display !== 'none') {
+          loginScreen.style.display = 'none';
+          mainContainer.style.display = 'block';
+          applyPermissions(role);
+          init();
+        }
+      } else {
+        if (loginScreen) loginScreen.style.display = 'flex';
+        if (mainContainer) mainContainer.style.display = 'none';
+      }
     }
-  } else {
-    if (loginScreen) loginScreen.style.display = 'flex';
-    if (mainContainer) mainContainer.style.display = 'none';
-  }
-}
 
     function applyPermissions(role) {
       const isAdmin = (role === 'admin');
@@ -1090,7 +1384,6 @@ window.handleLogin = async () => {
 
     // =============== DATA INITIALIZATION ===============
     function init() {
-      // Subscribe to showrooms
       state.unsubscribeShowrooms = onSnapshot(
         collection(db, "showrooms"),
         (snapshot) => {
@@ -1103,7 +1396,7 @@ window.handleLogin = async () => {
         },
         (error) => {
           console.error("Showroom sync error:", error);
-          showError(document.getElementById('master-grid'), 'Failed to load showrooms. Please refresh.');
+          showToast('Failed to load showrooms', 'error');
         }
       );
     }
@@ -1117,23 +1410,24 @@ window.handleLogin = async () => {
         collection(db, "dealerOnboarding"),
         (snapshot) => {
           state.dealers = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+          const rmSelect = document.getElementById('filter-rm');
+          if (rmSelect) {
+            const rms = [...new Set(state.dealers.map(d => d.rm || 'Unassigned'))];
+            const currentValue = rmSelect.value;
+            rmSelect.innerHTML = '<option value="all">All RMs</option>' + rms.map(rm => `<option value="${rm}">${rm}</option>`).join('');
+            if (currentValue !== 'all' && rms.includes(currentValue)) rmSelect.value = currentValue;
+            else rmSelect.value = 'all';
+          }
           if (state.view === 'dealer') {
             renderDealerDashboard();
+          }
+          if (document.getElementById('analytics-dashboard-view')?.style.display !== 'none') {
+            renderAnalyticsCharts();
           }
         },
         (error) => {
           console.error('Dealer stream error:', error);
-          const grid = document.getElementById('dealer-grid');
-          if (grid) {
-            grid.innerHTML = `
-              <div class="card" style="grid-column: 1/-1; border-left:4px solid var(--delay-red); text-align:left;">
-                <h4 style="color:var(--delay-red); margin-bottom:6px;">⚠️ Can't load dealers</h4>
-                <div style="color:#666; font-size:.9rem;">
-                  ${error?.message || 'Network error. Please check your connection.'}<br>
-                  <button class="btn btn-print" style="margin-top:10px;" onclick="location.reload()">Retry</button>
-                </div>
-              </div>`;
-          }
+          showToast('Failed to load dealers', 'error');
         }
       );
     }
@@ -1148,116 +1442,511 @@ window.handleLogin = async () => {
       }
     }
 
-    // =============== VIEW SWITCHERS ===============
-    window.showMasterDashboard = () => {
-  state.view = 'showroom';
-  state.currentIndex = -1;
-  
-  const addMainBtn = document.getElementById('add-main-btn');
-  addMainBtn.innerText = '+ Add Showroom';
-  addMainBtn.onclick = () => openModal();
-  addMainBtn.style.display = sessionStorage.getItem("ais_user_role") === 'admin' ? 'inline-flex' : 'none';
-  
-  document.getElementById('dealer-dashboard-view').style.display = 'none';
-  document.getElementById('dealer-detail-view').style.display = 'none';
-  document.getElementById('master-dashboard-view').style.display = 'block';
-  document.getElementById('dashboard-content').style.display = 'none';
-  
-  // In showroom master view: Show Dealer Onboarding button, hide Showroom Dashboard button
-  document.getElementById('nav-dealer-btn').style.display = 'inline-flex';
-  document.getElementById('nav-showroom-btn').style.display = 'none';
-  
-  document.getElementById('back-to-dash-btn').style.display = 'none';
-  document.getElementById('showroom-selector').style.display = 'none';
-  document.getElementById('header-title').innerHTML = 'AIS <span>Command Center</span>';
-  
-  renderMasterGrid();
-};
+    // =============== ANALYTICS FUNCTIONS ===============
+    window.showAnalyticsDashboard = () => {
+      document.getElementById('master-dashboard-view').style.display = 'none';
+      document.getElementById('analytics-dashboard-view').style.display = 'block';
+      document.getElementById('dashboard-content').style.display = 'none';
+      document.getElementById('back-to-dash-btn').style.display = 'inline-flex';
+      document.getElementById('nav-dealer-btn').style.display = 'none';
+      document.getElementById('nav-showroom-btn').style.display = 'none';
+      document.getElementById('add-main-btn').style.display = 'none';
+      document.getElementById('header-title').innerHTML = 'AIS <span>Analytics Dashboard</span>';
+      
+      const backBtn = document.getElementById('back-to-dash-btn');
+      backBtn.onclick = () => {
+        document.getElementById('analytics-dashboard-view').style.display = 'none';
+        document.getElementById('master-dashboard-view').style.display = 'block';
+        document.getElementById('back-to-dash-btn').style.display = 'none';
+        document.getElementById('nav-dealer-btn').style.display = 'inline-flex';
+        document.getElementById('nav-showroom-btn').style.display = 'none';
+        document.getElementById('add-main-btn').style.display = sessionStorage.getItem("ais_user_role") === 'admin' ? 'inline-flex' : 'none';
+        document.getElementById('header-title').innerHTML = 'AIS <span>Command Center</span>';
+        renderMasterGrid();
+      };
+      
+      renderAnalyticsCharts();
+    };
+    
+    function renderAnalyticsCharts() {
+      // Calculate overall metrics
+      const totalShowrooms = state.showrooms.length;
+      const completedShowrooms = state.showrooms.filter(s => calculateShowroomStats(s).pct === 100).length;
+      const avgVelocity = totalShowrooms > 0 ? Math.round((completedShowrooms / totalShowrooms) * 100) : 0;
+      
+      const totalDealers = state.dealers.length;
+      const onboardedDealers = state.dealers.filter(d => d.status === 'Completed' || autoDetectStage(d) === 'Onboarded').length;
+      const conversionRate = totalDealers > 0 ? Math.round((onboardedDealers / totalDealers) * 100) : 0;
+      
+      const onboardedWithDates = state.dealers.filter(d => d.stageLog?.Onboarded && d.startDate);
+      const avgOnboardTime = onboardedWithDates.length > 0 
+        ? Math.round(onboardedWithDates.reduce((sum, d) => {
+            const start = new Date(d.startDate);
+            const onboard = new Date(d.stageLog.Onboarded);
+            return sum + Math.floor((onboard - start) / 86400000);
+          }, 0) / onboardedWithDates.length)
+        : 0;
+      
+      const delayedProjects = state.dealers.filter(d => {
+        if (isDropped(d) || d.status === 'Completed') return false;
+        const timeline = calculateDealerTimeline(d);
+        return timeline.isDelayed;
+      }).length + state.showrooms.filter(s => calculateShowroomStats(s).avgDelay > 0).length;
+      
+      document.getElementById('analytics-velocity').innerText = avgVelocity + '%';
+      document.getElementById('analytics-conversion').innerText = conversionRate + '%';
+      document.getElementById('analytics-onboard-time').innerText = avgOnboardTime;
+      document.getElementById('analytics-delayed-count').innerText = delayedProjects;
+      
+      // Funnel Chart Data
+      const stageCounts = DEALER_STAGES.map(stage => {
+        return state.dealers.filter(d => (d.currentStage || autoDetectStage(d)) === stage).length;
+      });
+      
+      if (funnelChart) funnelChart.destroy();
+      const funnelCtx = document.getElementById('funnel-chart').getContext('2d');
+      funnelChart = new Chart(funnelCtx, {
+        type: 'bar',
+        data: {
+          labels: DEALER_STAGES,
+          datasets: [{
+            label: 'Number of Dealers',
+            data: stageCounts,
+            backgroundColor: 'rgba(0, 84, 166, 0.7)',
+            borderColor: '#0054A6',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          plugins: {
+            legend: { position: 'top' }
+          }
+        }
+      });
+      
+      // Trend Chart (Showroom Completion)
+      const showroomCompletionData = state.showrooms.map(s => calculateShowroomStats(s).pct);
+      if (trendChart) trendChart.destroy();
+      const trendCtx = document.getElementById('trend-chart').getContext('2d');
+      trendChart = new Chart(trendCtx, {
+        type: 'line',
+        data: {
+          labels: state.showrooms.map((s, i) => s.name?.substring(0, 15) || `Site ${i+1}`),
+          datasets: [{
+            label: 'Completion %',
+            data: showroomCompletionData,
+            borderColor: '#27ae60',
+            backgroundColor: 'rgba(39, 174, 96, 0.1)',
+            fill: true,
+            tension: 0.4
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          plugins: {
+            legend: { position: 'top' }
+          }
+        }
+      });
+      
+      // RM Leaderboard
+      const rmPerformance = new Map();
+      state.dealers.forEach(d => {
+        const rm = d.rm || 'Unassigned';
+        if (!rmPerformance.has(rm)) {
+          rmPerformance.set(rm, { total: 0, completed: 0, dropped: 0 });
+        }
+        const stats = rmPerformance.get(rm);
+        stats.total++;
+        if (d.status === 'Completed') stats.completed++;
+        if (isDropped(d)) stats.dropped++;
+      });
+      
+      const sortedRM = Array.from(rmPerformance.entries())
+        .map(([rm, stats]) => ({
+          rm,
+          successRate: stats.total > 0 ? Math.round((stats.completed / stats.total) * 100) : 0,
+          total: stats.total,
+          completed: stats.completed,
+          dropped: stats.dropped
+        }))
+        .sort((a, b) => b.successRate - a.successRate);
+      
+      const rmLeaderboard = document.getElementById('rm-leaderboard');
+      rmLeaderboard.innerHTML = sortedRM.map(rm => `
+        <div class="rm-item">
+          <span class="rm-name">${escapeHtml(rm.rm)}</span>
+          <div class="rm-stats">
+            <span>Total: ${rm.total}</span>
+            <span>✅ ${rm.completed}</span>
+            <span>❌ ${rm.dropped}</span>
+            <span class="rm-success-rate">${rm.successRate}%</span>
+          </div>
+        </div>
+      `).join('');
+      
+      // Delay Distribution
+      const delayRanges = { '0-3 days': 0, '4-7 days': 0, '8-14 days': 0, '15+ days': 0 };
+      state.dealers.forEach(d => {
+        if (isDropped(d) || d.status === 'Completed') return;
+        const timeline = calculateDealerTimeline(d);
+        if (timeline.delayDays <= 3) delayRanges['0-3 days']++;
+        else if (timeline.delayDays <= 7) delayRanges['4-7 days']++;
+        else if (timeline.delayDays <= 14) delayRanges['8-14 days']++;
+        else if (timeline.delayDays > 14) delayRanges['15+ days']++;
+      });
+      
+      const delayDist = document.getElementById('delay-distribution');
+      delayDist.innerHTML = `<div class="delay-distribution">
+        ${Object.entries(delayRanges).map(([range, count]) => `
+          <div class="delay-bar">
+            <div class="delay-fill" style="width: ${Math.min(100, count * 20)}%">${count}</div>
+          </div>
+          <div style="font-size:0.7rem; text-align:center;">${range}</div>
+        `).join('')}
+      </div>`;
+      
+      // Delay Severity
+      const severityHtml = `
+        <div style="display: flex; gap: 15px; justify-content: space-around;">
+          <div><span style="color: var(--warning-orange);">⚠️ Mild (0-3d):</span> ${delayRanges['0-3 days']}</div>
+          <div><span style="color: var(--warning-orange);">⚠️ Moderate (4-7d):</span> ${delayRanges['4-7 days']}</div>
+          <div><span style="color: var(--delay-red);">🔴 Severe (8-14d):</span> ${delayRanges['8-14 days']}</div>
+          <div><span style="color: var(--delay-red);">🔴 Critical (15+d):</span> ${delayRanges['15+ days']}</div>
+        </div>
+      `;
+      document.getElementById('delay-severity').innerHTML = severityHtml;
+      
+      // Document Completion by Stage
+      const stageDocsProgress = DEALER_STAGES.map(stage => {
+        const dealersInStage = state.dealers.filter(d => (d.currentStage || autoDetectStage(d)) === stage);
+        const avgProgress = dealersInStage.length > 0 
+          ? Math.round(dealersInStage.reduce((sum, d) => sum + docProgress(d.documents).pct, 0) / dealersInStage.length)
+          : 0;
+        return avgProgress;
+      });
+      
+      if (docsChart) docsChart.destroy();
+      const docsCtx = document.getElementById('docs-chart').getContext('2d');
+      docsChart = new Chart(docsCtx, {
+        type: 'bar',
+        data: {
+          labels: DEALER_STAGES,
+          datasets: [{
+            label: 'Avg Document Completion %',
+            data: stageDocsProgress,
+            backgroundColor: 'rgba(52, 152, 219, 0.7)',
+            borderColor: '#3498db',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          plugins: {
+            legend: { position: 'top' }
+          },
+          scales: {
+            y: { max: 100, title: { display: true, text: 'Completion %' } }
+          }
+        }
+      });
+    }
 
-    window.initDealerModule = () => {
-  state.view = 'dealer';
-  state.currentDealerId = null;
+    // =============== EMAIL FUNCTIONS ===============
+    window.openEmailModal = () => {
+      document.getElementById('email-report-modal').style.display = 'flex';
+    };
+    
+    window.closeEmailModal = () => {
+      document.getElementById('email-report-modal').style.display = 'none';
+      document.getElementById('email-status').innerHTML = '';
+      document.getElementById('email-recipient').value = '';
+      document.getElementById('email-notes').value = '';
+    };
+    
+window.sendEmailReport = async () => {
+  const recipient = document.getElementById('email-recipient').value.trim();
+  const reportType = document.getElementById('email-report-type').value;
+  const notes = document.getElementById('email-notes').value;
+  const sendBtn = document.querySelector('#email-report-modal .btn-add');
+  const statusDiv = document.getElementById('email-status');
   
-  const addMainBtn = document.getElementById('add-main-btn');
-  addMainBtn.innerText = '+ Add Dealer';
-  addMainBtn.onclick = () => openDealerModal();
-  addMainBtn.style.display = sessionStorage.getItem("ais_user_role") === 'admin' ? 'inline-flex' : 'none';
-  
-  document.getElementById('master-dashboard-view').style.display = 'none';
-  document.getElementById('dashboard-content').style.display = 'block';
-  document.getElementById('dealer-dashboard-view').style.display = 'block';
-  document.getElementById('dealer-detail-view').style.display = 'none';
-  
-  // In dealer list view: Show Showroom Dashboard button, hide Dealer Onboarding button
-  document.getElementById('nav-dealer-btn').style.display = 'none';
-  document.getElementById('nav-showroom-btn').style.display = 'inline-flex';
-  
-  document.getElementById('back-to-dash-btn').style.display = 'none';
-  document.getElementById('showroom-selector').style.display = 'none';
-  
-  // HIDE SHOWROOM-SPECIFIC SECTIONS
-  const showroomStatsGrid = document.querySelector('#dashboard-content .stats-grid:first-of-type');
-  if (showroomStatsGrid) {
-    showroomStatsGrid.style.display = 'none';
-  }
-  
-  const projectSettings = document.querySelector('.project-settings');
-  if (projectSettings) {
-    projectSettings.style.display = 'none';
-  }
-  
-  const tableSection = document.querySelector('.table-section');
-  if (tableSection) {
-    tableSection.style.display = 'none';
-  }
-  
-  const progressSection = document.querySelector('#dashboard-content .progress-section:last-of-type');
-  if (progressSection) {
-    progressSection.style.display = 'none';
-  }
-  
-  document.getElementById('header-title').innerHTML = 'AIS <span>Dealer Onboarding</span>';
-  
-  loadDealersRealtime();
-};
-
-    window.openShowroom = (idx) => {
-  if (!state.showrooms[idx]) {
-    showError(document.getElementById('master-grid'), 'Showroom not found');
+  if (!recipient) {
+    statusDiv.innerHTML = '<span style="color: var(--warning-orange);">Please enter recipient email</span>';
     return;
   }
   
-  state.currentIndex = idx;
-  document.getElementById('master-dashboard-view').style.display = 'none';
-  document.getElementById('dashboard-content').style.display = 'block';
-  document.getElementById('back-to-dash-btn').style.display = 'inline-flex';
-  document.getElementById('showroom-selector').style.display = 'inline-block';
-  document.getElementById('showroom-selector').value = idx;
-  document.getElementById('header-title').innerHTML = `AIS <span>${state.showrooms[idx].name}</span>`;
+  showLoading(sendBtn);
+  statusDiv.innerHTML = '<span>Sending report...</span>';
   
-  // SHOW SHOWROOM-SPECIFIC SECTIONS
-  const showroomStatsGrid = document.querySelector('#dashboard-content .stats-grid:first-of-type');
-  if (showroomStatsGrid) {
-    showroomStatsGrid.style.display = 'grid';
+  try {
+    // Calculate metrics
+    const totalShowrooms = state.showrooms.length;
+    const completedShowrooms = state.showrooms.filter(s => calculateShowroomStats(s).pct === 100).length;
+    const avgCompletion = totalShowrooms > 0 ? Math.round(state.showrooms.reduce((sum, s) => sum + calculateShowroomStats(s).pct, 0) / totalShowrooms) : 0;
+    const delayedShowrooms = state.showrooms.filter(s => calculateShowroomStats(s).avgDelay > 0).length;
+    
+    const totalDealers = state.dealers.length;
+    const activeDealers = state.dealers.filter(d => d.status === 'Active' && !isDropped(d)).length;
+    const onboardedDealers = state.dealers.filter(d => d.status === 'Completed').length;
+    const delayedDealers = state.dealers.filter(d => {
+      if (isDropped(d) || d.status === 'Completed') return false;
+      return calculateDealerTimeline(d).isDelayed;
+    }).length;
+    
+    // Create delayed list HTML
+    let delayedList = '';
+    if (reportType === 'delays' || reportType === 'full') {
+      const delayedProjects = [];
+      
+      state.showrooms.forEach(s => {
+        const stats = calculateShowroomStats(s);
+        if (stats.avgDelay > 0) {
+          delayedProjects.push(`<li>🏢 ${s.name}: ${stats.avgDelay} days delay (${stats.pct}% complete)</li>`);
+        }
+      });
+      
+      state.dealers.forEach(d => {
+        if (!isDropped(d) && d.status !== 'Completed') {
+          const timeline = calculateDealerTimeline(d);
+          if (timeline.isDelayed) {
+            const stage = d.currentStage || autoDetectStage(d);
+            delayedProjects.push(`<li>👤 ${d.name} (${d.rm || 'No RM'}): ${timeline.delayDays} days delay at ${stage} stage</li>`);
+          }
+        }
+      });
+      
+      if (delayedProjects.length > 0) {
+        delayedList = delayedProjects.join('');
+      }
+    }
+    
+    // Send email with individual variables
+    const templateParams = {
+      to_email: recipient,
+      date: new Date().toLocaleString(),
+      report_type: reportType === 'summary' ? 'Daily Summary' : reportType === 'delays' ? 'Delay Alerts' : 'Full Dashboard Report',
+      notes: notes || 'No additional notes',
+      total_showrooms: totalShowrooms,
+      completed_showrooms: completedShowrooms,
+      avg_completion: avgCompletion,
+      delayed_showrooms: delayedShowrooms,
+      total_dealers: totalDealers,
+      active_dealers: activeDealers,
+      onboarded_dealers: onboardedDealers,
+      delayed_dealers: delayedDealers,
+      delayed_list: delayedList
+    };
+    
+    console.log('Sending email with params:', templateParams);
+    
+    const response = await emailjs.send(
+      EMAILJS_CONFIG.serviceId, 
+      EMAILJS_CONFIG.templateId, 
+      templateParams
+    );
+    
+    console.log('Email send response:', response);
+    
+    statusDiv.innerHTML = '<span style="color: var(--success-green);">✅ Report sent successfully!</span>';
+    showToast('Email report sent successfully', 'success');
+    setTimeout(() => closeEmailModal(), 2000);
+  } catch (error) {
+    console.error('Email send failed:', error);
+    statusDiv.innerHTML = `<span style="color: var(--delay-red);">❌ Failed to send email: ${error.text || error.message || 'Unknown error'}</span>`;
+    showToast(`Failed to send email: ${error.text || error.message || 'Please check EmailJS setup'}`, 'error');
+  } finally {
+    hideLoading(sendBtn);
   }
-  
-  const projectSettings = document.querySelector('.project-settings');
-  if (projectSettings) {
-    projectSettings.style.display = 'flex';
-  }
-  
-  const tableSection = document.querySelector('.table-section');
-  if (tableSection) {
-    tableSection.style.display = 'block';
-  }
-  
-  const progressSection = document.querySelector('#dashboard-content .progress-section:last-of-type');
-  if (progressSection) {
-    progressSection.style.display = 'block';
-  }
-  
-  renderDashboard();
 };
+
+    // =============== BACKUP FUNCTION ===============
+    window.backupData = async () => {
+      const backup = {
+        showrooms: state.showrooms,
+        dealers: state.dealers,
+        exportedAt: new Date().toISOString()
+      };
+      
+      const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `ais_backup_${new Date().toISOString().slice(0,19)}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('Backup downloaded successfully', 'success');
+    };
+
+    // =============== BULK IMPORT ===============
+    window.openBulkImportModal = () => {
+      document.getElementById('bulk-import-modal').style.display = 'flex';
+    };
+    
+    window.closeBulkImportModal = () => {
+      document.getElementById('bulk-import-modal').style.display = 'none';
+      document.getElementById('bulk-import-status').innerHTML = '';
+      document.getElementById('bulk-import-file').value = '';
+    };
+    
+    window.bulkImportDealers = async () => {
+      const fileInput = document.getElementById('bulk-import-file');
+      const statusDiv = document.getElementById('bulk-import-status');
+      
+      if (!fileInput.files.length) {
+        statusDiv.innerHTML = '<span style="color: var(--warning-orange);">Please select a file</span>';
+        return;
+      }
+      
+      const file = fileInput.files[0];
+      const reader = new FileReader();
+      
+      reader.onload = async (e) => {
+        try {
+          const data = new Uint8Array(e.target.result);
+          const workbook = XLSX.read(data, { type: 'array' });
+          const sheet = workbook.Sheets[workbook.SheetNames[0]];
+          const rows = XLSX.utils.sheet_to_json(sheet);
+          
+          let success = 0, failed = 0;
+          statusDiv.innerHTML = '<span>Importing... please wait</span>';
+          
+          for (const row of rows) {
+            try {
+              const dealer = { 
+                name: row.Name || row.name || '',
+                city: row.City || row.city || '',
+                rm: row.RM || row.rm || '',
+                startDate: row['Start Date'] || row.startDate || '',
+                currentStage: 'Interested', 
+                status: 'Active', 
+                documents: {}, 
+                createdAt: new Date().toISOString() 
+              };
+              
+              if (dealer.name && dealer.city && dealer.rm && dealer.startDate) {
+                await addDoc(collection(db, "dealerOnboarding"), dealer);
+                success++;
+              } else {
+                failed++;
+              }
+            } catch (err) {
+              failed++;
+              console.error('Import failed for row:', row, err);
+            }
+          }
+          
+          statusDiv.innerHTML = `<span style="color: var(--success-green);">✅ Imported ${success} dealers, ${failed} failed</span>`;
+          showToast(`Imported ${success} dealers`, 'success');
+          setTimeout(() => closeBulkImportModal(), 2000);
+          renderDealerDashboard();
+        } catch (err) {
+          console.error('Bulk import error:', err);
+          statusDiv.innerHTML = '<span style="color: var(--delay-red);">Failed to parse file. Please check format.</span>';
+        }
+      };
+      
+      reader.readAsArrayBuffer(file);
+    };
+
+    // =============== VIEW SWITCHERS ===============
+    window.showMasterDashboard = () => {
+      state.view = 'showroom';
+      state.currentIndex = -1;
+      
+      const addMainBtn = document.getElementById('add-main-btn');
+      addMainBtn.innerText = '+ Add Showroom';
+      addMainBtn.onclick = () => openModal();
+      addMainBtn.style.display = sessionStorage.getItem("ais_user_role") === 'admin' ? 'inline-flex' : 'none';
+      
+      document.getElementById('dealer-dashboard-view').style.display = 'none';
+      document.getElementById('dealer-detail-view').style.display = 'none';
+      document.getElementById('master-dashboard-view').style.display = 'block';
+      document.getElementById('dashboard-content').style.display = 'none';
+      document.getElementById('analytics-dashboard-view').style.display = 'none';
+      
+      document.getElementById('nav-dealer-btn').style.display = 'inline-flex';
+      document.getElementById('nav-showroom-btn').style.display = 'none';
+      
+      document.getElementById('back-to-dash-btn').style.display = 'none';
+      document.getElementById('showroom-selector').style.display = 'none';
+      document.getElementById('header-title').innerHTML = 'AIS <span>Command Center</span>';
+      
+      renderMasterGrid();
+    };
+
+    window.initDealerModule = () => {
+      state.view = 'dealer';
+      state.currentDealerId = null;
+      filterState = { status: 'all', stage: 'all', rm: 'all' };
+      
+      const addMainBtn = document.getElementById('add-main-btn');
+      addMainBtn.innerText = '+ Add Dealer';
+      addMainBtn.onclick = () => openDealerModal();
+      addMainBtn.style.display = sessionStorage.getItem("ais_user_role") === 'admin' ? 'inline-flex' : 'none';
+      
+      document.getElementById('master-dashboard-view').style.display = 'none';
+      document.getElementById('analytics-dashboard-view').style.display = 'none';
+      document.getElementById('dashboard-content').style.display = 'block';
+      document.getElementById('dealer-dashboard-view').style.display = 'block';
+      document.getElementById('dealer-detail-view').style.display = 'none';
+      
+      document.getElementById('nav-dealer-btn').style.display = 'none';
+      document.getElementById('nav-showroom-btn').style.display = 'inline-flex';
+      
+      document.getElementById('back-to-dash-btn').style.display = 'none';
+      document.getElementById('showroom-selector').style.display = 'none';
+      
+      const showroomStatsGrid = document.querySelector('#dashboard-content .stats-grid:first-of-type');
+      if (showroomStatsGrid) showroomStatsGrid.style.display = 'none';
+      
+      const projectSettings = document.querySelector('.project-settings');
+      if (projectSettings) projectSettings.style.display = 'none';
+      
+      const tableSection = document.querySelector('.table-section');
+      if (tableSection) tableSection.style.display = 'none';
+      
+      const progressSection = document.querySelector('#dashboard-content .progress-section:last-of-type');
+      if (progressSection) progressSection.style.display = 'none';
+      
+      document.getElementById('header-title').innerHTML = 'AIS <span>Dealer Onboarding</span>';
+      
+      loadDealersRealtime();
+    };
+
+    window.openShowroom = (idx) => {
+      if (!state.showrooms[idx]) {
+        showToast('Showroom not found', 'error');
+        return;
+      }
+      
+      state.currentIndex = idx;
+      document.getElementById('master-dashboard-view').style.display = 'none';
+      document.getElementById('analytics-dashboard-view').style.display = 'none';
+      document.getElementById('dashboard-content').style.display = 'block';
+      document.getElementById('back-to-dash-btn').style.display = 'inline-flex';
+      document.getElementById('showroom-selector').style.display = 'inline-block';
+      document.getElementById('showroom-selector').value = idx;
+      document.getElementById('header-title').innerHTML = `AIS <span>${state.showrooms[idx].name}</span>`;
+      
+      const showroomStatsGrid = document.querySelector('#dashboard-content .stats-grid:first-of-type');
+      if (showroomStatsGrid) showroomStatsGrid.style.display = 'grid';
+      
+      const projectSettings = document.querySelector('.project-settings');
+      if (projectSettings) projectSettings.style.display = 'flex';
+      
+      const tableSection = document.querySelector('.table-section');
+      if (tableSection) tableSection.style.display = 'block';
+      
+      const progressSection = document.querySelector('#dashboard-content .progress-section:last-of-type');
+      if (progressSection) progressSection.style.display = 'block';
+      
+      renderDashboard();
+    };
 
     window.switchShowroom = (i) => openShowroom(parseInt(i));
 
@@ -1279,82 +1968,82 @@ window.handleLogin = async () => {
     }
 
     function calculateShowroomStats(s) {
-  if (!s || !s.startDate) return { pct: 0, avgDelay: 0, maxDelay: 0 };
-  const start = new Date(s.startDate + "T00:00:00");
-  const today = new Date(); 
-  today.setHours(0,0,0,0);
-  let totalDelay = 0, comp = 0, delayCount = 0;
+      if (!s || !s.startDate) return { pct: 0, avgDelay: 0 };
+      const start = new Date(s.startDate + "T00:00:00");
+      const today = new Date(); 
+      today.setHours(0,0,0,0);
+      let totalDelay = 0, comp = 0, delayCount = 0;
 
-  if (isNaN(start.getTime())) return { pct: 0, avgDelay: 0, maxDelay: 0 };
+      if (isNaN(start.getTime())) return { pct: 0, avgDelay: 0 };
 
-  PHASES_CONFIG.forEach(p => {
-    const target = new Date(start);
-    target.setDate(start.getDate() + p.days);
+      PHASES_CONFIG.forEach(p => {
+        const target = new Date(start);
+        target.setDate(start.getDate() + p.days);
 
-    const data = (s.data && s.data[p.id]) || {};
-    if (data.actualDate) {
-      comp++;
-      const actual = new Date(data.actualDate + "T00:00:00");
-      const d = Math.ceil((actual - target) / 86400000);
-      if (d > 0) {
-        totalDelay += d;
-        delayCount++;
-      }
-    } else {
-      const d = Math.ceil((today - target) / 86400000);
-      if (d > 0) {
-        totalDelay += d;
-        delayCount++;
-      }
+        const data = (s.data && s.data[p.id]) || {};
+        if (data.actualDate) {
+          comp++;
+          const actual = new Date(data.actualDate + "T00:00:00");
+          const d = Math.ceil((actual - target) / 86400000);
+          if (d > 0) {
+            totalDelay += d;
+            delayCount++;
+          }
+        } else {
+          const d = Math.ceil((today - target) / 86400000);
+          if (d > 0) {
+            totalDelay += d;
+            delayCount++;
+          }
+        }
+      });
+      
+      const avgDelay = delayCount > 0 ? Math.round(totalDelay / delayCount) : 0;
+      const pct = Math.round((comp / PHASES_CONFIG.length) * 100);
+      
+      return { pct, avgDelay };
     }
-  });
-  
-  const avgDelay = delayCount > 0 ? Math.round(totalDelay / delayCount) : 0;
-  const pct = Math.round((comp / PHASES_CONFIG.length) * 100);
-  
-  return { pct, avgDelay, totalDelay };
-}
 
     function renderMasterGrid() {
-  const grid = document.getElementById('master-grid');
-  let totalPct = 0, totalAvgDelay = 0, completedShowrooms = 0, activeDelayCount = 0;
+      const grid = document.getElementById('master-grid');
+      let totalPct = 0, totalAvgDelay = 0, completedShowrooms = 0, activeDelayCount = 0;
 
-  if (!state.showrooms.length) {
-    grid.innerHTML = '<div class="card" style="grid-column: 1/-1;">No showrooms yet. Click "+ Add Showroom" to get started.</div>';
-    document.getElementById('global-total-showrooms').innerText = '0';
-    document.getElementById('global-avg-completion').innerText = '0%';
-    document.getElementById('global-total-delay').innerText = '0';
-    document.getElementById('global-completed-count').innerText = '0';
-    return;
-  }
+      if (!state.showrooms.length) {
+        grid.innerHTML = '<div class="card" style="grid-column: 1/-1;">No showrooms yet. Click "+ Add Showroom" to get started.</div>';
+        document.getElementById('global-total-showrooms').innerText = '0';
+        document.getElementById('global-avg-completion').innerText = '0%';
+        document.getElementById('global-total-delay').innerText = '0';
+        document.getElementById('global-completed-count').innerText = '0';
+        return;
+      }
 
-  grid.innerHTML = state.showrooms.map((s, idx) => {
-    const stats = calculateShowroomStats(s);
-    totalPct += stats.pct;
-    if (stats.avgDelay > 0) {
-      totalAvgDelay += stats.avgDelay;
-      activeDelayCount++;
+      grid.innerHTML = state.showrooms.map((s, idx) => {
+        const stats = calculateShowroomStats(s);
+        totalPct += stats.pct;
+        if (stats.avgDelay > 0) {
+          totalAvgDelay += stats.avgDelay;
+          activeDelayCount++;
+        }
+        if (stats.pct === 100) completedShowrooms++;
+
+        return `<div class="showroom-card">
+          <h4>${escapeHtml(s.name)}</h4>
+          <div class="showroom-meta">
+            <span><strong>Progress:</strong> ${stats.pct}%</span>
+            <span style="color:${stats.avgDelay > 0 ? 'var(--delay-red)' : 'var(--success-green)'}"><strong>Avg Delay:</strong> ${stats.avgDelay}d</span>
+          </div>
+          <div class="progress-bar-container" style="height:6px"><div class="progress-bar-fill" style="width:${stats.pct}%"></div></div>
+          <button class="btn btn-add" onclick="openShowroom(${idx})" style="margin-top:12px; width:100%;">Open Tracker</button>
+        </div>`;
+      }).join('');
+
+      const globalAvgDelay = activeDelayCount > 0 ? Math.round(totalAvgDelay / activeDelayCount) : 0;
+      
+      document.getElementById('global-total-showrooms').innerText = state.showrooms.length;
+      document.getElementById('global-avg-completion').innerText = state.showrooms.length ? Math.round(totalPct / state.showrooms.length) + '%' : '0%';
+      document.getElementById('global-total-delay').innerText = globalAvgDelay;
+      document.getElementById('global-completed-count').innerText = completedShowrooms;
     }
-    if (stats.pct === 100) completedShowrooms++;
-
-    return `<div class="showroom-card">
-      <h4>${escapeHtml(s.name)}</h4>
-      <div class="showroom-meta">
-        <span><strong>Progress:</strong> ${stats.pct}%</span>
-        <span style="color:${stats.avgDelay > 0 ? 'var(--delay-red)' : 'var(--success-green)'}"><strong>Avg Delay:</strong> ${stats.avgDelay}d</span>
-      </div>
-      <div class="progress-bar-container" style="height:6px"><div class="progress-bar-fill" style="width:${stats.pct}%"></div></div>
-      <button class="btn btn-add" onclick="openShowroom(${idx})" style="margin-top:12px; width:100%;">Open Tracker</button>
-    </div>`;
-  }).join('');
-
-  const globalAvgDelay = activeDelayCount > 0 ? Math.round(totalAvgDelay / activeDelayCount) : 0;
-  
-  document.getElementById('global-total-showrooms').innerText = state.showrooms.length;
-  document.getElementById('global-avg-completion').innerText = state.showrooms.length ? Math.round(totalPct / state.showrooms.length) + '%' : '0%';
-  document.getElementById('global-total-delay').innerText = globalAvgDelay; // Now shows average delay
-  document.getElementById('global-completed-count').innerText = completedShowrooms;
-}
 
     function renderDashboard() {
       const showroom = state.showrooms[state.currentIndex];
@@ -1378,7 +2067,7 @@ window.handleLogin = async () => {
           <td>${formatDate(planFinish)}</td>
           <td class="projected-cell">--</td>
           <td><textarea class="admin-editable" ${!isAdmin ? 'disabled' : ''} onchange="savePhaseData('${phase.id}', 'reason', this.value)" placeholder="${isAdmin ? 'Add notes...' : ''}">${escapeHtml(data.reason || '')}</textarea></td>
-        </tr>`;
+         </tr>`;
       }).join('');
       
       calculateDashboard();
@@ -1405,7 +2094,7 @@ window.handleLogin = async () => {
       today.setHours(0,0,0,0);
       const plannedFinish = calculatePlannedDate(showroom.startDate);
 
-      let totalDelay = 0, completedCount = 0, onTimeCount = 0, activeSet = false;
+      let completedCount = 0, onTimeCount = 0, activeSet = false;
 
       PHASES_CONFIG.forEach(phase => {
         const row = document.getElementById(`row-${phase.id}`);
@@ -1442,7 +2131,6 @@ window.handleLogin = async () => {
             statusCell.innerText = 'Late';
             varCell.innerText = `+${diff} Days`;
             varCell.style.color = 'var(--delay-red)';
-            totalDelay += diff;
           }
         } else {
           if (!activeSet) { 
@@ -1457,7 +2145,6 @@ window.handleLogin = async () => {
             statusCell.innerText = 'Overdue';
             varCell.innerText = `+${diff} Days`;
             varCell.style.color = 'var(--delay-red)';
-            totalDelay += diff;
           } else if (diff === 0) {
             statusCell.className = 'status-pill status-upcoming';
             statusCell.innerText = 'Due Today';
@@ -1524,7 +2211,7 @@ window.handleLogin = async () => {
         const projStart = new Date(state.showrooms[state.currentIndex].startDate + "T00:00:00");
         const compDate = new Date(val + "T00:00:00");
         if (compDate < projStart) {
-          alert("Actual completion date cannot be earlier than project start date.");
+          showToast('Actual completion date cannot be earlier than project start date', 'error');
           renderDashboard();
           return;
         }
@@ -1539,7 +2226,7 @@ window.handleLogin = async () => {
         calculateDashboard();
         renderMasterGrid();
       } catch (error) {
-        showError(document.getElementById('tracker-body'), error.message);
+        showToast(error.message, 'error');
       }
     };
 
@@ -1551,8 +2238,9 @@ window.handleLogin = async () => {
         await saveShowroom(state.showrooms[state.currentIndex]);
         calculateDashboard();
         renderMasterGrid();
+        showToast('Start date updated successfully', 'success');
       } catch (error) {
-        showError(document.getElementById('tracker-body'), error.message);
+        showToast(error.message, 'error');
       }
     };
 
@@ -1566,8 +2254,9 @@ window.handleLogin = async () => {
           await saveShowroom(state.showrooms[state.currentIndex]);
           renderDashboard();
           renderMasterGrid();
+          showToast('Showroom progress reset', 'success');
         } catch (error) {
-          showError(document.getElementById('tracker-body'), error.message);
+          showToast(error.message, 'error');
         }
       }
     };
@@ -1585,9 +2274,10 @@ window.handleLogin = async () => {
         state.showrooms.splice(state.currentIndex, 1);
         state.currentIndex = -1;
         showMasterDashboard();
+        showToast(`Deleted "${showroom.name}"`, 'success');
       } catch (error) {
         console.error('Delete showroom failed:', error);
-        alert('Failed to delete showroom. Please try again.');
+        showToast('Failed to delete showroom', 'error');
       }
     };
 
@@ -1597,12 +2287,12 @@ window.handleLogin = async () => {
       const addBtn = document.querySelector('#modal-overlay .btn.btn-add');
 
       if (!name || !start) {
-        alert('Please fill in both fields.');
+        showToast('Please fill in both fields', 'warning');
         return;
       }
 
       if (state.showrooms.some(sh => sh.name?.toLowerCase() === name.toLowerCase())) {
-        alert('A showroom with this name already exists.');
+        showToast('A showroom with this name already exists', 'warning');
         return;
       }
 
@@ -1626,9 +2316,10 @@ window.handleLogin = async () => {
         
         renderMasterGrid();
         renderShowroomList();
+        showToast(`Showroom "${name}" created`, 'success');
       } catch (error) {
         console.error('Create showroom failed:', error);
-        alert('Failed to create showroom. Please try again.');
+        showToast('Failed to create showroom', 'error');
       } finally {
         hideLoading(addBtn);
       }
@@ -1636,141 +2327,160 @@ window.handleLogin = async () => {
 
     // =============== DEALER RENDERING ===============
     window.filterDealers = () => {
+      filterState.status = document.getElementById('filter-status')?.value || 'all';
+      filterState.stage = document.getElementById('filter-stage')?.value || 'all';
+      filterState.rm = document.getElementById('filter-rm')?.value || 'all';
       state.searchTerm = document.getElementById('dealer-search')?.value?.toLowerCase() || '';
       renderDealerDashboard();
     };
 
-function renderDealerDashboard() {
-  if (state.view !== 'dealer') return;
-  
-  const grid = document.getElementById('dealer-grid');
-  let dealers = state.dealers || [];
-  
-  // Apply search filter
-  if (state.searchTerm) {
-    dealers = dealers.filter(d => 
-      (d.name?.toLowerCase() || '').includes(state.searchTerm) ||
-      (d.city?.toLowerCase() || '').includes(state.searchTerm)
-    );
-  }
-  
-  // Update stats with accurate delay calculation
-  const total = dealers.length;
-  const active = dealers.filter(d => d.status === 'Active' && !isDropped(d)).length;
-  const completed = dealers.filter(d => d.status === 'Completed').length;
-  const dropped = dealers.filter(d => isDropped(d)).length;
-  
-  // Calculate delayed dealers properly
-  const delayedDealers = dealers.filter(d => {
-    if (isDropped(d) || d.status === 'Completed') return false;
-    const timeline = calculateDealerTimeline(d);
-    return timeline.isDelayed;
-  });
-  const delayed = delayedDealers.length;
-  
-  // Calculate total delay days sum for average
-  const totalDelayDays = dealers.reduce((sum, d) => {
-    const timeline = calculateDealerTimeline(d);
-    return sum + (timeline.delayDays || 0);
-  }, 0);
-  const avgDelayDays = dealers.length > 0 ? Math.round(totalDelayDays / dealers.length) : 0;
-  
-  document.getElementById('dealer-stat-total').innerText = total;
-  document.getElementById('dealer-stat-active').innerText = active;
-  document.getElementById('dealer-stat-completed').innerText = completed;
-  document.getElementById('dealer-stat-dropped').innerText = dropped;
-  document.getElementById('dealer-stat-delayed').innerText = delayed;
-  
-  // Calculate average onboarding days (only for onboarded dealers)
-  const onboardedDealers = dealers.filter(d => d.stageLog?.Onboarded);
-  const avgOnboardDays = onboardedDealers.length > 0 
-    ? Math.round(onboardedDealers.reduce((sum, d) => {
-        const start = new Date(d.startDate);
-        const onboard = new Date(d.stageLog.Onboarded);
-        return sum + Math.floor((onboard - start) / 86400000);
-      }, 0) / onboardedDealers.length)
-    : '--';
-  document.getElementById('stat-avg-onboard-days').innerHTML = avgOnboardDays === '--' ? '--' : `${avgOnboardDays} days`;
-  
-  // Update delayed count with average delay
-  document.getElementById('stat-delayed-count').innerHTML = `${delayed} dealers<br><span style="font-size:0.7rem;">Avg delay: ${avgDelayDays}d</span>`;
-  
-  const docsPending = dealers.reduce((sum, d) => sum + (DOC_KEYS.length - docProgress(d.documents).done), 0);
-  document.getElementById('stat-docs-pending').innerHTML = `${docsPending}<br><span style="font-size:0.7rem;">total missing</span>`;
-  
-  // RM Analytics
-  const rmMap = new Map();
-  dealers.forEach(d => {
-    const rm = d.rm || 'Unassigned';
-    if (!rmMap.has(rm)) {
-      rmMap.set(rm, { total: 0, completed: 0, active: 0, dropped: 0 });
+    function renderDealerDashboard() {
+      if (state.view !== 'dealer') return;
+      
+      const grid = document.getElementById('dealer-grid');
+      let dealers = state.dealers || [];
+      
+      if (state.searchTerm) {
+        dealers = dealers.filter(d => 
+          (d.name?.toLowerCase() || '').includes(state.searchTerm) ||
+          (d.city?.toLowerCase() || '').includes(state.searchTerm)
+        );
+      }
+      
+      if (filterState.status !== 'all') {
+        dealers = dealers.filter(d => {
+          if (filterState.status === 'delayed') {
+            const timeline = calculateDealerTimeline(d);
+            return timeline.isDelayed && !isDropped(d) && d.status !== 'Completed';
+          }
+          if (filterState.status === 'dropped') return isDropped(d);
+          if (filterState.status === 'completed') return d.status === 'Completed';
+          if (filterState.status === 'active') return d.status === 'Active' && !isDropped(d);
+          return true;
+        });
+      }
+      
+      if (filterState.stage !== 'all') {
+        dealers = dealers.filter(d => (d.currentStage || autoDetectStage(d)) === filterState.stage);
+      }
+      
+      if (filterState.rm !== 'all') {
+        dealers = dealers.filter(d => (d.rm || 'Unassigned') === filterState.rm);
+      }
+      
+      const total = dealers.length;
+      const active = dealers.filter(d => d.status === 'Active' && !isDropped(d)).length;
+      const completed = dealers.filter(d => d.status === 'Completed').length;
+      const dropped = dealers.filter(d => isDropped(d)).length;
+      
+      const delayedDealers = dealers.filter(d => {
+        if (isDropped(d) || d.status === 'Completed') return false;
+        const timeline = calculateDealerTimeline(d);
+        return timeline.isDelayed;
+      });
+      const delayed = delayedDealers.length;
+      
+      const totalDelayDays = dealers.reduce((sum, d) => {
+        const timeline = calculateDealerTimeline(d);
+        return sum + (timeline.delayDays || 0);
+      }, 0);
+      const avgDelayDays = dealers.length > 0 ? Math.round(totalDelayDays / dealers.length) : 0;
+      
+      document.getElementById('dealer-stat-total').innerText = total;
+      document.getElementById('dealer-stat-active').innerText = active;
+      document.getElementById('dealer-stat-completed').innerText = completed;
+      document.getElementById('dealer-stat-dropped').innerText = dropped;
+      document.getElementById('dealer-stat-delayed').innerText = delayed;
+      
+      const onboardedDealers = dealers.filter(d => d.stageLog?.Onboarded);
+      const avgOnboardDays = onboardedDealers.length > 0 
+        ? Math.round(onboardedDealers.reduce((sum, d) => {
+            const start = new Date(d.startDate);
+            const onboard = new Date(d.stageLog.Onboarded);
+            return sum + Math.floor((onboard - start) / 86400000);
+          }, 0) / onboardedDealers.length)
+        : '--';
+      document.getElementById('stat-avg-onboard-days').innerHTML = avgOnboardDays === '--' ? '--' : `${avgOnboardDays} days`;
+      
+      document.getElementById('stat-delayed-count').innerHTML = `${delayed} dealers<br><span style="font-size:0.7rem;">Avg delay: ${avgDelayDays}d</span>`;
+      
+      const docsPending = dealers.reduce((sum, d) => sum + (DOC_KEYS.length - docProgress(d.documents).done), 0);
+      document.getElementById('stat-docs-pending').innerHTML = `${docsPending}<br><span style="font-size:0.7rem;">total missing</span>`;
+      
+      const rmMap = new Map();
+      dealers.forEach(d => {
+        const rm = d.rm || 'Unassigned';
+        if (!rmMap.has(rm)) {
+          rmMap.set(rm, { total: 0, completed: 0, active: 0, dropped: 0 });
+        }
+        const stats = rmMap.get(rm);
+        stats.total++;
+        if (d.status === 'Completed') stats.completed++;
+        else if (isDropped(d)) stats.dropped++;
+        else if (d.status === 'Active') stats.active++;
+      });
+      
+      const rmHtml = Array.from(rmMap.entries())
+        .map(([rm, stats]) => `<div style="margin-bottom:10px; padding:8px; background:#f8f9fa; border-radius:6px;">
+          <strong>${escapeHtml(rm)}</strong><br>
+          Total: ${stats.total} | Active: ${stats.active} | Completed: ${stats.completed} | Dropped: ${stats.dropped}
+        </div>`).join('');
+      document.getElementById('rm-analytics-body').innerHTML = rmHtml || '<div>No data available</div>';
+      
+      const isAdmin = sessionStorage.getItem("ais_user_role") === 'admin';
+      grid.innerHTML = dealers.map(d => {
+        const status = d.status || 'Active';
+        const badgeClass = isDropped(d) ? 'status-delayed' :
+                          status === 'Completed' ? 'status-ontime' : 'status-upcoming';
+        const stage = d.currentStage || autoDetectStage(d);
+        
+        return `
+          <div class="showroom-card" style="border-left:4px solid var(--primary-blue);">
+            <h4>${escapeHtml(d.name || '')}</h4>
+            <div class="showroom-meta">
+              <span>${escapeHtml(d.city || '')} | RM: ${escapeHtml(d.rm || '')}</span>
+              <span class="status-pill ${badgeClass}">${status}</span>
+            </div>
+            <div style="font-size:.75rem;margin-top:6px;">Stage: <strong>${escapeHtml(stage)}</strong></div>
+            <div class="dealer-card-actions">
+              <button class="btn btn-add" style="flex:1;" onclick="openDealer('${d.id}')">Open</button>
+              ${isAdmin ? `<button class="btn btn-delete" style="flex:1;" onclick="deleteDealer('${d.id}')">🗑️ Delete</button>` : ''}
+            </div>
+          </div>`;
+      }).join('');
+      
+      if (dealers.length === 0) {
+        grid.innerHTML = '<div class="card" style="grid-column: 1/-1;">No dealers found. Click "+ Add Dealer" to get started.</div>';
+      }
     }
-    const stats = rmMap.get(rm);
-    stats.total++;
-    if (d.status === 'Completed') stats.completed++;
-    else if (isDropped(d)) stats.dropped++;
-    else if (d.status === 'Active') stats.active++;
-  });
-  
-  const rmHtml = Array.from(rmMap.entries())
-    .map(([rm, stats]) => `<div style="margin-bottom:10px; padding:8px; background:#f8f9fa; border-radius:6px;">
-      <strong>${escapeHtml(rm)}</strong><br>
-      Total: ${stats.total} | Active: ${stats.active} | Completed: ${stats.completed} | Dropped: ${stats.dropped}
-    </div>`).join('');
-  document.getElementById('rm-analytics-body').innerHTML = rmHtml || '<div>No data available</div>';
-  
-  // Render dealer cards
-  grid.innerHTML = dealers.map(d => {
-    const status = d.status || 'Active';
-    const badgeClass = isDropped(d) ? 'status-delayed' :
-                      status === 'Completed' ? 'status-ontime' : 'status-upcoming';
-    const stage = d.currentStage || autoDetectStage(d);
-    
-    return `
-      <div class="showroom-card" style="border-left:4px solid var(--primary-blue);">
-        <h4>${escapeHtml(d.name || '')}</h4>
-        <div class="showroom-meta">
-          <span>${escapeHtml(d.city || '')} | RM: ${escapeHtml(d.rm || '')}</span>
-          <span class="status-pill ${badgeClass}">${status}</span>
-        </div>
-        <div style="font-size:.75rem;margin-top:6px;">Stage: <strong>${escapeHtml(stage)}</strong></div>
-        <button class="btn btn-add" style="margin-top:10px; width:100%;" onclick="openDealer('${d.id}')">Open Dealer</button>
-      </div>`;
-  }).join('');
-  
-  if (dealers.length === 0) {
-    grid.innerHTML = '<div class="card" style="grid-column: 1/-1;">No dealers found. Click "+ Add Dealer" to get started.</div>';
-  }
-}
 
     function calculateDealerTimeline(d) {
-  if (!d.startDate) return { diffText: "No Date", isDelayed: false, delayDays: 0 };
-  
-  const start = new Date(d.startDate);
-  const today = new Date();
-  const daysElapsed = Math.floor((today - start) / (1000 * 60 * 60 * 24));
-  
-  // Define expected days for each stage (cumulative)
-  const stageTargets = { 
-    'Interested': 0, 
-    'Shortlisted': 3, 
-    'CFT Selected': 8, 
-    'Documentation': 15, 
-    'Onboarded': 22 
-  };
-  
-  const currentStage = d.currentStage || autoDetectStage(d);
-  const targetDays = stageTargets[currentStage] || 0;
-  const delayDays = Math.max(0, daysElapsed - targetDays);
-  const isDelayed = delayDays > 3; // Delayed if more than 3 days behind
-  
-  let diffText = "On Track";
-  if (delayDays > 0) {
-    diffText = `+${delayDays}d Delay`;
-  }
-  
-  return { diffText, isDelayed, delayDays };
-}
+      if (!d.startDate) return { diffText: "No Date", isDelayed: false, delayDays: 0 };
+      
+      const start = new Date(d.startDate);
+      const today = new Date();
+      const daysElapsed = Math.floor((today - start) / (1000 * 60 * 60 * 24));
+      
+      const stageTargets = { 
+        'Interested': 0, 
+        'Shortlisted': 3, 
+        'CFT Selected': 8, 
+        'Documentation': 15, 
+        'Onboarded': 22 
+      };
+      
+      const currentStage = d.currentStage || autoDetectStage(d);
+      const targetDays = stageTargets[currentStage] || 0;
+      const delayDays = Math.max(0, daysElapsed - targetDays);
+      const isDelayed = delayDays > 3;
+      
+      let diffText = "On Track";
+      if (delayDays > 0) {
+        diffText = `+${delayDays}d Delay`;
+      }
+      
+      return { diffText, isDelayed, delayDays };
+    }
 
     function computeTimeline(dealer) {
       const start = dealer.startDate ? new Date(dealer.startDate) : null;
@@ -1875,6 +2585,7 @@ function renderDealerDashboard() {
               status: nextStage === 'Onboarded' ? 'Completed' : 'Active',
               stageLog: logStageChange(dealerNow, nextStage)
             });
+            showToast(`Stage updated to ${nextStage}`, 'info');
           }
           
           updateDocProgressUI({ ...dealerNow, documents: { ...(dealerNow.documents || {}), [key]: val } });
@@ -1893,82 +2604,77 @@ function renderDealerDashboard() {
     }
 
     window.openDealer = (id) => {
-  const dealer = state.dealers.find(d => d.id === id);
-  if (!dealer) {
-    alert('Dealer not found or has been removed.');
-    renderDealerDashboard();
-    return;
-  }
-  
-  state.currentDealerId = id;
+      const dealer = state.dealers.find(d => d.id === id);
+      if (!dealer) {
+        showToast('Dealer not found', 'error');
+        renderDealerDashboard();
+        return;
+      }
+      
+      state.currentDealerId = id;
 
-  // Hide dealer dashboard, show dealer detail
-  document.getElementById('dealer-dashboard-view').style.display = 'none';
-  document.getElementById('dealer-detail-view').style.display = 'block';
-  
-  // Show back button, HIDE ALL navigation buttons
-  document.getElementById('back-to-dash-btn').style.display = 'inline-flex';
-  document.getElementById('nav-dealer-btn').style.display = 'none';
-  document.getElementById('nav-showroom-btn').style.display = 'none';  // Hide Showroom Dashboard button
-  document.getElementById('add-main-btn').style.display = 'none';
-  
-  // Update back button to return to dealer dashboard
-  const backBtn = document.getElementById('back-to-dash-btn');
-  backBtn.onclick = () => {
-    // Return to dealer dashboard
-    document.getElementById('dealer-detail-view').style.display = 'none';
-    document.getElementById('dealer-dashboard-view').style.display = 'block';
-    document.getElementById('back-to-dash-btn').style.display = 'none';
-    
-    // Show ONLY the Showroom Dashboard button in dealer list view (not Dealer Onboarding)
-    document.getElementById('nav-dealer-btn').style.display = 'none';
-    document.getElementById('nav-showroom-btn').style.display = 'inline-flex';  // Show Showroom Dashboard button
-    document.getElementById('add-main-btn').style.display = sessionStorage.getItem("ais_user_role") === 'admin' ? 'inline-flex' : 'none';
-    document.getElementById('header-title').innerHTML = 'AIS <span>Dealer Onboarding</span>';
-    renderDealerDashboard();
-  };
-  
-  document.getElementById('header-title').innerHTML = `AIS <span>Dealer: ${escapeHtml(dealer.name || '')}</span>`;
+      document.getElementById('dealer-dashboard-view').style.display = 'none';
+      document.getElementById('dealer-detail-view').style.display = 'block';
+      
+      document.getElementById('back-to-dash-btn').style.display = 'inline-flex';
+      document.getElementById('nav-dealer-btn').style.display = 'none';
+      document.getElementById('nav-showroom-btn').style.display = 'none';
+      document.getElementById('add-main-btn').style.display = 'none';
+      
+      const backBtn = document.getElementById('back-to-dash-btn');
+      backBtn.onclick = () => {
+        document.getElementById('dealer-detail-view').style.display = 'none';
+        document.getElementById('dealer-dashboard-view').style.display = 'block';
+        document.getElementById('back-to-dash-btn').style.display = 'none';
+        
+        document.getElementById('nav-dealer-btn').style.display = 'none';
+        document.getElementById('nav-showroom-btn').style.display = 'inline-flex';
+        document.getElementById('add-main-btn').style.display = sessionStorage.getItem("ais_user_role") === 'admin' ? 'inline-flex' : 'none';
+        document.getElementById('header-title').innerHTML = 'AIS <span>Dealer Onboarding</span>';
+        renderDealerDashboard();
+      };
+      
+      document.getElementById('header-title').innerHTML = `AIS <span>Dealer: ${escapeHtml(dealer.name || '')}</span>`;
 
-  document.getElementById('det-dealer-name').innerText = dealer.name || '';
-  document.getElementById('det-dealer-meta').innerHTML = `${escapeHtml(dealer.city || '')} | RM: ${escapeHtml(dealer.rm || '')}`;
+      document.getElementById('det-dealer-name').innerText = dealer.name || '';
+      document.getElementById('det-dealer-meta').innerHTML = `${escapeHtml(dealer.city || '')} | RM: ${escapeHtml(dealer.rm || '')}`;
 
-  const statusEl = document.getElementById('det-dealer-status');
-  statusEl.innerText = dealer.status || 'Active';
-  statusEl.className = `status-pill ${
-    isDropped(dealer) ? 'status-delayed'
-      : (dealer.status === 'Completed' ? 'status-ontime' : 'status-upcoming')
-  }`;
+      const statusEl = document.getElementById('det-dealer-status');
+      statusEl.innerText = dealer.status || 'Active';
+      statusEl.className = `status-pill ${
+        isDropped(dealer) ? 'status-delayed'
+          : (dealer.status === 'Completed' ? 'status-ontime' : 'status-upcoming')
+      }`;
 
-  if (!isDropped(dealer)) {
-    const detected = autoDetectStage(dealer);
-    if (detected !== (dealer.currentStage || 'Interested')) {
-      const dRef = doc(db, "dealerOnboarding", id);
-      updateDoc(dRef, {
-        currentStage: detected,
-        status: detected === 'Onboarded' ? 'Completed' : 'Active',
-        stageLog: logStageChange(dealer, detected)
-      });
-    }
-  }
+      if (!isDropped(dealer)) {
+        const detected = autoDetectStage(dealer);
+        if (detected !== (dealer.currentStage || 'Interested')) {
+          const dRef = doc(db, "dealerOnboarding", id);
+          updateDoc(dRef, {
+            currentStage: detected,
+            status: detected === 'Onboarded' ? 'Completed' : 'Active',
+            stageLog: logStageChange(dealer, detected)
+          });
+        }
+      }
 
-  renderDealerStages(dealer);
-  renderDealerDocs(dealer);
+      renderDealerStages(dealer);
+      renderDealerDocs(dealer);
 
-  const t = computeTimeline(dealer);
-  const tHost = document.getElementById('dealer-timeline-status');
-  if (tHost) {
-    const fmt = (obj) => obj == null || obj.actual == null ? '--' :
-      `${obj.delta > 0 ? '+' : ''}${obj.delta ?? 0}d ${obj.delta > 0 ? 'delay' : obj.delta < 0 ? 'faster' : 'on track'}`;
-    tHost.innerHTML = `
-      <div style="font-size:.9rem;color:#555;">
-        <div><strong>Days since Start:</strong> ${t.sinceStart ?? '--'}</div>
-        <div>Interested → Shortlisted: ${fmt(t.stages.Interested_to_Shortlisted)}</div>
-        <div>Shortlisted → CFT: ${fmt(t.stages.Shortlisted_to_CFT)}</div>
-        <div>CFT → Onboarded: ${fmt(t.stages.CFT_to_Onboarding)}</div>
-      </div>`;
-  }
-};
+      const t = computeTimeline(dealer);
+      const tHost = document.getElementById('dealer-timeline-status');
+      if (tHost) {
+        const fmt = (obj) => obj == null || obj.actual == null ? '--' :
+          `${obj.delta > 0 ? '+' : ''}${obj.delta ?? 0}d ${obj.delta > 0 ? 'delay' : obj.delta < 0 ? 'faster' : 'on track'}`;
+        tHost.innerHTML = `
+          <div style="font-size:.9rem;color:#555;">
+            <div><strong>Days since Start:</strong> ${t.sinceStart ?? '--'}</div>
+            <div>Interested → Shortlisted: ${fmt(t.stages.Interested_to_Shortlisted)}</div>
+            <div>Shortlisted → CFT: ${fmt(t.stages.Shortlisted_to_CFT)}</div>
+            <div>CFT → Onboarded: ${fmt(t.stages.CFT_to_Onboarding)}</div>
+          </div>`;
+      }
+    };
 
     window.setDealerStage = async (targetStage) => {
       const id = state.currentDealerId;
@@ -1986,7 +2692,8 @@ function renderDealerDashboard() {
         status: newStatus,
         stageLog: newLog
       });
-
+      
+      showToast(`Stage updated to ${targetStage}`, 'success');
       openDealer(id);
     };
 
@@ -2005,8 +2712,37 @@ function renderDealerDashboard() {
         status: 'Dropped',
         flags: { ...(state.dealers.find(d => d.id === id)?.flags || {}), ...flags }
       });
-
+      
+      showToast(`Dealer marked as ${reason === 'backout' ? 'Backout' : 'CFT Rejected'}`, 'warning');
       openDealer(id);
+    };
+    
+    window.deleteDealer = async (id) => {
+      if (!id) return;
+      if (!confirm("⚠️ Permanently delete this dealer? This action cannot be undone.")) return;
+      
+      try {
+        await deleteDoc(doc(db, "dealerOnboarding", id));
+        showToast('Dealer deleted successfully', 'success');
+        if (state.view === 'dealer') {
+          renderDealerDashboard();
+        }
+      } catch (error) {
+        console.error('Delete dealer failed:', error);
+        showToast('Failed to delete dealer', 'error');
+      }
+    };
+    
+    window.deleteDealerFromDetail = async () => {
+      await deleteDealer(state.currentDealerId);
+      document.getElementById('dealer-detail-view').style.display = 'none';
+      document.getElementById('dealer-dashboard-view').style.display = 'block';
+      document.getElementById('back-to-dash-btn').style.display = 'none';
+      document.getElementById('nav-dealer-btn').style.display = 'none';
+      document.getElementById('nav-showroom-btn').style.display = 'inline-flex';
+      document.getElementById('add-main-btn').style.display = sessionStorage.getItem("ais_user_role") === 'admin' ? 'inline-flex' : 'none';
+      document.getElementById('header-title').innerHTML = 'AIS <span>Dealer Onboarding</span>';
+      renderDealerDashboard();
     };
 
     window.confirmAddDealer = async () => {
@@ -2053,6 +2789,7 @@ function renderDealerDashboard() {
         document.getElementById('new-dealer-start').value = '';
         
         renderDealerDashboard();
+        showToast(`Dealer "${name}" created successfully`, 'success');
       } catch (error) {
         console.error('Create dealer failed:', error);
         if (errEl) {
@@ -2067,25 +2804,12 @@ function renderDealerDashboard() {
       }
     };
 
-    window.deleteDealer = async (id) => {
-      if (!id) return;
-      if (!confirm("Permanently delete this dealer? This action cannot be undone.")) return;
-      
-      try {
-        await deleteDoc(doc(db, "dealerOnboarding", id));
-        initDealerModule();
-      } catch (error) {
-        console.error('Delete dealer failed:', error);
-        alert('Failed to delete dealer. Please try again.');
-      }
-    };
-
     window.openDealerModal = () => {
       document.getElementById('modal-dealer-overlay').style.display = 'flex';
     };
 
     window.closeModal = () => {
-      const modals = ['modal-overlay', 'modal-dealer-overlay'];
+      const modals = ['modal-overlay', 'modal-dealer-overlay', 'bulk-import-modal', 'email-report-modal'];
       modals.forEach(id => {
         const el = document.getElementById(id);
         if (el) el.style.display = 'none';
@@ -2093,49 +2817,49 @@ function renderDealerDashboard() {
     };
 
     // =============== EXPORT FUNCTION ===============
-window.exportDashboardReport = () => {
-  try {
-    if (!window.XLSX) {
-      alert('Export library not loaded. Please refresh the page.');
-      return;
-    }
+    window.exportDashboardReport = () => {
+      try {
+        if (!window.XLSX) {
+          showToast('Export library not loaded. Please refresh the page.', 'error');
+          return;
+        }
 
-    const wb = XLSX.utils.book_new();
+        const wb = XLSX.utils.book_new();
 
-    // Showroom Summary
-    const showroomSummary = state.showrooms.map(s => {
-      const stats = calculateShowroomStats(s);
-      return {
-        'Showroom Name': s.name || '',
-        'Start Date': formatDate(s.startDate),
-        'Completion %': stats.pct,
-        'Avg Delay (Days)': stats.avgDelay  // Fixed: was stats.delay which doesn't exist
-      };
-    });
+        const showroomSummary = state.showrooms.map(s => {
+          const stats = calculateShowroomStats(s);
+          return {
+            'Showroom Name': s.name || '',
+            'Start Date': formatDate(s.startDate),
+            'Completion %': stats.pct,
+            'Avg Delay (Days)': stats.avgDelay
+          };
+        });
+        
+        const ws1 = XLSX.utils.json_to_sheet(showroomSummary);
+        XLSX.utils.book_append_sheet(wb, ws1, 'SHOWROOM SUMMARY');
+
+        const dealerSummary = state.dealers.map(d => ({
+          'Dealer Name': d.name || '',
+          'City': d.city || '',
+          'RM': d.rm || '',
+          'Start Date': formatDate(d.startDate),
+          'Current Stage': d.currentStage || autoDetectStage(d),
+          'Status': d.status || 'Active',
+          'Document %': `${docProgress(d.documents).pct}%`
+        }));
+        
+        const ws2 = XLSX.utils.json_to_sheet(dealerSummary);
+        XLSX.utils.book_append_sheet(wb, ws2, 'DEALER SUMMARY');
+
+        XLSX.writeFile(wb, `AIS_Dashboard_Report_${new Date().toISOString().slice(0,10)}.xlsx`);
+        showToast('Report exported successfully', 'success');
+      } catch (err) {
+        console.error('Export failed:', err);
+        showToast('Export failed. Please try again.', 'error');
+      }
+    };
     
-    const ws1 = XLSX.utils.json_to_sheet(showroomSummary);
-    XLSX.utils.book_append_sheet(wb, ws1, 'SHOWROOM SUMMARY');
-
-    // Dealer Summary
-    const dealerSummary = state.dealers.map(d => ({
-      'Dealer Name': d.name || '',
-      'City': d.city || '',
-      'RM': d.rm || '',
-      'Start Date': formatDate(d.startDate),
-      'Current Stage': d.currentStage || autoDetectStage(d),
-      'Status': d.status || 'Active',
-      'Document %': `${docProgress(d.documents).pct}%`
-    }));
-    
-    const ws2 = XLSX.utils.json_to_sheet(dealerSummary);
-    XLSX.utils.book_append_sheet(wb, ws2, 'DEALER SUMMARY');
-
-    XLSX.writeFile(wb, `AIS_Dashboard_Report_${new Date().toISOString().slice(0,10)}.xlsx`);
-  } catch (err) {
-    console.error('Export failed:', err);
-    alert('Export failed. Please try again.');
-  }
-};
     // =============== EVENT LISTENERS ===============
     document.addEventListener("keydown", (e) => {
       if (e.key === "Enter" && document.getElementById("login-screen").style.display !== "none") {
@@ -2143,11 +2867,9 @@ window.exportDashboardReport = () => {
       }
     });
 
-    // Initialize
     window.addEventListener('load', () => {
       checkAuth();
       
-      // Set up add button reference
       const addMainBtn = document.getElementById('add-main-btn');
       if (addMainBtn) {
         addMainBtn.onclick = () => {
@@ -2156,7 +2878,6 @@ window.exportDashboardReport = () => {
         };
       }
       
-      // Set up dealer add button
       const addDealerBtn = document.getElementById('add-dealer-btn');
       if (addDealerBtn) {
         addDealerBtn.onclick = openDealerModal;
