@@ -992,7 +992,7 @@ body.dark-mode {
     <kbd>Esc</kbd> → Close Modal<br>
   </div>
 
-  <!-- Add Showroom Modal -->
+    <!-- Add Showroom Modal -->
   <div id="modal-overlay">
     <div class="modal">
       <h2>Add New Showroom</h2>
@@ -1007,7 +1007,6 @@ body.dark-mode {
       <div class="modal-btns">
         <button class="btn btn-add" onclick="confirmAddShowroom()">Create</button>
         <button class="btn btn-print" onclick="closeModal()">Cancel</button>
-        <button class="btn btn-print admin-only" onclick="showLoginHistory()" data-tooltip="View Login History">📋 Login History</button>
       </div>
     </div>
   </div>
@@ -1072,7 +1071,7 @@ body.dark-mode {
         <button class="btn btn-analytics" onclick="showAnalyticsDashboard()" data-tooltip="Analytics Dashboard">📊 Analytics</button>
         <button class="btn btn-email admin-only" onclick="openEmailModal()" data-tooltip="Send Email Report">📧 Email Report</button>
         <button class="btn btn-print" onclick="window.print()" data-tooltip="Print Dashboard">🖨️ Print</button>
-        <!-- Theme Toggle Button - MOVED HERE (outside login card) -->
+        <button class="btn btn-print admin-only" onclick="showLoginHistory()" data-tooltip="View Login History">📋 Login History</button>
         <button class="theme-toggle" id="themeToggleBtn" onclick="toggleTheme()" data-tooltip="Toggle Dark/Light Mode">
           <span class="theme-light">☀️ Light</span>
           <span class="theme-dark">🌙 Dark</span>
