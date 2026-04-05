@@ -1621,11 +1621,15 @@ import {
         showToast(`Last login: ${lastLogin.username} from ${lastLogin.ipAddress}`, 'info');
       }
     }
-    // Show login history modal
+        // Show login history modal
     window.showLoginHistory = async () => {
+      console.log('Login History button clicked'); // Debug log
+      
       try {
         const q = query(collection(db, "loginHistory"), orderBy("timestamp", "desc"), limit(50));
         const snapshot = await getDocs(q);
+        
+        console.log('Snapshot size:', snapshot.size); // Debug log
         
         if (snapshot.empty) {
           showToast('No login records found', 'info');
@@ -1662,10 +1666,9 @@ import {
         
       } catch (error) {
         console.error('Failed to fetch login history:', error);
-        showToast('Failed to load login history', 'error');
+        showToast('Failed to load login history: ' + error.message, 'error');
       }
     };
-
     // =============== KEYBOARD SHORTCUTS ===============
     document.addEventListener('keydown', (e) => {
       if (e.ctrlKey && e.key === 'd') {
