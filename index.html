@@ -23,10 +23,9 @@
       --dark-card: #16213e;
       --dark-text: #e0e0e0;
     }
-
-    /* Dark Mode Support */
+    /* Dark Mode Support - Only when no manual theme is set */
     @media (prefers-color-scheme: dark) {
-      :root {
+      body:not(.light-mode):not(.dark-mode) {
         --bg-color: #1a1a2e;
         --white: #16213e;
         --slate-grey: #e0e0e0;
@@ -48,6 +47,56 @@
       color: var(--slate-grey);
       line-height: 1.6;
     }
+
+/* Dark/Light Mode Toggle */
+.theme-toggle {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-color);
+  border-radius: 40px;
+  padding: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.theme-toggle span {
+  padding: 6px 12px;
+  border-radius: 30px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.theme-toggle .theme-light,
+.theme-toggle .theme-dark {
+  cursor: pointer;
+}
+
+.theme-toggle .active {
+  background: var(--primary-blue);
+  color: white;
+}
+
+/* Manual theme classes */
+body.light-mode {
+  --bg-color: #f8f9fc;
+  --white: #ffffff;
+  --slate-grey: #2c3e50;
+  --text-muted: #7f8c8d;
+  --border-color: #e1e8ed;
+  --hover-bg: #f5f5f5;
+}
+
+body.dark-mode {
+  --bg-color: #1a1a2e;
+  --white: #16213e;
+  --slate-grey: #e0e0e0;
+  --text-muted: #a0a0a0;
+  --border-color: #2a2a4a;
+  --hover-bg: #1f2a4a;
+}
 
     /* Keyboard Shortcuts Help */
     .shortcuts-help {
@@ -912,7 +961,7 @@
 </head>
 <body>
 
-  <!-- Login Screen -->
+    <!-- Login Screen -->
   <div id="login-screen">
     <div class="login-card">
       <img src="https://www.aiswindows.com/assets/images/ais-windows-logo.svg" alt="AIS Logo" style="height: 40px; margin-bottom: 20px;">
@@ -958,6 +1007,7 @@
       <div class="modal-btns">
         <button class="btn btn-add" onclick="confirmAddShowroom()">Create</button>
         <button class="btn btn-print" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-print admin-only" onclick="showLoginHistory()" data-tooltip="View Login History">📋 Login History</button>
       </div>
     </div>
   </div>
@@ -1022,6 +1072,11 @@
         <button class="btn btn-analytics" onclick="showAnalyticsDashboard()" data-tooltip="Analytics Dashboard">📊 Analytics</button>
         <button class="btn btn-email admin-only" onclick="openEmailModal()" data-tooltip="Send Email Report">📧 Email Report</button>
         <button class="btn btn-print" onclick="window.print()" data-tooltip="Print Dashboard">🖨️ Print</button>
+        <!-- Theme Toggle Button - MOVED HERE (outside login card) -->
+        <button class="theme-toggle" id="themeToggleBtn" onclick="toggleTheme()" data-tooltip="Toggle Dark/Light Mode">
+          <span class="theme-light">☀️ Light</span>
+          <span class="theme-dark">🌙 Dark</span>
+        </button>
         <button class="btn btn-logout" onclick="logout()" data-tooltip="Logout">🚪 Logout</button>
         <button class="btn btn-print" id="nav-dealer-btn" onclick="initDealerModule()" data-tooltip="Dealer Onboarding">👥 Dealer Onboarding</button>
         <button class="btn btn-print" id="nav-showroom-btn" onclick="showMasterDashboard()" style="display: none;" data-tooltip="Showroom Dashboard">🏢 Showroom Dashboard</button>
@@ -1268,7 +1323,7 @@
                </tr>
             </thead>
             <tbody id="tracker-body"></tbody>
-           </table>
+           <tr>
         </div>
       </div>
 
@@ -1396,6 +1451,79 @@ import {
       showToast('Something went wrong. Please refresh the page.', 'error');
     });
 
+    // =============== THEME TOGGLE FUNCTION ===============
+    function setTheme(theme) {
+      if (theme === 'dark') {
+        document.body.classList.add('dark-mode');
+        document.body.classList.remove('light-mode');
+        localStorage.setItem('ais_theme', 'dark');
+      } else if (theme === 'light') {
+        document.body.classList.add('light-mode');
+        document.body.classList.remove('dark-mode');
+        localStorage.setItem('ais_theme', 'light');
+      } else {
+        // Auto - remove both classes to let CSS media query work
+        document.body.classList.remove('light-mode', 'dark-mode');
+        localStorage.removeItem('ais_theme');
+      }
+      updateThemeToggleUI();
+    }
+
+    function updateThemeToggleUI() {
+      const isDark = document.body.classList.contains('dark-mode');
+      const isLight = document.body.classList.contains('light-mode');
+      const lightSpan = document.querySelector('.theme-toggle .theme-light');
+      const darkSpan = document.querySelector('.theme-toggle .theme-dark');
+      
+      if (lightSpan && darkSpan) {
+        if (isDark) {
+          lightSpan.classList.remove('active');
+          darkSpan.classList.add('active');
+        } else if (isLight) {
+          lightSpan.classList.add('active');
+          darkSpan.classList.remove('active');
+        } else {
+          // Auto mode - check system preference
+          const isSystemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (isSystemDark) {
+            lightSpan.classList.remove('active');
+            darkSpan.classList.add('active');
+          } else {
+            lightSpan.classList.add('active');
+            darkSpan.classList.remove('active');
+          }
+        }
+      }
+    }
+
+    function toggleTheme() {
+      const currentIsDark = document.body.classList.contains('dark-mode');
+      const currentIsLight = document.body.classList.contains('light-mode');
+      
+      if (currentIsDark) {
+        setTheme('light');
+        showToast('Light mode activated', 'info');
+      } else if (currentIsLight) {
+        setTheme('auto');
+        showToast('Auto theme (follow system)', 'info');
+      } else {
+        setTheme('dark');
+        showToast('Dark mode activated', 'info');
+      }
+    }
+
+    // Initialize theme on load
+    function initTheme() {
+      const savedTheme = localStorage.getItem('ais_theme');
+      if (savedTheme === 'dark') {
+        setTheme('dark');
+      } else if (savedTheme === 'light') {
+        setTheme('light');
+      } else {
+        setTheme('auto');
+      }
+    }
+
     // =============== HELPER FUNCTIONS ===============
     function showToast(message, type = 'info') {
       const container = document.getElementById('toast-container');
@@ -1494,6 +1622,50 @@ import {
         showToast(`Last login: ${lastLogin.username} from ${lastLogin.ipAddress}`, 'info');
       }
     }
+    // Show login history modal
+    window.showLoginHistory = async () => {
+      try {
+        const q = query(collection(db, "loginHistory"), orderBy("timestamp", "desc"), limit(50));
+        const snapshot = await getDocs(q);
+        
+        if (snapshot.empty) {
+          showToast('No login records found', 'info');
+          return;
+        }
+        
+        let historyHtml = '<div style="max-height: 400px; overflow-y: auto;"><table style="width:100%; border-collapse: collapse;">';
+        historyHtml += '<tr style="background: var(--primary-blue); color: white;"><th style="padding: 8px;">User</th><th style="padding: 8px;">IP</th><th style="padding: 8px;">Device</th><th style="padding: 8px;">Time</th></tr>';
+        
+        snapshot.forEach(doc => {
+          const data = doc.data();
+          const time = data.timestamp?.toDate?.() || new Date(data.timestamp);
+          historyHtml += `<tr style="border-bottom: 1px solid #ddd;">
+            <td style="padding: 8px;">${escapeHtml(data.username || '?')}</td>
+            <td style="padding: 8px;">${escapeHtml(data.ipAddress || '?')}</td>
+            <td style="padding: 8px;">${escapeHtml(data.device || '?')} | ${escapeHtml(data.browser || '?')}</td>
+            <td style="padding: 8px;">${time.toLocaleString()}</td>
+          </tr>`;
+        });
+        
+        historyHtml += '</table></div>';
+        
+        // Show in modal
+        const modal = document.createElement('div');
+        modal.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); display:flex; justify-content:center; align-items:center; z-index:2000;';
+        modal.innerHTML = `<div style="background:white; border-radius:12px; padding:25px; max-width:800px; width:90%; max-height:80vh; overflow:auto;">
+          <h2 style="color:var(--primary-blue); margin-bottom:15px;">📋 Login History (Last 50)</h2>
+          ${historyHtml}
+          <div style="margin-top:20px; text-align:center;">
+            <button class="btn btn-print" onclick="this.closest('div').parentElement.remove()">Close</button>
+          </div>
+        </div>`;
+        document.body.appendChild(modal);
+        
+      } catch (error) {
+        console.error('Failed to fetch login history:', error);
+        showToast('Failed to load login history', 'error');
+      }
+    };
 
     // =============== KEYBOARD SHORTCUTS ===============
     document.addEventListener('keydown', (e) => {
@@ -3268,7 +3440,7 @@ import {
 
     window.addEventListener('load', () => {
       checkAuth();
-      
+      initTheme(); 
       const addMainBtn = document.getElementById('add-main-btn');
       if (addMainBtn) {
         addMainBtn.onclick = () => {
