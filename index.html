@@ -47,29 +47,6 @@
       background-color: var(--bg-color);
       color: var(--slate-grey);
       line-height: 1.6;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* Footer */
-    .app-footer {
-      text-align: center;
-      padding: 20px;
-      margin-top: 40px;
-      background: var(--white);
-      border-top: 1px solid var(--border-color);
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-    
-    .app-footer .heart {
-      color: var(--delay-red);
-    }
-    
-    .app-footer .name {
-      color: var(--primary-blue);
-      font-weight: 600;
     }
 
     /* Keyboard Shortcuts Help */
@@ -270,7 +247,6 @@
       margin: 0 auto; 
       padding: 20px; 
       display: none; 
-      flex: 1;
     }
 
     /* Header */
@@ -740,92 +716,6 @@
       display: block;
     }
 
-    /* Notes Modal */
-    .notes-modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.5);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 2000;
-    }
-    
-    .notes-modal .modal {
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      width: 90%;
-      max-width: 450px;
-    }
-    
-    .notes-modal textarea {
-      width: 100%;
-      height: 100px;
-      margin: 15px 0;
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid var(--border-color);
-      resize: vertical;
-    }
-
-    /* Toggle Switch for Stages */
-    .stage-toggle-switch {
-      position: relative;
-      display: inline-block;
-      width: 40px;
-      height: 20px;
-      margin-left: 8px;
-    }
-    
-    .stage-toggle-switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-    
-    .stage-slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #ccc;
-      transition: 0.3s;
-      border-radius: 20px;
-    }
-    
-    .stage-slider:before {
-      position: absolute;
-      content: "";
-      height: 16px;
-      width: 16px;
-      left: 2px;
-      bottom: 2px;
-      background-color: white;
-      transition: 0.3s;
-      border-radius: 50%;
-    }
-    
-    input:checked + .stage-slider {
-      background-color: var(--success-green);
-    }
-    
-    input:checked + .stage-slider:before {
-      transform: translateX(20px);
-    }
-    
-    .stage-item-wrapper {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 5px;
-    }
-
     /* Modals */
     #modal-overlay,
     #modal-dealer-overlay,
@@ -901,11 +791,14 @@
     .stage-item {
       cursor: pointer;
       transition: all 0.2s;
-      text-align: center;
     }
     
-    .stage-item:hover {
+    .stage-item:hover:not([style*="cursor: default"]) {
       transform: translateY(-2px);
+    }
+    
+    .stage-item.selected {
+      opacity: 0.7;
     }
 
     /* Dealer Detail */
@@ -990,31 +883,6 @@
       color: var(--primary-blue);
     }
 
-    /* Stage Toggle Container */
-    .stage-toggle-container {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 15px;
-      flex-wrap: wrap;
-      gap: 15px;
-    }
-    
-    .stage-toggle-item {
-      flex: 1;
-      min-width: 80px;
-      text-align: center;
-      padding: 10px;
-      background: var(--hover-bg);
-      border-radius: 8px;
-    }
-    
-    .stage-toggle-item .stage-name {
-      font-size: 0.7rem;
-      font-weight: 600;
-      margin-bottom: 8px;
-      color: var(--text-muted);
-    }
-
     /* Print Styles */
     @media print {
       .controls, 
@@ -1026,8 +894,7 @@
       .dealer-card-actions,
       .shortcuts-help,
       .shortcuts-panel,
-      .search-bar,
-      .app-footer { 
+      .search-bar { 
         display: none !important; 
       }
       .container { 
@@ -1079,10 +946,6 @@
       .chart-grid {
         grid-template-columns: 1fr;
       }
-      
-      .stage-toggle-container {
-        flex-direction: column;
-      }
     }
   </style>
 </head>
@@ -1104,18 +967,6 @@
       </div>
       <button class="btn btn-add" style="width: 100%; justify-content: center;" onclick="handleLogin()">Login</button>
       <div id="login-error">Invalid credentials</div>
-    </div>
-  </div>
-
-  <!-- Notes Modal for Actions -->
-  <div id="notes-modal" class="notes-modal">
-    <div class="modal">
-      <h2 id="notes-modal-title">Add Notes</h2>
-      <textarea id="notes-textarea" placeholder="Enter reason for this action..."></textarea>
-      <div class="modal-btns">
-        <button class="btn btn-add" id="notes-confirm-btn">Confirm</button>
-        <button class="btn btn-print" onclick="closeNotesModal()">Cancel</button>
-      </div>
     </div>
   </div>
 
@@ -1398,8 +1249,8 @@
           </div>
 
           <div style="margin-top: 30px;">
-            <label style="font-weight: 700; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Stage Selection (Toggle Switch)</label>
-            <div id="stage-toggle-container" class="stage-toggle-container"></div>
+            <label style="font-weight: 700; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Onboarding Journey</label>
+            <div id="stage-stepper" style="display: flex; justify-content: space-between; margin-top: 15px; position: relative; flex-wrap: wrap; gap: 10px;"></div>
           </div>
         </div>
 
@@ -1416,10 +1267,10 @@
               <div class="progress-bar-container"><div class="progress-bar-fill" id="doc-progress-bar"></div></div>
             </div>
             <div style="margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap;" class="admin-only">
-              <button class="btn btn-delete" onclick="showNotesModal('backout')">Mark as Backout</button>
-              <button class="btn btn-delete" onclick="showNotesModal('cftRejected')">CFT Rejected</button>
-              <button class="btn btn-delete" onclick="showNotesModal('shortlistedRejected')">Shortlisted Rejected</button>
-              <button class="btn btn-delete" onclick="showNotesModal('deletePermanent')">🗑️ Delete Permanently</button>
+              <button class="btn btn-delete" onclick="dropDealer('backout')">Mark as Backout</button>
+              <button class="btn btn-delete" onclick="dropDealer('cftRejected')">CFT Rejected</button>
+              <button class="btn btn-delete" onclick="dropDealer('shortlistedRejected')">Shortlisted Rejected</button>
+              <button class="btn btn-delete" onclick="deleteDealerFromDetail()">🗑️ Delete Permanently</button>
             </div>
           </div>
         </div>
@@ -1489,11 +1340,6 @@
     </div>
   </div>
 
-  <!-- Footer -->
-  <div class="app-footer">
-    <span>Powered with <span class="heart">❤️</span> by <span class="name">Sanju G</span></span>
-  </div>
-
   <div id="toast-container"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
@@ -1552,7 +1398,7 @@
     const DEALER_STAGES = ['Interested', 'Shortlisted', 'CFT Selected', 'Documentation', 'Onboarded'];
     const STAGE_INDEX = Object.fromEntries(DEALER_STAGES.map((s, i) => [s, i]));
     
-    // DOC_KEYS
+    // UPDATED DOC_KEYS - Removed windowOrder
     const DOC_KEYS = [
       'securityDeposit', 'crmCharges', 'agreement', 'gst', 'pan', 
       'aadhaar', 'bankDetails', 'cheque', 'passportPhotos', 
@@ -1576,9 +1422,6 @@
     let funnelChart = null;
     let trendChart = null;
     let docsChart = null;
-    
-    // Notes modal state
-    let pendingAction = null;
     
     // Session inactivity timer
     let inactivityTimer;
@@ -1620,44 +1463,6 @@
       }, 3000);
     }
         
-    // =============== NOTES MODAL FUNCTIONS ===============
-    window.showNotesModal = (action) => {
-      pendingAction = action;
-      const modal = document.getElementById('notes-modal');
-      const title = document.getElementById('notes-modal-title');
-      
-      if (action === 'backout') title.innerHTML = 'Mark as Backout - Add Reason';
-      else if (action === 'cftRejected') title.innerHTML = 'CFT Rejected - Add Reason';
-      else if (action === 'shortlistedRejected') title.innerHTML = 'Shortlisted Rejected - Add Reason';
-      else if (action === 'deletePermanent') title.innerHTML = 'Delete Permanently - Add Reason';
-      
-      document.getElementById('notes-textarea').value = '';
-      modal.style.display = 'flex';
-    };
-    
-    window.closeNotesModal = () => {
-      document.getElementById('notes-modal').style.display = 'none';
-      pendingAction = null;
-    };
-    
-    // Confirm notes and execute action
-    document.getElementById('notes-confirm-btn').onclick = async () => {
-      const notes = document.getElementById('notes-textarea').value.trim();
-      if (!notes) {
-        showToast('Please enter a reason before proceeding', 'warning');
-        return;
-      }
-      
-      closeNotesModal();
-      
-      if (pendingAction === 'backout') await dropDealerWithNotes('backout', notes);
-      else if (pendingAction === 'cftRejected') await dropDealerWithNotes('cftRejected', notes);
-      else if (pendingAction === 'shortlistedRejected') await dropDealerWithNotes('shortlistedRejected', notes);
-      else if (pendingAction === 'deletePermanent') await deleteDealerWithNotes(notes);
-      
-      pendingAction = null;
-    };
-
     // =============== LOGIN TRACKING FUNCTIONS ===============
     async function getUserIP() {
       try {
@@ -1711,6 +1516,21 @@
         console.log('✅ Login record stored:', username);
       } catch (error) {
         console.error('Failed to store login record:', error);
+      }
+    }
+
+    async function getLastLoginInfo() {
+      try {
+        const q = query(collection(db, "loginHistory"), orderBy("timestamp", "desc"), limit(1));
+        const snapshot = await getDocs(q);
+        if (!snapshot.empty) {
+          const lastLogin = snapshot.docs[0].data();
+          return lastLogin;
+        }
+        return null;
+      } catch (error) {
+        console.error('Failed to fetch last login:', error);
+        return null;
       }
     }
 
@@ -1775,7 +1595,6 @@
       }
       if (e.key === 'Escape') {
         closeModal();
-        closeNotesModal();
       }
     });
 
@@ -2298,7 +2117,7 @@
       });
     }
 
-    // =============== EMAIL FUNCTIONS ===============
+    // =============== EMAIL FUNCTIONS - FIXED with mailto fallback ===============
     window.openEmailModal = () => {
       document.getElementById('email-report-modal').style.display = 'flex';
     };
@@ -2321,6 +2140,7 @@
         return;
       }
       
+      // Prepare email content
       const totalShowrooms = state.showrooms.length;
       const completedShowrooms = state.showrooms.filter(s => calculateShowroomStats(s).pct === 100).length;
       const avgCompletion = totalShowrooms > 0 ? Math.round(state.showrooms.reduce((sum, s) => sum + calculateShowroomStats(s).pct, 0) / totalShowrooms) : 0;
@@ -2362,6 +2182,7 @@
         }
       }
       
+      // Build email body
       const subject = `AIS Dashboard Report - ${new Date().toLocaleDateString()} - ${reportType === 'summary' ? 'Daily Summary' : reportType === 'delays' ? 'Delay Alerts' : 'Full Report'}`;
       const emailBody = `
 AIS Windows Dashboard Report
@@ -2404,6 +2225,7 @@ For any queries, please contact the administrator.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
       `;
       
+      // Open default email client
       window.location.href = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
       
       statusDiv.innerHTML = '<span style="color: var(--success-green);">✅ Email client opened! Click send to complete.</span>';
@@ -2474,7 +2296,6 @@ For any queries, please contact the administrator.
                 currentStage: 'Interested', 
                 status: 'Active', 
                 documents: {}, 
-                selectedStages: {},
                 createdAt: new Date().toISOString() 
               };
               
@@ -2721,7 +2542,7 @@ For any queries, please contact the administrator.
           <td>${formatDate(planFinish)}</td>
           <td class="projected-cell">--</td>
           <td><textarea class="admin-editable" ${!isAdmin ? 'disabled' : ''} onchange="savePhaseData('${phase.id}', 'reason', this.value)" placeholder="${isAdmin ? 'Add notes...' : ''}">${escapeHtml(data.reason || '')}</textarea></td>
-        </tr>`;
+         </tr>`;
       }).join('');
       
       calculateDashboard();
@@ -3185,65 +3006,41 @@ For any queries, please contact the administrator.
       };
     }
 
-    // Render Stage Toggle Switches (Green when ON, no color when OFF)
-    function renderStageToggles(dealer) {
-      const container = document.getElementById('stage-toggle-container');
-      if (!container) return;
-      
-      const selectedStages = dealer.selectedStages || {};
-      
-      container.innerHTML = DEALER_STAGES.map(stage => {
-        const isSelected = selectedStages[stage] === true;
+    function renderDealerStages(dealer) {
+      const stepper = document.getElementById('stage-stepper');
+      const dropped = isDropped(dealer);
+      const current = dealer.currentStage || autoDetectStage(dealer);
+      const curIdx = STAGE_INDEX[current] ?? 0;
+
+      stepper.innerHTML = DEALER_STAGES.map((stage, i) => {
+        const isDone = i <= curIdx;
+        const isActive = i === curIdx;
+        const dotColor = dropped ? 'var(--delay-red)' : (isDone ? 'var(--success-green)' : '#eee');
+        const borderColor = dropped ? 'var(--delay-red)' : (isActive ? 'var(--primary-blue)' : 'transparent');
+        const clickable = !dropped && !isActive;
+
         return `
-          <div class="stage-toggle-item">
-            <div class="stage-name">${stage}</div>
-            <label class="stage-toggle-switch">
-              <input type="checkbox" class="stage-checkbox" data-stage="${stage}" ${isSelected ? 'checked' : ''}>
-              <span class="stage-slider"></span>
-            </label>
-          </div>
-        `;
+          <div class="stage-item" data-stage="${stage}" style="cursor:${clickable ? 'pointer' : 'default'}; text-align:center; flex:1; min-width:70px;">
+            <div style="width:20px;height:20px;border-radius:50%;background:${dotColor};margin:0 auto 5px;border:2px solid ${borderColor}"></div>
+            <span style="font-size:0.65rem;font-weight:bold;color:${isDone ? 'var(--slate-grey)' : '#ccc'}">${stage}</span>
+          </div>`;
       }).join('');
-      
-      // Add event listeners to toggles
-      container.querySelectorAll('.stage-checkbox').forEach(checkbox => {
-        checkbox.addEventListener('change', async (e) => {
-          const stage = checkbox.getAttribute('data-stage');
-          const isChecked = checkbox.checked;
-          await toggleStageSelection(stage, isChecked);
+
+      if (!dropped) {
+        stepper.querySelectorAll('.stage-item').forEach(el => {
+          const stage = el.getAttribute('data-stage');
+          const stageIdx = STAGE_INDEX[stage];
+          if (stageIdx > curIdx) {
+            el.addEventListener('click', async () => {
+              await setDealerStage(stage);
+            });
+          }
         });
-      });
-    }
-    
-    // Toggle stage selection
-    async function toggleStageSelection(stage, isSelected) {
-      const id = state.currentDealerId;
-      if (!id) return;
-      
-      const dealer = state.dealers.find(d => d.id === id);
-      if (!dealer || isDropped(dealer)) return;
-      
-      const selectedStages = dealer.selectedStages || {};
-      
-      if (isSelected) {
-        selectedStages[stage] = true;
-        showToast(`✓ ${stage} selected`, 'success');
-      } else {
-        delete selectedStages[stage];
-        showToast(`✗ ${stage} deselected`, 'info');
       }
-      
-      const dRef = doc(db, "dealerOnboarding", id);
-      await updateDoc(dRef, { selectedStages: selectedStages });
-      
-      await logAction('TOGGLE_DEALER_STAGE', `Dealer ${dealer.name} ${isSelected ? 'selected' : 'deselected'} ${stage}`);
     }
 
-    // Render Document Checklist
     function renderDealerDocs(dealer) {
       const host = document.getElementById('doc-checklist');
-      if (!host) return;
-      
       const docs = normalizeDocs(dealer.documents);
 
       host.innerHTML = DOC_KEYS.map(k => {
@@ -3352,8 +3149,7 @@ For any queries, please contact the administrator.
         }
       }
 
-      // Render stage toggles
-      renderStageToggles(dealer);
+      renderDealerStages(dealer);
       renderDealerDocs(dealer);
 
       const t = computeTimeline(dealer);
@@ -3371,13 +3167,38 @@ For any queries, please contact the administrator.
       }
     };
 
-    // Drop dealer with notes
-    async function dropDealerWithNotes(reason, notes) {
+    window.setDealerStage = async (targetStage) => {
       const id = state.currentDealerId;
       if (!id) return;
 
       const dealer = state.dealers.find(d => d.id === id);
-      if (!dealer) return;
+      if (!dealer || isDropped(dealer)) return;
+
+      const dRef = doc(db, "dealerOnboarding", id);
+      const newLog = logStageChange(dealer, targetStage);
+      const newStatus = (targetStage === 'Onboarded') ? 'Completed' : 'Active';
+
+      await updateDoc(dRef, {
+        currentStage: targetStage,
+        status: newStatus,
+        stageLog: newLog
+      });
+      
+      await logAction('UPDATE_DEALER_STAGE', `Dealer ${dealer.name} stage updated to ${targetStage}`);
+      showToast(`Stage updated to ${targetStage}`, 'success');
+      openDealer(id);
+    };
+
+    window.dropDealer = async (reason) => {
+      const id = state.currentDealerId;
+      if (!id) return;
+
+      let confirmMessage = '';
+      if (reason === 'shortlistedRejected') confirmMessage = 'Are you sure you want to mark this dealer as Shortlisted Rejected?';
+      else if (reason === 'cftRejected') confirmMessage = 'Are you sure you want to mark this dealer as CFT Rejected?';
+      else confirmMessage = 'Are you sure you want to mark this dealer as Backout?';
+      
+      if (!confirm(confirmMessage)) return;
 
       const dRef = doc(db, "dealerOnboarding", id);
       const flags = {};
@@ -3387,43 +3208,14 @@ For any queries, please contact the administrator.
 
       await updateDoc(dRef, {
         status: 'Dropped',
-        dropReason: notes,
-        dropType: reason,
-        droppedAt: new Date().toISOString(),
-        flags: { ...(dealer.flags || {}), ...flags }
+        flags: { ...(state.dealers.find(d => d.id === id)?.flags || {}), ...flags }
       });
       
-      await logAction('DROP_DEALER', `Dealer ${dealer.name} marked as ${reason} - Reason: ${notes}`);
+      await logAction('DROP_DEALER', `Dealer ${state.dealers.find(d => d.id === id)?.name} marked as ${reason}`);
       showToast(`Dealer marked as ${reason === 'backout' ? 'Backout' : reason === 'cftRejected' ? 'CFT Rejected' : 'Shortlisted Rejected'}`, 'warning');
       openDealer(id);
-    }
-
-    // Delete dealer with notes
-    async function deleteDealerWithNotes(notes) {
-      const id = state.currentDealerId;
-      if (!id) return;
-      if (!confirm(`⚠️ Permanently delete this dealer? Reason: ${notes.substring(0, 50)}... This action cannot be undone.`)) return;
-      
-      try {
-        const dealer = state.dealers.find(d => d.id === id);
-        await deleteDoc(doc(db, "dealerOnboarding", id));
-        await logAction('DELETE_DEALER', `Dealer ${dealer?.name} deleted - Reason: ${notes}`);
-        showToast('Dealer deleted successfully', 'success');
-        
-        document.getElementById('dealer-detail-view').style.display = 'none';
-        document.getElementById('dealer-dashboard-view').style.display = 'block';
-        document.getElementById('back-to-dash-btn').style.display = 'none';
-        document.getElementById('nav-dealer-btn').style.display = 'none';
-        document.getElementById('nav-showroom-btn').style.display = 'inline-flex';
-        document.getElementById('add-main-btn').style.display = sessionStorage.getItem("ais_user_role") === 'admin' ? 'inline-flex' : 'none';
-        document.getElementById('header-title').innerHTML = 'AIS <span>Dealer Onboarding</span>';
-        renderDealerDashboard();
-      } catch (error) {
-        console.error('Delete dealer failed:', error);
-        showToast('Failed to delete dealer', 'error');
-      }
-    }
-
+    };
+    
     window.deleteDealer = async (id) => {
       if (!id) return;
       if (!confirm("⚠️ Permanently delete this dealer? This action cannot be undone.")) return;
@@ -3442,7 +3234,15 @@ For any queries, please contact the administrator.
     };
     
     window.deleteDealerFromDetail = async () => {
-      showNotesModal('deletePermanent');
+      await deleteDealer(state.currentDealerId);
+      document.getElementById('dealer-detail-view').style.display = 'none';
+      document.getElementById('dealer-dashboard-view').style.display = 'block';
+      document.getElementById('back-to-dash-btn').style.display = 'none';
+      document.getElementById('nav-dealer-btn').style.display = 'none';
+      document.getElementById('nav-showroom-btn').style.display = 'inline-flex';
+      document.getElementById('add-main-btn').style.display = sessionStorage.getItem("ais_user_role") === 'admin' ? 'inline-flex' : 'none';
+      document.getElementById('header-title').innerHTML = 'AIS <span>Dealer Onboarding</span>';
+      renderDealerDashboard();
     };
 
     window.confirmAddDealer = async () => {
@@ -3477,7 +3277,6 @@ For any queries, please contact the administrator.
           currentStage: 'Interested', 
           status: 'Active', 
           documents: {}, 
-          selectedStages: {},
           createdAt: new Date().toISOString() 
         };
         
@@ -3548,10 +3347,7 @@ For any queries, please contact the administrator.
           'Start Date': formatDate(d.startDate),
           'Current Stage': d.currentStage || autoDetectStage(d),
           'Status': d.status || 'Active',
-          'Document %': `${docProgress(d.documents).pct}%`,
-          'Drop Reason': d.dropReason || '',
-          'Drop Type': d.dropType || '',
-          'Selected Stages': Object.keys(d.selectedStages || {}).join(', ')
+          'Document %': `${docProgress(d.documents).pct}%`
         }));
         
         const ws2 = XLSX.utils.json_to_sheet(dealerSummary);
