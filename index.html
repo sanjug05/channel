@@ -530,7 +530,8 @@
     input:checked + .stage-slider:before { transform: translateX(20px); }
     .stage-item-wrapper { display: flex; flex-direction: column; align-items: center; gap: 5px; }
 
-    #modal-overlay, #modal-dealer-overlay, #pdf-export-modal {
+    #modal-overlay, #modal-dealer-overlay, #pdf-export-modal,
+    #edit-showroom-modal, #edit-dealer-modal {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(0,0,0,0.5);
@@ -681,19 +682,52 @@
     <kbd>Esc</kbd> → Close Modal<br>
   </div>
 
+  <!-- Add Showroom Modal -->
   <div id="modal-overlay">
-  <div class="modal">
-    <h2>Add New Showroom</h2>
-    <div class="field"><label>Showroom Name</label><input type="text" id="new-showroom-name" placeholder="Enter showroom name"></div>
-    <div class="field"><label>City</label><input type="text" id="new-showroom-city" placeholder="Enter city"></div>
-    <div class="field"><label>RM Name</label><input type="text" id="new-showroom-rm" placeholder="Enter RM name"></div>
-    <div class="field"><label>Start Date</label><input type="date" id="new-showroom-start"></div>
-    <div class="modal-btns">
-      <button class="btn btn-add" onclick="confirmAddShowroom()">Create</button>
-      <button class="btn btn-print" onclick="closeModal()">Cancel</button>
+    <div class="modal">
+      <h2>Add New Showroom</h2>
+      <div class="field"><label>Showroom Name</label><input type="text" id="new-showroom-name" placeholder="Enter showroom name"></div>
+      <div class="field"><label>City</label><input type="text" id="new-showroom-city" placeholder="Enter city"></div>
+      <div class="field"><label>RM Name</label><input type="text" id="new-showroom-rm" placeholder="Enter RM name"></div>
+      <div class="field"><label>Start Date</label><input type="date" id="new-showroom-start"></div>
+      <div class="modal-btns">
+        <button class="btn btn-add" onclick="confirmAddShowroom()">Create</button>
+        <button class="btn btn-print" onclick="closeModal()">Cancel</button>
+      </div>
     </div>
   </div>
-</div>
+
+  <!-- Edit Showroom Modal -->
+  <div id="edit-showroom-modal">
+    <div class="modal">
+      <h2>✏️ Edit Showroom</h2>
+      <div class="field"><label>Showroom Name</label><input type="text" id="edit-showroom-name" placeholder="Enter showroom name"></div>
+      <div class="field"><label>City</label><input type="text" id="edit-showroom-city" placeholder="Enter city"></div>
+      <div class="field"><label>RM Name</label><input type="text" id="edit-showroom-rm" placeholder="Enter RM name"></div>
+      <div class="field"><label>Start Date</label><input type="date" id="edit-showroom-start"></div>
+      <div class="modal-btns">
+        <button class="btn btn-add" onclick="saveEditShowroom()">Save Changes</button>
+        <button class="btn btn-print" onclick="closeEditShowroomModal()">Cancel</button>
+      </div>
+      <div id="edit-showroom-error" style="margin-top:10px; color:#e74c3c; font-size:0.85rem; display:none;"></div>
+    </div>
+  </div>
+
+  <!-- Edit Dealer Modal -->
+  <div id="edit-dealer-modal">
+    <div class="modal">
+      <h2>✏️ Edit Dealer</h2>
+      <div class="field"><label>Dealer Name</label><input type="text" id="edit-dealer-name" placeholder="Enter dealer name"></div>
+      <div class="field"><label>City</label><input type="text" id="edit-dealer-city" placeholder="Enter city"></div>
+      <div class="field"><label>RM Name</label><input type="text" id="edit-dealer-rm" placeholder="Enter RM name"></div>
+      <div class="field"><label>Start Date</label><input type="date" id="edit-dealer-start"></div>
+      <div class="modal-btns">
+        <button class="btn btn-add" onclick="saveEditDealer()">Save Changes</button>
+        <button class="btn btn-print" onclick="closeEditDealerModal()">Cancel</button>
+      </div>
+      <div id="edit-dealer-error" style="margin-top:10px; color:#e74c3c; font-size:0.85rem; display:none;"></div>
+    </div>
+  </div>
 
   <div id="pdf-export-modal">
     <div class="modal">
@@ -749,7 +783,18 @@
         <div class="card"><h3>Active Dealers</h3><div class="value" id="global-active-dealers">0</div><div class="sub-text">Currently onboarding</div></div>
         <div class="card"><h3>Avg Dealer Delay</h3><div class="value" id="global-avg-dealer-delay">0</div><div class="sub-text">days delayed</div></div>
       </div>
-      
+
+      <!-- RM Performance Analytics for Showroom Dashboard -->
+      <div class="card" id="showroom-rm-analytics" style="margin: 10px 0; text-align:left; padding: 0; overflow: hidden;">
+        <div class="collapsible-header" onclick="toggleShowroomRMAnalytics()" style="padding: 20px; background: var(--white);">
+          <h3>📊 Showroom RM Performance Analytics</h3>
+          <span class="collapse-icon" id="showroom-rm-collapse-icon">▶</span>
+        </div>
+        <div id="showroom-rm-analytics-content" class="collapsible-content" style="padding: 0 20px 20px 20px;">
+          <div id="showroom-rm-analytics-body" style="margin-top:10px; font-size:.9rem; color:#444;"></div>
+        </div>
+      </div>      
+
       <div class="search-bar"><input type="text" id="showroom-search" placeholder="🔍 Search showrooms by name..." onkeyup="filterShowrooms()"></div>
       <div id="master-grid"></div>
     </div>
@@ -872,6 +917,7 @@
             <div class="progress-section" style="box-shadow: none; padding: 15px 0;"><div class="progress-info"><span>Documentation Progress</span><span id="doc-progress-pct">0%</span></div>
             <div class="progress-bar-container"><div class="progress-bar-fill" id="doc-progress-bar"></div></div></div>
             <div style="margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap;" class="admin-only">
+              <button class="btn btn-add" onclick="editDealerFromDetail()">✏️ Edit Dealer Details</button>
               <button class="btn btn-delete" onclick="showNotesModal('backout')">Mark as Backout</button>
               <button class="btn btn-delete" onclick="showNotesModal('cftRejected')">CFT Rejected</button>
               <button class="btn btn-delete" onclick="showNotesModal('shortlistedRejected')">Shortlisted Rejected</button>
@@ -909,8 +955,11 @@
         <div class="project-settings" style="margin-bottom: 25px; background: white; padding: 20px; border-radius:12px; box-shadow: var(--shadow); display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
           <div style="flex: 1;"><label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted);">PROJECT START DATE</label>
           <input type="date" id="current-start-date" class="admin-editable" style="width: auto; display: block; margin-top: 5px;" onchange="updateStartDate(this.value)"></div>
-          <div class="admin-only" style="display: flex; gap: 10px;"><button class="btn btn-reset" onclick="resetCurrentShowroom()">Reset Progress</button><button class="btn btn-delete" onclick="deleteCurrentShowroom()">Delete</button></div>
-        </div>
+          <div class="admin-only" style="display: flex; gap: 10px;">
+  <button class="btn btn-add" onclick="editCurrentShowroom()">✏️ Edit Showroom Details</button>
+  <button class="btn btn-reset" onclick="resetCurrentShowroom()">Reset Progress</button>
+  <button class="btn btn-delete" onclick="deleteCurrentShowroom()">Delete</button>
+</div>
 
         <div class="table-section">
           <div class="table-responsive">
@@ -987,6 +1036,8 @@
     let inactivityTimer;
     const INACTIVITY_TIMEOUT = 30 * 60 * 1000;
     let showroomSearchTerm = '';
+    let currentEditShowroomId = null;
+    let currentEditDealerId = null;
 
     function escapeHtml(text) { if (!text) return ''; const div = document.createElement('div'); div.textContent = text; return div.innerHTML; }
     function formatDate(date) { if (!date || isNaN(new Date(date).getTime())) return "--"; const d = new Date(date); return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }); }
@@ -1081,7 +1132,7 @@
     function getDeviceInfo() { const ua = navigator.userAgent; let device = 'Desktop'; if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) device = 'Tablet'; if (/Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(ua)) device = 'Mobile'; let os = 'Unknown'; if (ua.includes('Windows')) os = 'Windows'; else if (ua.includes('Mac')) os = 'MacOS'; else if (ua.includes('Linux')) os = 'Linux'; else if (ua.includes('Android')) os = 'Android'; else if (ua.includes('iOS') || ua.includes('iPhone') || ua.includes('iPad')) os = 'iOS'; let browser = 'Unknown'; if (ua.includes('Chrome')) browser = 'Chrome'; else if (ua.includes('Firefox')) browser = 'Firefox'; else if (ua.includes('Safari')) browser = 'Safari'; else if (ua.includes('Edge')) browser = 'Edge'; return { device, os, browser, userAgent: ua }; }
     async function storeLoginRecord(username, role, ip) { const deviceInfo = getDeviceInfo(); const loginRecord = { username, role, ipAddress: ip, device: deviceInfo.device, os: deviceInfo.os, browser: deviceInfo.browser, userAgent: deviceInfo.userAgent, timestamp: new Date(), date: new Date().toISOString().split('T')[0] }; try { await addDoc(collection(db, "loginHistory"), loginRecord); } catch (error) { console.error('Failed to store login record:', error); } }
     
-    window.showLoginHistory = async () => { try { const q = query(collection(db, "loginHistory"), orderBy("timestamp", "desc"), limit(50)); const snapshot = await getDocs(q); if (snapshot.empty) { showToast('No login records found', 'info'); return; } let historyHtml = '<div style="max-height: 400px; overflow-y: auto;"><table style="width:100%; border-collapse: collapse;"><tr style="background: var(--primary-blue); color: white;"><th style="padding: 8px;">User</th><th style="padding: 8px;">IP</th><th style="padding: 8px;">Device</th><th style="padding: 8px;">Time</th></tr>'; snapshot.forEach(doc => { const data = doc.data(); const time = data.timestamp?.toDate?.() || new Date(data.timestamp); historyHtml += `<tr style="border-bottom: 1px solid #ddd;"><td style="padding: 8px;">${escapeHtml(data.username || '?')}</td><td style="padding: 8px;">${escapeHtml(data.ipAddress || '?')}</td><td style="padding: 8px;">${escapeHtml(data.device || '?')} | ${escapeHtml(data.browser || '?')}</td><td style="padding: 8px;">${time.toLocaleString()}</td></tr>`; }); historyHtml += '</table></div>'; const modal = document.createElement('div'); modal.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); display:flex; justify-content:center; align-items:center; z-index:2000;'; modal.innerHTML = `<div style="background:white; border-radius:12px; padding:25px; max-width:800px; width:90%; max-height:80vh; overflow:auto;"><h2 style="color:var(--primary-blue); margin-bottom:15px;">📋 Login History (Last 50)</h2>${historyHtml}<div style="margin-top:20px; text-align:center;"><button class="btn btn-print" onclick="this.closest('div').parentElement.remove()">Close</button></div></div>`; document.body.appendChild(modal); } catch (error) { showToast('Failed to load login history', 'error'); } };
+    window.showLoginHistory = async () => { try { const q = query(collection(db, "loginHistory"), orderBy("timestamp", "desc"), limit(50)); const snapshot = await getDocs(q); if (snapshot.empty) { showToast('No login records found', 'info'); return; } let historyHtml = '<div style="max-height: 400px; overflow-y: auto;"><table style="width:100%; border-collapse: collapse;"><tr style="background: var(--primary-blue); color: white;"><th style="padding: 8px;">User</th><th style="padding: 8px;">IP</th><th style="padding: 8px;">Device</th><th style="padding: 8px;">Time</th></td>'; snapshot.forEach(doc => { const data = doc.data(); const time = data.timestamp?.toDate?.() || new Date(data.timestamp); historyHtml += `<tr style="border-bottom: 1px solid #ddd;"><td style="padding: 8px;">${escapeHtml(data.username || '?')}</td><td style="padding: 8px;">${escapeHtml(data.ipAddress || '?')}</td><td style="padding: 8px;">${escapeHtml(data.device || '?')} | ${escapeHtml(data.browser || '?')}</td><td style="padding: 8px;">${time.toLocaleString()}</td></tr>`; }); historyHtml += '</table></div>'; const modal = document.createElement('div'); modal.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); display:flex; justify-content:center; align-items:center; z-index:2000;'; modal.innerHTML = `<div style="background:white; border-radius:12px; padding:25px; max-width:800px; width:90%; max-height:80vh; overflow:auto;"><h2 style="color:var(--primary-blue); margin-bottom:15px;">📋 Login History (Last 50)</h2>${historyHtml}<div style="margin-top:20px; text-align:center;"><button class="btn btn-print" onclick="this.closest('div').parentElement.remove()">Close</button></div></div>`; document.body.appendChild(modal); } catch (error) { showToast('Failed to load login history', 'error'); } };
     
     window.handleLogin = async () => { const u = document.getElementById('username').value.trim(); const p = document.getElementById('password').value; const loginError = document.getElementById('login-error'); const loginBtn = document.querySelector('#login-screen .btn-add'); if (USERS[u] && USERS[u].pass === p) { try { loginBtn.disabled = true; loginBtn.textContent = 'Logging in...'; loginError.style.display = 'none'; const ip = await getUserIP(); await storeLoginRecord(u, USERS[u].role, ip); sessionStorage.setItem("ais_user_role", USERS[u].role); const auth = getAuth(); await signInAnonymously(auth); setTimeout(() => { checkAuth(); }, 100); } catch (e) { sessionStorage.setItem("ais_user_role", USERS[u].role); setTimeout(() => { checkAuth(); }, 100); } finally { loginBtn.disabled = false; loginBtn.textContent = 'Login'; } } else { showToast('Invalid username or password', 'error'); loginError.style.display = 'block'; } };
     
@@ -1137,7 +1188,7 @@
         if (e.ctrlKey && e.key === 'a') { e.preventDefault(); showAnalyticsDashboard(); showToast('Switched to Analytics', 'info'); } 
         if (e.ctrlKey && e.key === 'p') { e.preventDefault(); openPDFModal(); } 
       }
-      if (e.key === 'Escape') { closeModal(); closeNotesModal(); } 
+      if (e.key === 'Escape') { closeModal(); closeNotesModal(); closeEditShowroomModal(); closeEditDealerModal(); } 
     });
     
     window.filterShowrooms = () => { showroomSearchTerm = document.getElementById('showroom-search')?.value?.toLowerCase() || ''; renderMasterGrid(); };
@@ -1307,17 +1358,212 @@ document.getElementById('header-title').innerHTML = `AIS <span>${showroom.name}$
     function renderMasterGrid() {
       const grid = document.getElementById('master-grid');
       let totalPct = 0, totalAvgDelay = 0, completedShowrooms = 0, activeDelayCount = 0;
-      let filteredShowrooms = state.showrooms; if (showroomSearchTerm) filteredShowrooms = state.showrooms.filter(s => s.name?.toLowerCase().includes(showroomSearchTerm));
-      if (!filteredShowrooms.length) { grid.innerHTML = '<div class="card" style="grid-column: 1/-1;">No showrooms found. Click "+ Add Showroom" to get started.</div>'; document.getElementById('global-total-showrooms').innerText = state.showrooms.length; document.getElementById('global-avg-completion').innerText = '0%'; document.getElementById('global-total-delay').innerText = '0'; document.getElementById('global-completed-count').innerText = '0'; return; }
-      grid.innerHTML = filteredShowrooms.map((s, idx) => { const stats = calculateShowroomStats(s); totalPct += stats.pct; if (stats.avgDelay > 0) { totalAvgDelay += stats.avgDelay; activeDelayCount++; } if (stats.pct === 100) completedShowrooms++; const originalIdx = state.showrooms.findIndex(orig => orig.id === s.id); const cityDisplay = s.city ? `<span>📍 ${escapeHtml(s.city)}</span>` : '';
-const rmDisplay = s.rm ? `<span>👤 RM: ${escapeHtml(s.rm)}</span>` : '';
-return `<div class="showroom-card"><h4>${escapeHtml(s.name)}</h4><div class="showroom-meta" style="flex-direction:column; gap:5px;"><div style="display:flex; justify-content:space-between; width:100%;"><span><strong>Progress:</strong> ${stats.pct}%</span><span style="color:${stats.avgDelay > 0 ? 'var(--delay-red)' : 'var(--success-green)'}"><strong>Delay:</strong> ${stats.avgDelay}d</span></div><div style="display:flex; justify-content:space-between; font-size:0.7rem; color:var(--text-muted);">${cityDisplay} ${rmDisplay}</div></div><div class="progress-bar-container" style="height:6px"><div class="progress-bar-fill" style="width:${stats.pct}%"></div></div><button class="btn btn-add" onclick="openShowroom(${originalIdx})" style="margin-top:12px; width:100%;">Open Tracker</button></div>`; }).join('');
+      let filteredShowrooms = state.showrooms; 
+      if (showroomSearchTerm) filteredShowrooms = state.showrooms.filter(s => s.name?.toLowerCase().includes(showroomSearchTerm));
+      
+      if (!filteredShowrooms.length) { 
+        grid.innerHTML = '<div class="card" style="grid-column: 1/-1;">No showrooms found. Click "+ Add Showroom" to get started.</div>'; 
+        document.getElementById('global-total-showrooms').innerText = state.showrooms.length; 
+        document.getElementById('global-avg-completion').innerText = '0%'; 
+        document.getElementById('global-total-delay').innerText = '0'; 
+        document.getElementById('global-completed-count').innerText = '0'; 
+        return; 
+      }
+      
+      grid.innerHTML = filteredShowrooms.map((s, idx) => { 
+        const stats = calculateShowroomStats(s); 
+        totalPct += stats.pct; 
+        if (stats.avgDelay > 0) { 
+          totalAvgDelay += stats.avgDelay; 
+          activeDelayCount++; 
+        } 
+        if (stats.pct === 100) completedShowrooms++; 
+        const originalIdx = state.showrooms.findIndex(orig => orig.id === s.id); 
+        const cityDisplay = s.city ? `<span>📍 ${escapeHtml(s.city)}</span>` : '';
+        const rmDisplay = s.rm ? `<span>👤 RM: ${escapeHtml(s.rm)}</span>` : '';
+        
+        return `<div class="showroom-card"><h4>${escapeHtml(s.name)}</h4><div class="showroom-meta" style="flex-direction:column; gap:5px;"><div style="display:flex; justify-content:space-between; width:100%;"><span><strong>Progress:</strong> ${stats.pct}%</span><span style="color:${stats.avgDelay > 0 ? 'var(--delay-red)' : 'var(--success-green)'}"><strong>Delay:</strong> ${stats.avgDelay}d</span></div><div style="display:flex; justify-content:space-between; font-size:0.7rem; color:var(--text-muted);">${cityDisplay} ${rmDisplay}</div></div><div class="progress-bar-container" style="height:6px"><div class="progress-bar-fill" style="width:${stats.pct}%"></div></div><button class="btn btn-add" onclick="openShowroom(${originalIdx})" style="margin-top:12px; width:100%;">Open Tracker</button></div>`;
+      }).join('');
+      
       const globalAvgDelay = activeDelayCount > 0 ? Math.round(totalAvgDelay / activeDelayCount) : 0;
       document.getElementById('global-total-showrooms').innerText = state.showrooms.length;
       document.getElementById('global-avg-completion').innerText = state.showrooms.length ? Math.round(totalPct / state.showrooms.length) + '%' : '0%';
       document.getElementById('global-total-delay').innerText = globalAvgDelay;
       document.getElementById('global-completed-count').innerText = completedShowrooms;
+      
+      renderShowroomRMAnalytics();
     }
+    
+    // =============== SHOWROOM RM ANALYTICS ===============
+    window.toggleShowroomRMAnalytics = () => { 
+      const content = document.getElementById('showroom-rm-analytics-content'); 
+      const icon = document.getElementById('showroom-rm-collapse-icon'); 
+      if (content.classList.contains('show')) { 
+        content.classList.remove('show'); 
+        icon.innerHTML = '▶'; 
+      } else { 
+        content.classList.add('show'); 
+        icon.innerHTML = '▼'; 
+      } 
+    };
+    
+    function renderShowroomRMAnalytics() {
+      const rmMap = new Map();
+      state.showrooms.forEach(s => {
+        const rm = s.rm || 'Not assigned';
+        if (!rmMap.has(rm)) rmMap.set(rm, { total: 0, totalDelay: 0, totalProgress: 0 });
+        const stats = rmMap.get(rm);
+        const showroomStats = calculateShowroomStats(s);
+        stats.total++;
+        stats.totalDelay += showroomStats.avgDelay;
+        stats.totalProgress += showroomStats.pct;
+      });
+      
+      const rmHtml = Array.from(rmMap.entries()).map(([rm, stats]) => {
+        const avgDelay = stats.total > 0 ? Math.round(stats.totalDelay / stats.total) : 0;
+        const avgProgress = stats.total > 0 ? Math.round(stats.totalProgress / stats.total) : 0;
+        return `<div style="margin-bottom:10px; padding:8px; background:#f8f9fa; border-radius:6px;">
+          <strong>${escapeHtml(rm)}</strong><br>
+          Showrooms: ${stats.total} | Avg Progress: ${avgProgress}% | Avg Delay: ${avgDelay} days
+        </div>`;
+      }).join('');
+      document.getElementById('showroom-rm-analytics-body').innerHTML = rmHtml || '<div>No data available</div>';
+    }
+    
+    // =============== EDIT SHOWROOM FUNCTIONS ===============
+    window.editShowroom = (idx) => {
+      const showroom = state.showrooms[idx];
+      if (!showroom) return;
+      currentEditShowroomId = idx;
+      document.getElementById('edit-showroom-name').value = showroom.name || '';
+      document.getElementById('edit-showroom-city').value = showroom.city || '';
+      document.getElementById('edit-showroom-rm').value = showroom.rm || '';
+      document.getElementById('edit-showroom-start').value = showroom.startDate || '';
+      document.getElementById('edit-showroom-modal').style.display = 'flex';
+    };
+    
+    window.closeEditShowroomModal = () => {
+      document.getElementById('edit-showroom-modal').style.display = 'none';
+      currentEditShowroomId = null;
+      document.getElementById('edit-showroom-error').style.display = 'none';
+    };
+    
+    window.saveEditShowroom = async () => {
+      const name = document.getElementById('edit-showroom-name').value.trim();
+      const city = document.getElementById('edit-showroom-city').value.trim();
+      const rm = document.getElementById('edit-showroom-rm').value.trim();
+      const startDate = document.getElementById('edit-showroom-start').value;
+      const errorDiv = document.getElementById('edit-showroom-error');
+      const saveBtn = document.querySelector('#edit-showroom-modal .btn-add');
+      
+      if (!name || !startDate) {
+        errorDiv.innerHTML = 'Showroom Name and Start Date are required';
+        errorDiv.style.display = 'block';
+        return;
+      }
+      
+      const duplicate = state.showrooms.some((s, i) => s.name?.toLowerCase() === name.toLowerCase() && i !== currentEditShowroomId);
+      if (duplicate) {
+        errorDiv.innerHTML = 'A showroom with this name already exists';
+        errorDiv.style.display = 'block';
+        return;
+      }
+      
+      showLoading(saveBtn);
+      try {
+        const showroom = state.showrooms[currentEditShowroomId];
+        const updatedShowroom = {
+          ...showroom,
+          name: name,
+          city: city || 'Not specified',
+          rm: rm || 'Not assigned',
+          startDate: startDate,
+          updatedAt: new Date().toISOString()
+        };
+        await saveShowroom(updatedShowroom);
+        state.showrooms[currentEditShowroomId] = updatedShowroom;
+        await logAction('EDIT_SHOWROOM', `Showroom ${showroom.name} edited`);
+        closeEditShowroomModal();
+        renderMasterGrid();
+        renderShowroomList();
+        if (state.currentIndex === currentEditShowroomId) {
+          const subHeader = city || rm ? ` - ${city || ''} ${rm ? `(RM: ${rm})` : ''}` : '';
+          document.getElementById('header-title').innerHTML = `AIS <span>${name}${subHeader}</span>`;
+          document.getElementById('current-start-date').value = startDate;
+        }
+        showToast(`Showroom "${name}" updated successfully`, 'success');
+      } catch (error) {
+        errorDiv.innerHTML = 'Failed to update showroom. Please try again.';
+        errorDiv.style.display = 'block';
+        showToast('Failed to update showroom', 'error');
+      } finally {
+        hideLoading(saveBtn);
+      }
+    };
+    
+    // =============== EDIT DEALER FUNCTIONS ===============
+    window.editDealer = (id) => {
+      const dealer = state.dealers.find(d => d.id === id);
+      if (!dealer) return;
+      currentEditDealerId = id;
+      document.getElementById('edit-dealer-name').value = dealer.name || '';
+      document.getElementById('edit-dealer-city').value = dealer.city || '';
+      document.getElementById('edit-dealer-rm').value = dealer.rm || '';
+      document.getElementById('edit-dealer-start').value = dealer.startDate || '';
+      document.getElementById('edit-dealer-modal').style.display = 'flex';
+    };
+    
+    window.editDealerFromDetail = () => {
+      if (state.currentDealerId) {
+        editDealer(state.currentDealerId);
+      }
+    };
+    
+    window.closeEditDealerModal = () => {
+      document.getElementById('edit-dealer-modal').style.display = 'none';
+      currentEditDealerId = null;
+      document.getElementById('edit-dealer-error').style.display = 'none';
+    };
+    
+    window.saveEditDealer = async () => {
+      const name = document.getElementById('edit-dealer-name').value.trim();
+      const city = document.getElementById('edit-dealer-city').value.trim();
+      const rm = document.getElementById('edit-dealer-rm').value.trim();
+      const startDate = document.getElementById('edit-dealer-start').value;
+      const errorDiv = document.getElementById('edit-dealer-error');
+      const saveBtn = document.querySelector('#edit-dealer-modal .btn-add');
+      
+      if (!name || !city || !rm || !startDate) {
+        errorDiv.innerHTML = 'Please fill all fields (Name, City, RM, Start Date)';
+        errorDiv.style.display = 'block';
+        return;
+      }
+      
+      showLoading(saveBtn);
+      try {
+        const dRef = doc(db, "dealerOnboarding", currentEditDealerId);
+        await updateDoc(dRef, {
+          name: name,
+          city: city,
+          rm: rm,
+          startDate: startDate,
+          updatedAt: new Date().toISOString()
+        });
+        await logAction('EDIT_DEALER', `Dealer ${name} edited`);
+        closeEditDealerModal();
+        renderDealerDashboard();
+        if (state.currentDealerId === currentEditDealerId) {
+          openDealer(currentEditDealerId);
+        }
+        showToast(`Dealer "${name}" updated successfully`, 'success');
+      } catch (error) {
+        errorDiv.innerHTML = 'Failed to update dealer. Please try again.';
+        errorDiv.style.display = 'block';
+        showToast('Failed to update dealer', 'error');
+      } finally {
+        hideLoading(saveBtn);
+      }
+    };
     
     function renderDashboard() {
       const showroom = state.showrooms[state.currentIndex]; if (!showroom) return;
@@ -1352,6 +1598,18 @@ return `<div class="showroom-card"><h4>${escapeHtml(s.name)}</h4><div class="sho
     window.updateStartDate = async (d) => { if (state.currentIndex === -1) return; state.showrooms[state.currentIndex].startDate = d; try { await saveShowroom(state.showrooms[state.currentIndex]); calculateDashboard(); renderMasterGrid(); await logAction('UPDATE_START_DATE', `Start date updated for ${state.showrooms[state.currentIndex].name}`); showToast('Start date updated successfully', 'success'); } catch (error) { showToast(error.message, 'error'); } };
     window.resetCurrentShowroom = async () => { if (!confirm("Are you sure you want to reset all progress for this showroom?")) return; if (state.currentIndex !== -1) { state.showrooms[state.currentIndex].data = {}; try { await saveShowroom(state.showrooms[state.currentIndex]); renderDashboard(); renderMasterGrid(); await logAction('RESET_SHOWROOM', `Progress reset for ${state.showrooms[state.currentIndex].name}`); showToast('Showroom progress reset', 'success'); } catch (error) { showToast(error.message, 'error'); } } };
     window.deleteCurrentShowroom = async () => { if (state.currentIndex === -1) return; const showroom = state.showrooms[state.currentIndex]; if (!confirm(`Are you sure you want to permanently delete "${showroom.name}"?`)) return; try { const docId = showroom.id || showroom.name.replace(/\s+/g, "_"); await deleteDoc(doc(db, "showrooms", docId)); await logAction('DELETE_SHOWROOM', `Showroom ${showroom.name} deleted`); state.showrooms.splice(state.currentIndex, 1); state.currentIndex = -1; showMasterDashboard(); showToast(`Deleted "${showroom.name}"`, 'success'); } catch (error) { showToast('Failed to delete showroom', 'error'); } };
+window.editCurrentShowroom = () => {
+  if (state.currentIndex === -1) return;
+  const showroom = state.showrooms[state.currentIndex];
+  if (!showroom) return;
+  
+  currentEditShowroomId = state.currentIndex;
+  document.getElementById('edit-showroom-name').value = showroom.name || '';
+  document.getElementById('edit-showroom-city').value = showroom.city || '';
+  document.getElementById('edit-showroom-rm').value = showroom.rm || '';
+  document.getElementById('edit-showroom-start').value = showroom.startDate || '';
+  document.getElementById('edit-showroom-modal').style.display = 'flex';
+};
     window.confirmAddShowroom = async () => { 
   const name = document.getElementById('new-showroom-name')?.value?.trim(); 
   const city = document.getElementById('new-showroom-city')?.value?.trim();
@@ -1538,7 +1796,7 @@ return `<div class="showroom-card"><h4>${escapeHtml(s.name)}</h4><div class="sho
     
     window.confirmAddDealer = async () => { const name = document.getElementById('new-dealer-name').value.trim(); const city = document.getElementById('new-dealer-city').value.trim(); const rm = document.getElementById('new-dealer-rm').value.trim(); const startDate = document.getElementById('new-dealer-start').value; const errEl = document.getElementById('dealer-modal-error'); const btn = document.getElementById('create-dealer-btn'); if (errEl) { errEl.style.display = 'none'; errEl.textContent = ''; } if (!name || !city || !rm || !startDate) { if (errEl) { errEl.textContent = 'Please fill all fields.'; errEl.style.display = 'block'; } return; } showLoading(btn); try { const dealer = { name, city, rm, startDate, currentStage: 'Interested', status: 'Active', documents: {}, selectedStages: {}, createdAt: new Date().toISOString() }; await addDoc(collection(db, "dealerOnboarding"), dealer); await logAction('ADD_DEALER', `Dealer ${name} created`); document.getElementById('modal-dealer-overlay').style.display = 'none'; document.getElementById('new-dealer-name').value = ''; document.getElementById('new-dealer-city').value = ''; document.getElementById('new-dealer-rm').value = ''; document.getElementById('new-dealer-start').value = ''; renderDealerDashboard(); showToast(`Dealer "${name}" created`, 'success'); } catch (error) { if (errEl) { errEl.textContent = error?.message || 'Unknown error.'; errEl.style.display = 'block'; } } finally { hideLoading(btn); } };
     window.openDealerModal = () => { document.getElementById('modal-dealer-overlay').style.display = 'flex'; };
-    window.closeModal = () => { const modals = ['modal-overlay', 'modal-dealer-overlay', 'pdf-export-modal']; modals.forEach(id => { const el = document.getElementById(id); if (el) el.style.display = 'none'; }); };
+    window.closeModal = () => { const modals = ['modal-overlay', 'modal-dealer-overlay', 'pdf-export-modal', 'edit-showroom-modal', 'edit-dealer-modal']; modals.forEach(id => { const el = document.getElementById(id); if (el) el.style.display = 'none'; }); };
     window.openModal = () => { document.getElementById('modal-overlay').style.display = 'flex'; };
     
     window.exportDashboardReport = () => { try { if (!window.XLSX) { showToast('Export library not loaded.', 'error'); return; } const wb = XLSX.utils.book_new(); const showroomSummary = state.showrooms.map(s => { const stats = calculateShowroomStats(s); return { 'Showroom Name': s.name || '', 'Start Date': formatDate(s.startDate), 'Completion %': stats.pct, 'Avg Delay (Days)': stats.avgDelay }; }); XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(showroomSummary), 'SHOWROOMS'); const dealerSummary = state.dealers.map(d => ({ 'Dealer Name': d.name || '', 'City': d.city || '', 'RM': d.rm || '', 'Start Date': formatDate(d.startDate), 'Current Stage': d.currentStage || autoDetectStage(d), 'Status': d.status || 'Active', 'Document %': `${docProgress(d.documents).pct}%`, 'Drop Reason': d.dropReason || '' })); XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(dealerSummary), 'DEALERS'); XLSX.writeFile(wb, `AIS_Report_${new Date().toISOString().slice(0,10)}.xlsx`); logAction('EXPORT_REPORT', 'Dashboard report exported'); showToast('Report exported', 'success'); } catch (err) { showToast('Export failed', 'error'); } };
