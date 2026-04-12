@@ -2,620 +2,1345 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="description" content="AIS Showroom Execution Dashboard for tracking multi-showroom rollout, installation progress, and delay monitoring.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AIS Command Center | Enterprise Execution Dashboard</title>
+  <title>AIS Command Center | Enterprise Operations</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-    /* ========== ENTERPRISE DESIGN SYSTEM ========== */
+    /* ═══════════════════════════════════════════════
+       AIS COMMAND CENTER v2.0 — ENTERPRISE DESIGN SYSTEM
+       ═══════════════════════════════════════════════ */
     :root {
-      --primary: #0054A6;
-      --primary-dark: #003a75;
-      --primary-light: #e8f0fe;
-      --secondary: #2c3e50;
-      --success: #27ae60;
-      --warning: #f39c12;
-      --danger: #e74c3c;
-      --danger-dark: #c0392b;
-      --info: #3498db;
-      --purple: #9b59b6;
-      --gray-100: #f8f9fc;
-      --gray-200: #f1f3f5;
-      --gray-300: #e9ecef;
-      --gray-400: #dee2e6;
-      --gray-500: #ced4da;
-      --gray-600: #6c757d;
-      --gray-700: #495057;
-      --gray-800: #343a40;
-      --gray-900: #212529;
-      --white: #ffffff;
-      --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
-      --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
-      --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
-      --shadow-xl: 0 12px 36px rgba(0,0,0,0.15);
-      --radius-sm: 6px;
-      --radius-md: 10px;
-      --radius-lg: 16px;
-      --radius-xl: 24px;
-      --transition: all 0.2s ease;
+      /* Core palette */
+      --navy-900: #060E1A;
+      --navy-800: #0F1C2E;
+      --navy-700: #162438;
+      --navy-600: #1D304A;
+      --navy-500: #2A4260;
+      --navy-400: #3D5A78;
+
+      --blue-600: #1A56DB;
+      --blue-500: #2563EB;
+      --blue-400: #3B82F6;
+      --blue-100: #DBEAFE;
+      --blue-50:  #EFF6FF;
+
+      --emerald-600: #059669;
+      --emerald-500: #10B981;
+      --emerald-100: #D1FAE5;
+      --emerald-50:  #ECFDF5;
+
+      --amber-600: #D97706;
+      --amber-500: #F59E0B;
+      --amber-100: #FEF3C7;
+      --amber-50:  #FFFBEB;
+
+      --red-700: #B91C1C;
+      --red-600: #DC2626;
+      --red-500: #EF4444;
+      --red-100: #FEE2E2;
+      --red-50:  #FEF2F2;
+
+      --purple-500: #8B5CF6;
+      --purple-100: #EDE9FE;
+
+      --slate-900: #0F172A;
+      --slate-800: #1E293B;
+      --slate-700: #334155;
+      --slate-600: #475569;
+      --slate-500: #64748B;
+      --slate-400: #94A3B8;
+      --slate-300: #CBD5E1;
+      --slate-200: #E2E8F0;
+      --slate-100: #F1F5F9;
+      --slate-50:  #F8FAFC;
+      --white: #FFFFFF;
+
+      /* Sidebar */
+      --sidebar-bg: var(--navy-800);
+      --sidebar-width: 260px;
+      --sidebar-collapsed: 68px;
+
+      /* Surfaces */
+      --surface: var(--white);
+      --surface-2: var(--slate-50);
+      --surface-border: var(--slate-200);
+      --page-bg: #EDF1F7;
+
+      /* Text */
+      --text-primary:   var(--slate-900);
+      --text-secondary: var(--slate-600);
+      --text-muted:     var(--slate-400);
+      --text-on-dark:   rgba(255,255,255,0.9);
+      --text-on-dark-2: rgba(255,255,255,0.55);
+
+      /* Shadows */
+      --shadow-xs: 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,0.10), 0 4px 8px rgba(0,0,0,0.04);
+      --shadow-xl: 0 16px 48px rgba(0,0,0,0.14);
+      --shadow-blue: 0 4px 16px rgba(37,99,235,0.25);
+
+      /* Radii */
+      --r-xs: 4px;
+      --r-sm: 8px;
+      --r-md: 12px;
+      --r-lg: 16px;
+      --r-xl: 20px;
+      --r-2xl: 28px;
+
+      /* Motion */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.45, 0, 0.55, 1);
+      --dur-fast: 150ms;
+      --dur-base: 220ms;
+      --dur-slow: 380ms;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    
+    /* ── RESET ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: var(--gray-100);
-      color: var(--gray-800);
-      line-height: 1.5;
-      min-height: 100vh;
-      transition: var(--transition);
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--page-bg);
+      color: var(--text-primary);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
+    a { text-decoration: none; color: inherit; }
+    button { font-family: inherit; cursor: pointer; }
+    input, select, textarea { font-family: inherit; }
+    img { max-width: 100%; }
 
-    ::-webkit-scrollbar { width: 8px; height: 8px; }
-    ::-webkit-scrollbar-track { background: var(--gray-200); border-radius: 10px; }
-    ::-webkit-scrollbar-thumb { background: var(--gray-500); border-radius: 10px; }
-    ::-webkit-scrollbar-thumb:hover { background: var(--gray-600); }
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--slate-300); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--slate-400); }
 
-    h1, h2, h3, h4, .h1, .h2, .h3, .h4 { font-weight: 600; letter-spacing: -0.02em; }
-    .text-muted { color: var(--gray-600); }
-    .text-primary { color: var(--primary); }
-    .text-success { color: var(--success); }
-    .text-warning { color: var(--warning); }
-    .text-danger { color: var(--danger); }
-
-    .app-container { display: flex; flex-direction: column; min-height: 100vh; }
-    .main-content { flex: 1; max-width: 1600px; margin: 0 auto; padding: 24px 32px; width: 100%; }
-    
-    /* ENHANCED ENTERPRISE HEADER — Logo ABOVE text, both LEFT aligned */
-    .app-header {
-      background: var(--white);
-      border-bottom: 1px solid var(--gray-200);
-      padding: 0 32px;
-      height: 90px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(10px);
-      background: rgba(255,255,255,0.95);
-      box-shadow: var(--shadow-sm);
-    }
-    .logo-brand {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      justify-content: center;
-      gap: 2px;
-    }
-    .logo-img {
-      height: 34px;
-      width: auto;
-      margin-bottom: 2px;
-    }
-    .brand-text {
-      font-size: 1.6rem;
-      font-weight: 700;
-      color: var(--primary);
-      letter-spacing: -0.5px;
-      line-height: 1.2;
-    }
-    .brand-sub {
-      font-size: 0.9rem;
-      font-weight: 400;
-      color: var(--gray-600);
-      margin-top: -2px;
-    }
-    .header-controls { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
-
-    .card {
-      background: var(--white);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-sm);
-      transition: var(--transition);
-      border: 1px solid var(--gray-200);
-      overflow: hidden;
-    }
-    .card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
-    .card-header {
-      padding: 20px 24px;
-      border-bottom: 1px solid var(--gray-200);
-      background: var(--white);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-    .card-title { font-size: 1rem; font-weight: 600; color: var(--gray-800); text-transform: uppercase; letter-spacing: 0.5px; }
-    .card-body { padding: 24px; }
-
-    .kpi-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 20px;
-      margin-bottom: 28px;
-    }
-    .kpi-card {
-      background: var(--white);
-      border-radius: var(--radius-lg);
-      padding: 20px;
-      box-shadow: var(--shadow-sm);
-      border-left: 4px solid var(--primary);
-      transition: var(--transition);
-    }
-    .kpi-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
-    .kpi-label { font-size: 0.7rem; text-transform: uppercase; font-weight: 600; color: var(--gray-500); letter-spacing: 0.5px; margin-bottom: 8px; }
-    .kpi-value { font-size: 2rem; font-weight: 700; color: var(--gray-800); line-height: 1.2; margin-bottom: 4px; }
-    .kpi-trend { font-size: 0.7rem; display: flex; align-items: center; gap: 4px; margin-top: 8px; }
-    .trend-up { color: var(--success); }
-    .trend-down { color: var(--danger); }
-
-    /* TOP SUMMARY STRIP */
-    .summary-strip {
-      background: linear-gradient(102deg, #f0f4fa 0%, #ffffff 100%);
-      border-radius: var(--radius-lg);
-      padding: 16px 24px;
-      margin-bottom: 24px;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      border: 1px solid var(--gray-300);
-      box-shadow: var(--shadow-sm);
-    }
-    .summary-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: 500;
-    }
-    .summary-badge {
-      background: var(--danger);
-      color: white;
-      border-radius: 40px;
-      padding: 4px 14px;
-      font-weight: 700;
-      font-size: 0.9rem;
-    }
-
-    .filter-bar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 24px;
-      align-items: center;
-    }
-    .filter-group {
-      background: var(--white);
-      border: 1px solid var(--gray-300);
-      border-radius: var(--radius-md);
-      padding: 8px 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      min-width: 160px;
-    }
-    .filter-group i { color: var(--gray-500); font-size: 0.9rem; }
-    .filter-group select, .filter-group input {
-      border: none;
-      background: transparent;
-      font-size: 0.85rem;
-      padding: 4px 0;
-      outline: none;
-      font-family: inherit;
-      color: var(--gray-700);
-      width: 100%;
-    }
-    .search-group { flex: 1; min-width: 250px; }
-    .btn {
-      padding: 10px 18px;
-      border-radius: var(--radius-md);
-      font-weight: 600;
-      font-size: 0.8rem;
-      transition: var(--transition);
-      cursor: pointer;
-      border: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--white);
-      color: var(--gray-700);
-      border: 1px solid var(--gray-300);
-    }
-    .btn-primary { background: var(--primary); color: white; border: none; }
-    .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); box-shadow: var(--shadow-md); }
-    .btn-outline { border: 1px solid var(--gray-300); background: white; }
-    .btn-outline:hover { background: var(--gray-100); border-color: var(--gray-400); transform: translateY(-1px); }
-    .btn-danger { background: var(--danger); color: white; border: none; }
-    .btn-danger:hover { background: var(--danger-dark); }
-    .btn-sm { padding: 6px 12px; font-size: 0.75rem; }
-    .btn-success { background: var(--success); color: white; border: none; }
-    .btn-success:hover { background: #219a52; }
-
-    .showroom-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-      gap: 24px;
-      margin-top: 20px;
-    }
-    .showroom-item {
-      background: var(--white);
-      border-radius: var(--radius-lg);
-      padding: 20px;
-      box-shadow: var(--shadow-sm);
-      transition: var(--transition);
-      border: 1px solid var(--gray-200);
-      position: relative;
-      overflow: hidden;
-    }
-    .showroom-item:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
-    .showroom-item.critical-delay { border-left: 4px solid var(--danger); background: linear-gradient(to right, rgba(231,76,60,0.05), var(--white)); }
-    .showroom-item.moderate-delay { border-left: 4px solid var(--warning); background: linear-gradient(to right, rgba(243,156,18,0.05), var(--white)); }
-    .showroom-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
-    .showroom-name { font-size: 1.1rem; font-weight: 700; color: var(--primary); }
-    .showroom-meta { font-size: 0.7rem; color: var(--gray-500); margin-top: 4px; display: flex; gap: 12px; }
-    .progress-section { margin: 16px 0; }
-    .progress-bar-container { height: 8px; background: var(--gray-200); border-radius: 10px; overflow: hidden; }
-    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--info)); border-radius: 10px; transition: width 0.6s ease; }
-    .showroom-stats { display: flex; justify-content: space-between; margin-top: 12px; font-size: 0.75rem; }
-    .delay-badge { padding: 4px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: 600; }
-    .delay-critical { background: #fee2e2; color: var(--danger); font-weight: 700; border: 1px solid var(--danger); }
-    .delay-warning { background: #fff3e0; color: var(--warning); }
-    .delay-normal { background: #e3fcec; color: var(--success); }
-    .showroom-actions { display: flex; gap: 10px; margin-top: 16px; }
-    .showroom-actions button { flex: 1; }
-
-    /* Next Best Action & Insight style */
-    .action-insight {
-      background: #fef6e0;
-      border-radius: var(--radius-md);
-      padding: 10px 14px;
-      margin: 12px 0;
-      font-size: 0.8rem;
-      border-left: 4px solid var(--warning);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .analytics-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-      gap: 24px;
-      margin-bottom: 28px;
-    }
-    .chart-card { padding: 20px; }
-    canvas { max-height: 280px; width: 100%; }
-
-    .phase-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-    .phase-table th, .phase-table td { padding: 10px; text-align: left; border-bottom: 1px solid var(--gray-200); font-size: 0.8rem; }
-    .phase-table th { background: var(--gray-100); font-weight: 600; color: var(--gray-600); }
-    .phase-table tr:hover { background: var(--gray-50); }
-    .status-badge { padding: 4px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: 600; }
-    .status-completed { background: #e3fcec; color: var(--success); }
-    .status-delayed { background: #fee2e2; color: var(--danger); font-weight: 700; }
-    .status-pending { background: #fff3e0; color: var(--warning); }
-
-    .stage-stepper { display: flex; justify-content: space-between; margin: 20px 0; flex-wrap: wrap; gap: 10px; }
-    .stage-step { flex: 1; text-align: center; cursor: pointer; padding: 12px 8px; border-radius: var(--radius-md); transition: var(--transition); font-weight: 600; }
-    .stage-step:hover { background: var(--gray-100); transform: translateY(-2px); }
-    .stage-step.active { background: var(--primary); color: white; box-shadow: var(--shadow-md); }
-    .stage-step.completed { background: var(--success); color: white; }
-
-    .insight-card {
-      background: linear-gradient(135deg, var(--primary-light), var(--white));
-      border-radius: var(--radius-lg);
-      padding: 16px 20px;
-      margin-bottom: 20px;
-      border-left: 4px solid var(--primary);
-    }
-    .insight-icon { font-size: 1.2rem; margin-right: 8px; }
-
-    .modal-overlay {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.5);
-      backdrop-filter: blur(4px);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
-    .modal-container {
-      background: white;
-      border-radius: var(--radius-xl);
-      width: 90%;
-      max-width: 800px;
-      max-height: 85vh;
-      overflow-y: auto;
-      padding: 28px;
-      animation: fadeInUp 0.2s ease;
-    }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-    .modal-title { font-size: 1.25rem; font-weight: 700; color: var(--primary); }
-    .form-group { margin-bottom: 18px; }
-    .form-label { display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 6px; color: var(--gray-700); }
-    .form-input, .form-select, .form-textarea {
-      width: 100%;
-      padding: 10px 14px;
-      border: 1px solid var(--gray-300);
-      border-radius: var(--radius-md);
-      font-size: 0.85rem;
-      transition: var(--transition);
-      font-family: inherit;
-    }
-    .form-input:focus, .form-select:focus, .form-textarea:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(0,84,166,0.1);
-    }
-    .modal-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; }
-
-    .toast-container {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      z-index: 1100;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .toast {
-      background: var(--gray-800);
-      color: white;
-      padding: 12px 20px;
-      border-radius: var(--radius-md);
-      font-size: 0.85rem;
-      animation: slideInRight 0.3s ease;
-      box-shadow: var(--shadow-lg);
-    }
-    @keyframes slideInRight {
-      from { transform: translateX(100%); opacity: 0; }
-      to { transform: translateX(0); opacity: 1; }
-    }
-
+    /* ════════════════════════════════
+       LOGIN SCREEN
+       ════════════════════════════════ */
     .login-screen {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 2000;
+      position: fixed; inset: 0;
+      background: linear-gradient(135deg, var(--navy-900) 0%, var(--navy-700) 50%, #1A2F50 100%);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 3000;
+      overflow: hidden;
+    }
+    .login-screen::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(37,99,235,0.15) 0%, transparent 70%);
+      pointer-events: none;
     }
     .login-card {
-      background: white;
-      padding: 40px;
-      border-radius: var(--radius-xl);
-      width: 100%;
-      max-width: 400px;
-      text-align: center;
-      animation: fadeInUp 0.3s ease;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.10);
+      backdrop-filter: blur(24px);
+      border-radius: var(--r-2xl);
+      padding: 48px 44px;
+      width: 100%; max-width: 420px;
+      position: relative;
+      animation: fadeUp 0.5s var(--ease-out) both;
     }
-    .login-logo { height: 48px; margin-bottom: 24px; }
-    .login-field { margin-bottom: 20px; text-align: left; }
-    .login-field label { font-size: 0.8rem; font-weight: 600; margin-bottom: 6px; display: block; }
-    .login-field input { width: 100%; padding: 12px; border: 1px solid var(--gray-300); border-radius: var(--radius-md); }
-
-    /* Document Checklist */
-    .doc-section { margin-top: 20px; background: var(--gray-100); border-radius: var(--radius-lg); padding: 20px; }
-    .doc-section h4 { margin-bottom: 15px; color: var(--primary); }
-    .doc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
-    .doc-item { display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: var(--white); border-radius: var(--radius-md); transition: var(--transition); }
-    .doc-item:hover { background: var(--gray-200); transform: translateX(4px); }
-    .doc-checkbox { width: 18px; height: 18px; cursor: pointer; accent-color: var(--success); }
-    .doc-label { font-size: 0.85rem; color: var(--gray-700); cursor: pointer; flex: 1; }
-    .doc-status { font-size: 0.7rem; font-weight: 600; }
-    .doc-status.completed { color: var(--success); }
-    .doc-status.pending { color: var(--warning); }
-
-    .badge-admin {
-      background: #e1effe;
-      color: var(--primary);
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      margin-right: 15px;
+    .login-logo-wrap {
+      text-align: center; margin-bottom: 32px;
     }
-    .badge-viewer {
-      background: #f3f4f6;
-      color: #4b5563;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      margin-right: 15px;
+    .login-logo-img {
+      height: 40px; margin-bottom: 16px;
+      filter: brightness(0) invert(1);
+    }
+    .login-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.6rem; font-weight: 700;
+      color: var(--white); letter-spacing: -0.02em;
+    }
+    .login-sub {
+      font-size: 0.85rem; color: rgba(255,255,255,0.5);
+      margin-top: 4px;
+    }
+    .login-field { margin-bottom: 18px; }
+    .login-field label {
+      display: block; font-size: 0.75rem; font-weight: 600;
+      color: rgba(255,255,255,0.6); letter-spacing: 0.06em;
+      text-transform: uppercase; margin-bottom: 8px;
+    }
+    .login-field input {
+      width: 100%; padding: 13px 16px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--r-md);
+      color: var(--white); font-size: 0.9rem;
+      transition: border-color var(--dur-fast), background var(--dur-fast);
+      outline: none;
+    }
+    .login-field input::placeholder { color: rgba(255,255,255,0.3); }
+    .login-field input:focus {
+      border-color: rgba(59,130,246,0.6);
+      background: rgba(255,255,255,0.10);
+      box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+    }
+    .btn-login {
+      width: 100%; padding: 14px;
+      background: var(--blue-500);
+      color: white; font-size: 0.9rem; font-weight: 600;
+      border: none; border-radius: var(--r-md);
+      margin-top: 8px; letter-spacing: 0.02em;
+      transition: background var(--dur-fast), transform var(--dur-fast), box-shadow var(--dur-fast);
+    }
+    .btn-login:hover {
+      background: var(--blue-600); transform: translateY(-1px);
+      box-shadow: var(--shadow-blue);
+    }
+    .btn-login:active { transform: translateY(0); }
+    #loginError {
+      color: #FCA5A5; font-size: 0.8rem; text-align: center;
+      margin-top: 14px; display: none;
+      padding: 10px 14px; background: rgba(239,68,68,0.12);
+      border-radius: var(--r-sm); border: 1px solid rgba(239,68,68,0.2);
     }
 
-    /* LOADER / SKELETON */
-    .skeleton-loader {
-      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-      background-size: 200% 100%;
-      animation: loading 1.5s infinite;
-      border-radius: var(--radius-md);
+    /* ════════════════════════════════
+       APP SHELL — SIDEBAR + CONTENT
+       ════════════════════════════════ */
+    #mainApp { display: none; }
+    .shell {
+      display: flex; min-height: 100vh;
     }
-    @keyframes loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: var(--sidebar-width);
+      background: var(--sidebar-bg);
+      display: flex; flex-direction: column;
+      position: fixed; inset-block: 0; left: 0;
+      z-index: 200;
+      transition: width var(--dur-slow) var(--ease-out);
+      overflow: hidden;
+    }
+    .sidebar-header {
+      padding: 24px 20px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      flex-shrink: 0;
+    }
+    .sidebar-logo {
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .sidebar-logo img {
+      height: 28px; width: auto;
+      filter: brightness(0) invert(1);
+      opacity: 0.9;
+    }
+    .sidebar-appname {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.95rem; font-weight: 700;
+      color: var(--white); letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+    .sidebar-tagline {
+      font-size: 0.7rem; color: rgba(255,255,255,0.35);
+      white-space: nowrap; letter-spacing: 0.02em;
+    }
+
+    /* Critical alert strip inside sidebar */
+    .sidebar-alert {
+      margin: 12px 12px 0;
+      background: rgba(220,38,38,0.15);
+      border: 1px solid rgba(220,38,38,0.3);
+      border-radius: var(--r-sm);
+      padding: 9px 12px;
+      font-size: 0.72rem;
+      color: #FCA5A5;
+      display: none;
+      line-height: 1.4;
+    }
+    .sidebar-alert.visible { display: block; }
+    .sidebar-alert strong { display: block; color: #F87171; margin-bottom: 2px; }
+
+    /* Sidebar nav */
+    .sidebar-nav {
+      flex: 1; padding: 16px 10px;
+      overflow-y: auto; overflow-x: hidden;
+    }
+    .nav-section-label {
+      font-size: 0.65rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.25);
+      padding: 12px 10px 6px;
+      white-space: nowrap;
+    }
+    .nav-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 12px;
+      border-radius: var(--r-md);
+      color: rgba(255,255,255,0.55);
+      font-size: 0.875rem; font-weight: 500;
+      cursor: pointer; white-space: nowrap;
+      transition: background var(--dur-fast), color var(--dur-fast);
+      margin-bottom: 2px;
+      border: none; background: none; width: 100%; text-align: left;
+    }
+    .nav-item:hover {
+      background: rgba(255,255,255,0.07);
+      color: rgba(255,255,255,0.85);
+    }
+    .nav-item.active {
+      background: rgba(37,99,235,0.25);
+      color: #93C5FD;
+      border: 1px solid rgba(37,99,235,0.3);
+    }
+    .nav-item .nav-icon {
+      width: 18px; height: 18px;
+      flex-shrink: 0; font-size: 0.9rem;
+      text-align: center; line-height: 18px;
+    }
+    .nav-badge {
+      margin-left: auto;
+      background: var(--red-600);
+      color: white; font-size: 0.65rem; font-weight: 700;
+      padding: 2px 7px; border-radius: 20px;
+      min-width: 20px; text-align: center;
+    }
+
+    /* Sidebar footer */
+    .sidebar-footer {
+      padding: 12px 10px 16px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      flex-shrink: 0;
+    }
+    .sidebar-user {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px; border-radius: var(--r-md);
+      color: rgba(255,255,255,0.6);
+      font-size: 0.8rem;
+    }
+    .user-avatar {
+      width: 32px; height: 32px;
+      background: linear-gradient(135deg, var(--blue-500), var(--purple-500));
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 700; color: white;
+      flex-shrink: 0;
+    }
+    .user-info { flex: 1; min-width: 0; }
+    .user-name { font-weight: 600; color: rgba(255,255,255,0.8); font-size: 0.8rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .user-role { font-size: 0.68rem; color: rgba(255,255,255,0.35); }
+    .btn-logout {
+      background: none; border: none;
+      color: rgba(255,255,255,0.35);
+      font-size: 0.85rem; padding: 4px; cursor: pointer;
+      transition: color var(--dur-fast);
+    }
+    .btn-logout:hover { color: #FCA5A5; }
+
+    /* ── MAIN CONTENT ── */
+    .main-wrapper {
+      margin-left: var(--sidebar-width);
+      flex: 1; display: flex; flex-direction: column;
+      min-height: 100vh;
+      transition: margin-left var(--dur-slow) var(--ease-out);
+    }
+    .topbar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--surface-border);
+      padding: 0 32px;
+      height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 100;
+      box-shadow: var(--shadow-xs);
+    }
+    .topbar-left { display: flex; align-items: center; gap: 16px; }
+    .page-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.2rem; font-weight: 700;
+      color: var(--text-primary); letter-spacing: -0.02em;
+    }
+    .page-breadcrumb {
+      font-size: 0.78rem; color: var(--text-muted);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .topbar-right { display: flex; align-items: center; gap: 10px; }
+
+    /* Role badge */
+    .role-chip {
+      display: flex; align-items: center; gap: 6px;
+      padding: 5px 12px; border-radius: 20px;
+      font-size: 0.72rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.06em;
+    }
+    .role-chip.admin { background: var(--blue-50); color: var(--blue-600); border: 1px solid var(--blue-100); }
+    .role-chip.viewer { background: var(--slate-100); color: var(--slate-600); border: 1px solid var(--slate-200); }
+    .role-chip::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: currentColor; opacity: 0.8;
+    }
+
+    /* Topbar action buttons */
+    .topbar-btn {
+      padding: 8px 14px; border-radius: var(--r-sm);
+      font-size: 0.78rem; font-weight: 600;
+      border: 1px solid var(--surface-border);
+      background: var(--surface);
+      color: var(--text-secondary);
+      display: inline-flex; align-items: center; gap: 7px;
+      transition: all var(--dur-fast);
+      white-space: nowrap;
+    }
+    .topbar-btn:hover {
+      background: var(--slate-50);
+      border-color: var(--slate-300);
+      color: var(--text-primary);
+    }
+    .topbar-btn.primary {
+      background: var(--blue-500); color: white;
+      border-color: var(--blue-500);
+    }
+    .topbar-btn.primary:hover { background: var(--blue-600); border-color: var(--blue-600); box-shadow: var(--shadow-blue); }
+
+    /* ── PAGE CONTENT ── */
+    .page-content {
+      flex: 1; padding: 28px 32px;
+    }
+
+    /* ════════════════════════════════
+       CRITICAL ALERT BANNER
+       ════════════════════════════════ */
+    .alert-banner {
+      border-radius: var(--r-lg);
+      padding: 14px 20px;
+      margin-bottom: 24px;
+      display: none;
+      align-items: center; gap: 14px;
+      font-size: 0.85rem;
+    }
+    .alert-banner.critical {
+      background: linear-gradient(135deg, var(--red-50), #FFF5F5);
+      border: 1px solid #FECACA;
+      color: var(--red-700);
+      display: flex;
+    }
+    .alert-banner.warning {
+      background: var(--amber-50);
+      border: 1px solid var(--amber-100);
+      color: var(--amber-600);
+      display: flex;
+    }
+    .alert-banner.info {
+      background: var(--blue-50);
+      border: 1px solid var(--blue-100);
+      color: var(--blue-600);
+      display: flex;
+    }
+    .alert-icon { font-size: 1.1rem; flex-shrink: 0; }
+    .alert-content { flex: 1; }
+    .alert-title { font-weight: 700; margin-bottom: 1px; }
+    .alert-desc { opacity: 0.8; font-size: 0.8rem; }
+    .alert-dismiss {
+      background: none; border: none; cursor: pointer;
+      opacity: 0.5; font-size: 1.1rem; padding: 4px;
+      color: inherit;
+    }
+    .alert-dismiss:hover { opacity: 1; }
+
+    /* ════════════════════════════════
+       KPI CARDS
+       ════════════════════════════════ */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .kpi-card {
+      background: var(--surface);
+      border-radius: var(--r-lg);
+      padding: 20px 22px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--surface-border);
+      position: relative; overflow: hidden;
+      transition: transform var(--dur-base), box-shadow var(--dur-base);
+      animation: fadeUp var(--dur-slow) var(--ease-out) both;
+    }
+    .kpi-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .kpi-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      border-radius: 4px 4px 0 0;
+      background: var(--kpi-accent, var(--blue-500));
+    }
+    .kpi-icon-wrap {
+      width: 36px; height: 36px; border-radius: var(--r-sm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; margin-bottom: 14px;
+      background: var(--kpi-icon-bg, var(--blue-50));
+      color: var(--kpi-accent, var(--blue-500));
+    }
+    .kpi-label {
+      font-size: 0.7rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--text-muted); margin-bottom: 6px;
+    }
+    .kpi-value {
+      font-family: 'DM Mono', monospace;
+      font-size: 2rem; font-weight: 500;
+      color: var(--text-primary); line-height: 1;
+      margin-bottom: 8px; letter-spacing: -0.02em;
+    }
+    .kpi-trend {
+      font-size: 0.72rem; display: flex; align-items: center; gap: 5px;
+      color: var(--text-muted); font-weight: 500;
+    }
+    .kpi-trend.up { color: var(--emerald-600); }
+    .kpi-trend.down { color: var(--red-600); }
+    .kpi-trend.warn { color: var(--amber-600); }
+
+    /* ════════════════════════════════
+       SECTION HEADERS
+       ════════════════════════════════ */
+    .section-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 16px; flex-wrap: wrap; gap: 10px;
+    }
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem; font-weight: 700;
+      color: var(--text-primary); letter-spacing: -0.01em;
+    }
+    .section-count {
+      font-size: 0.78rem; color: var(--text-muted);
+      background: var(--slate-100);
+      padding: 3px 10px; border-radius: 20px; font-weight: 600;
+      margin-left: 8px;
+    }
+
+    /* ════════════════════════════════
+       FILTER BAR
+       ════════════════════════════════ */
+    .filter-bar {
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      border-radius: var(--r-lg);
+      padding: 14px 18px;
+      display: flex; flex-wrap: wrap; gap: 10px;
+      align-items: center; margin-bottom: 20px;
+      box-shadow: var(--shadow-xs);
+    }
+    .filter-pill {
+      display: flex; align-items: center; gap: 8px;
+      padding: 8px 14px;
+      background: var(--slate-50);
+      border: 1px solid var(--slate-200);
+      border-radius: var(--r-sm);
+      min-width: 150px;
+    }
+    .filter-pill i { color: var(--text-muted); font-size: 0.8rem; flex-shrink: 0; }
+    .filter-pill select,
+    .filter-pill input {
+      border: none; background: transparent;
+      font-size: 0.82rem; outline: none;
+      color: var(--text-primary); flex: 1;
+      min-width: 0;
+    }
+    .filter-search { flex: 1; min-width: 220px; }
+    .filter-divider { width: 1px; height: 32px; background: var(--slate-200); flex-shrink: 0; }
+
+    /* Filter action buttons */
+    .btn { display: inline-flex; align-items: center; gap: 7px; padding: 9px 16px; border-radius: var(--r-sm); font-size: 0.82rem; font-weight: 600; border: 1px solid transparent; transition: all var(--dur-fast); cursor: pointer; white-space: nowrap; font-family: inherit; }
+    .btn-primary { background: var(--blue-500); color: white; border-color: var(--blue-500); }
+    .btn-primary:hover { background: var(--blue-600); border-color: var(--blue-600); box-shadow: var(--shadow-blue); transform: translateY(-1px); }
+    .btn-outline { background: var(--surface); color: var(--text-secondary); border-color: var(--surface-border); }
+    .btn-outline:hover { background: var(--slate-50); border-color: var(--slate-300); }
+    .btn-danger { background: var(--red-600); color: white; border-color: var(--red-600); }
+    .btn-danger:hover { background: var(--red-700); }
+    .btn-success { background: var(--emerald-600); color: white; border-color: var(--emerald-600); }
+    .btn-success:hover { background: #047857; }
+    .btn-sm { padding: 6px 12px; font-size: 0.76rem; }
+    .btn-xs { padding: 4px 10px; font-size: 0.72rem; }
+    .btn-ghost { background: transparent; border: none; color: var(--text-muted); padding: 6px 10px; }
+    .btn-ghost:hover { background: var(--slate-100); color: var(--text-primary); }
+
+    /* ════════════════════════════════
+       SHOWROOM / DEALER CARDS
+       ════════════════════════════════ */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 18px;
+    }
+    .entity-card {
+      background: var(--surface);
+      border-radius: var(--r-lg);
+      border: 1px solid var(--surface-border);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      transition: transform var(--dur-base), box-shadow var(--dur-base);
+      animation: fadeUp var(--dur-slow) var(--ease-out) both;
+      display: flex; flex-direction: column;
+    }
+    .entity-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+    .entity-card.risk-critical { border-color: #FECACA; border-left: 4px solid var(--red-500); }
+    .entity-card.risk-warning  { border-color: #FDE68A; border-left: 4px solid var(--amber-500); }
+
+    .entity-card-top {
+      padding: 18px 20px 14px;
+      border-bottom: 1px solid var(--surface-border);
+    }
+    .entity-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+    .entity-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem; font-weight: 700;
+      color: var(--text-primary); letter-spacing: -0.01em;
+      line-height: 1.25;
+    }
+    .entity-meta {
+      display: flex; flex-wrap: wrap; gap: 10px;
+      margin-top: 4px;
+    }
+    .entity-meta-item {
+      font-size: 0.72rem; color: var(--text-muted);
+      display: flex; align-items: center; gap: 4px;
+    }
+
+    /* Status chips */
+    .chip {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 3px 10px; border-radius: 20px;
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.04em; text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .chip::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+    .chip-critical { background: var(--red-100); color: var(--red-700); border: 1px solid #FECACA; }
+    .chip-warning  { background: var(--amber-100); color: var(--amber-600); border: 1px solid #FDE68A; }
+    .chip-success  { background: var(--emerald-100); color: var(--emerald-600); border: 1px solid #A7F3D0; }
+    .chip-info     { background: var(--blue-100); color: var(--blue-600); border: 1px solid var(--blue-100); }
+    .chip-neutral  { background: var(--slate-100); color: var(--slate-600); border: 1px solid var(--slate-200); }
+
+    /* Progress bar */
+    .progress-wrap { margin: 10px 0 6px; }
+    .progress-label { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-muted); margin-bottom: 6px; }
+    .progress-track {
+      height: 6px; background: var(--slate-100);
+      border-radius: 10px; overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; border-radius: 10px;
+      background: linear-gradient(90deg, var(--blue-500), var(--blue-400));
+      transition: width 0.7s var(--ease-out);
+    }
+    .progress-fill.danger  { background: linear-gradient(90deg, var(--red-500), #F87171); }
+    .progress-fill.warning { background: linear-gradient(90deg, var(--amber-500), #FCD34D); }
+    .progress-fill.success { background: linear-gradient(90deg, var(--emerald-500), #34D399); }
+
+    /* Card body */
+    .entity-card-body { padding: 14px 20px; flex: 1; }
+
+    /* Stats row */
+    .stats-row {
+      display: flex; gap: 0;
+      border: 1px solid var(--surface-border);
+      border-radius: var(--r-sm);
+      overflow: hidden; margin-bottom: 12px;
+    }
+    .stat-cell {
+      flex: 1; padding: 10px 12px; text-align: center;
+      border-right: 1px solid var(--surface-border);
+    }
+    .stat-cell:last-child { border-right: none; }
+    .stat-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-muted); font-weight: 600; margin-bottom: 3px; }
+    .stat-val { font-family: 'DM Mono', monospace; font-size: 1rem; font-weight: 500; color: var(--text-primary); }
+    .stat-val.red { color: var(--red-600); }
+    .stat-val.amber { color: var(--amber-600); }
+    .stat-val.green { color: var(--emerald-600); }
+
+    /* NBA — Next Best Action */
+    .nba-strip {
+      display: flex; align-items: center; gap: 9px;
+      padding: 9px 12px; border-radius: var(--r-sm);
+      font-size: 0.78rem; font-weight: 500;
+      margin-bottom: 12px;
+    }
+    .nba-strip.critical { background: var(--red-50); color: var(--red-700); border: 1px solid #FECACA; }
+    .nba-strip.warning  { background: var(--amber-50); color: var(--amber-600); border: 1px solid #FDE68A; }
+    .nba-strip.ok       { background: var(--emerald-50); color: var(--emerald-600); border: 1px solid #A7F3D0; }
+    .nba-strip i { flex-shrink: 0; font-size: 0.85rem; }
+
+    /* Card footer */
+    .entity-card-footer {
+      padding: 12px 20px;
+      border-top: 1px solid var(--surface-border);
+      background: var(--slate-50);
+      display: flex; gap: 8px; align-items: center;
+    }
+
+    /* Empty state */
     .empty-state {
+      grid-column: 1 / -1;
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      border-radius: var(--r-xl);
+      padding: 64px 32px;
       text-align: center;
-      padding: 48px !important;
-      background: var(--white);
+      box-shadow: var(--shadow-sm);
+    }
+    .empty-icon {
+      width: 64px; height: 64px;
+      background: var(--slate-100);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem; margin: 0 auto 20px;
+    }
+    .empty-title { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
+    .empty-sub { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px; }
+
+    /* Skeleton */
+    .skeleton {
+      background: linear-gradient(90deg, var(--slate-100) 25%, var(--slate-200) 50%, var(--slate-100) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+      border-radius: var(--r-sm);
+    }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+    /* ════════════════════════════════
+       ANALYTICS
+       ════════════════════════════════ */
+    .analytics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
+      gap: 18px; margin-bottom: 20px;
+    }
+    .chart-card {
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      border-radius: var(--r-lg);
+      padding: 22px 24px;
+      box-shadow: var(--shadow-sm);
+    }
+    .chart-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.9rem; font-weight: 700;
+      color: var(--text-primary); margin-bottom: 18px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    canvas { max-height: 260px; }
+
+    /* Leaderboard */
+    .leaderboard-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--surface-border);
+    }
+    .leaderboard-item:last-child { border-bottom: none; }
+    .lb-rank {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem; font-weight: 500;
+      color: var(--text-muted); width: 24px; text-align: center;
+    }
+    .lb-rank.gold { color: #B45309; font-weight: 700; }
+    .lb-rank.silver { color: var(--slate-500); }
+    .lb-rm { flex: 1; font-size: 0.85rem; font-weight: 600; color: var(--text-primary); }
+    .lb-count { font-family: 'DM Mono', monospace; font-size: 0.82rem; color: var(--text-muted); }
+    .lb-bar-wrap { width: 80px; }
+    .lb-bar { height: 4px; background: var(--slate-100); border-radius: 10px; overflow: hidden; }
+    .lb-bar-fill { height: 100%; background: var(--blue-500); border-radius: 10px; }
+
+    /* Delay heatmap */
+    .delay-cards {
+      display: flex; gap: 12px;
+    }
+    .delay-bucket {
+      flex: 1; padding: 16px;
+      border-radius: var(--r-md);
+      text-align: center;
+    }
+    .delay-bucket.ok     { background: var(--emerald-50); border: 1px solid #A7F3D0; }
+    .delay-bucket.warn   { background: var(--amber-50); border: 1px solid #FDE68A; }
+    .delay-bucket.crit   { background: var(--red-50); border: 1px solid #FECACA; }
+    .delay-bucket-count  { font-family: 'DM Mono', monospace; font-size: 2rem; font-weight: 500; line-height: 1; margin-bottom: 6px; }
+    .delay-bucket-label  { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; }
+
+    /* ════════════════════════════════
+       MODALS
+       ════════════════════════════════ */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(15,23,42,0.55);
+      backdrop-filter: blur(6px);
+      display: none; justify-content: center; align-items: center;
+      z-index: 1000; padding: 20px;
+    }
+    .modal-container {
+      background: var(--surface);
+      border-radius: var(--r-xl);
+      width: 100%; max-width: 860px;
+      max-height: 88vh; overflow-y: auto;
+      box-shadow: var(--shadow-xl);
+      animation: fadeUp 0.22s var(--ease-out) both;
+    }
+    .modal-header {
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--surface-border);
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; background: var(--surface); z-index: 2;
+      border-radius: var(--r-xl) var(--r-xl) 0 0;
+    }
+    .modal-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.15rem; font-weight: 700;
+      color: var(--text-primary);
+    }
+    .modal-close {
+      width: 32px; height: 32px;
+      background: var(--slate-100); border: none;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; color: var(--text-muted); cursor: pointer;
+      transition: background var(--dur-fast), color var(--dur-fast);
+    }
+    .modal-close:hover { background: var(--slate-200); color: var(--text-primary); }
+    .modal-body { padding: 24px 28px; }
+    .modal-footer {
+      padding: 16px 28px;
+      border-top: 1px solid var(--surface-border);
+      display: flex; justify-content: flex-end; gap: 10px;
+      background: var(--slate-50);
+      border-radius: 0 0 var(--r-xl) var(--r-xl);
     }
 
-    @media (max-width: 768px) {
-      .main-content { padding: 16px; }
-      .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-      .kpi-value { font-size: 1.4rem; }
-      .analytics-grid { grid-template-columns: 1fr; }
-      .showroom-grid { grid-template-columns: 1fr; }
-      .filter-bar { flex-direction: column; }
-      .filter-group { width: 100%; }
-      .stage-stepper { flex-direction: column; }
-      .doc-grid { grid-template-columns: 1fr; }
+    /* Form */
+    .form-group { margin-bottom: 18px; }
+    .form-label { display: block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-secondary); margin-bottom: 7px; }
+    .form-input, .form-select, .form-textarea {
+      width: 100%; padding: 10px 14px;
+      border: 1px solid var(--slate-200);
+      border-radius: var(--r-sm); font-size: 0.875rem;
+      color: var(--text-primary); background: var(--surface);
+      transition: border-color var(--dur-fast), box-shadow var(--dur-fast);
+      outline: none;
     }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--blue-400);
+      box-shadow: 0 0 0 3px rgba(59,130,246,0.12);
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    /* Phase table */
+    .phase-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+    .phase-table thead th {
+      background: var(--slate-50); padding: 10px 14px;
+      text-align: left; font-size: 0.7rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.07em;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--surface-border);
+      position: sticky; top: 0;
+    }
+    .phase-table tbody td { padding: 10px 14px; border-bottom: 1px solid var(--surface-border); vertical-align: middle; }
+    .phase-table tbody tr:hover { background: var(--slate-50); }
+    .phase-table tbody tr.row-delayed { background: #FFF5F5; }
+    .phase-table tbody tr.row-delayed:hover { background: #FEE8E8; }
+    .phase-name { font-weight: 600; color: var(--text-primary); }
+
+    /* Stage stepper */
+    .stage-stepper {
+      display: flex; gap: 0;
+      background: var(--slate-100);
+      border-radius: var(--r-lg);
+      padding: 4px; margin-bottom: 20px;
+      overflow-x: auto;
+    }
+    .stage-step {
+      flex: 1; text-align: center;
+      padding: 9px 8px; border-radius: var(--r-md);
+      font-size: 0.76rem; font-weight: 600;
+      cursor: pointer; white-space: nowrap;
+      transition: all var(--dur-fast);
+      color: var(--text-muted);
+      min-width: 90px;
+      border: none; background: none;
+    }
+    .stage-step:hover { background: rgba(255,255,255,0.6); color: var(--text-primary); }
+    .stage-step.completed { background: var(--emerald-500); color: white; }
+    .stage-step.active { background: var(--surface); color: var(--blue-600); box-shadow: var(--shadow-sm); font-weight: 700; }
+
+    /* Doc checklist */
+    .doc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 10px; }
+    .doc-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 14px;
+      background: var(--slate-50); border-radius: var(--r-sm);
+      border: 1px solid var(--surface-border);
+      transition: background var(--dur-fast);
+      cursor: pointer;
+    }
+    .doc-item:hover { background: var(--blue-50); border-color: var(--blue-100); }
+    .doc-item input[type="checkbox"] {
+      width: 16px; height: 16px; accent-color: var(--emerald-600); cursor: pointer;
+    }
+    .doc-item-label { font-size: 0.8rem; color: var(--text-primary); font-weight: 500; flex: 1; }
+    .doc-item-status { font-size: 0.7rem; font-weight: 700; }
+    .doc-item-status.done { color: var(--emerald-600); }
+    .doc-item-status.pending { color: var(--amber-600); }
+
+    /* ════════════════════════════════
+       TOAST
+       ════════════════════════════════ */
+    .toast-container {
+      position: fixed; bottom: 24px; right: 24px;
+      z-index: 2000; display: flex; flex-direction: column; gap: 10px;
+    }
+    .toast {
+      display: flex; align-items: center; gap: 12px;
+      background: var(--slate-800); color: white;
+      padding: 13px 18px; border-radius: var(--r-md);
+      font-size: 0.83rem; font-weight: 500;
+      box-shadow: var(--shadow-xl);
+      animation: slideRight 0.3s var(--ease-out) both;
+      max-width: 340px;
+    }
+    .toast-icon { font-size: 1rem; flex-shrink: 0; }
+    @keyframes slideRight { from { transform: translateX(110%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ════════════════════════════════
+       FOOTER
+       ════════════════════════════════ */
+    .app-footer {
+      text-align: center; padding: 18px 32px;
+      border-top: 1px solid var(--surface-border);
+      font-size: 0.78rem; color: var(--text-muted);
+      background: var(--surface);
+    }
+    .app-footer strong { color: var(--blue-600); }
+
+    /* ════════════════════════════════
+       RESPONSIVE
+       ════════════════════════════════ */
+    @media (max-width: 1024px) {
+      :root { --sidebar-width: 68px; }
+      .sidebar-appname, .sidebar-tagline, .nav-section-label,
+      .nav-item span, .sidebar-alert, .user-info, .sidebar-tagline { display: none; }
+      .nav-item { justify-content: center; padding: 12px; }
+      .nav-badge { position: absolute; top: 6px; right: 6px; }
+      .nav-item { position: relative; }
+    }
+    @media (max-width: 768px) {
+      .main-wrapper { margin-left: 0; }
+      .sidebar { transform: translateX(-100%); }
+      .page-content { padding: 16px; }
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .card-grid { grid-template-columns: 1fr; }
+      .analytics-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .topbar { padding: 0 16px; }
+    }
+
+    /* Staggered card animations */
+    .entity-card:nth-child(1) { animation-delay: 0ms; }
+    .entity-card:nth-child(2) { animation-delay: 50ms; }
+    .entity-card:nth-child(3) { animation-delay: 100ms; }
+    .entity-card:nth-child(4) { animation-delay: 150ms; }
+    .entity-card:nth-child(5) { animation-delay: 200ms; }
+    .entity-card:nth-child(6) { animation-delay: 250ms; }
+    .kpi-card:nth-child(1) { animation-delay: 0ms; }
+    .kpi-card:nth-child(2) { animation-delay: 40ms; }
+    .kpi-card:nth-child(3) { animation-delay: 80ms; }
+    .kpi-card:nth-child(4) { animation-delay: 120ms; }
+    .kpi-card:nth-child(5) { animation-delay: 160ms; }
+    .kpi-card:nth-child(6) { animation-delay: 200ms; }
+    .kpi-card:nth-child(7) { animation-delay: 240ms; }
   </style>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
-<!-- Login Screen -->
+<!-- ═══════════════════════ LOGIN ═══════════════════════ -->
 <div id="loginScreen" class="login-screen">
   <div class="login-card">
-    <img src="https://www.aiswindows.com/assets/images/ais-windows-logo.svg" alt="AIS Logo" class="login-logo">
-    <h2 style="color: var(--primary); margin-bottom: 8px;">Command Center</h2>
-    <p style="color: var(--gray-600); margin-bottom: 24px;">Enterprise Intelligence Portal</p>
+    <div class="login-logo-wrap">
+      <img src="https://www.aiswindows.com/assets/images/ais-windows-logo.svg" alt="AIS" class="login-logo-img">
+      <div class="login-title">AIS Command Center</div>
+      <div class="login-sub">Enterprise Operations Platform</div>
+    </div>
     <div class="login-field">
-      <label>Email</label>
-      <input type="email" id="loginUsername" placeholder="Enter email" autocomplete="username">
+      <label>Email Address</label>
+      <input type="email" id="loginUsername" placeholder="your@email.com" autocomplete="username">
     </div>
     <div class="login-field">
       <label>Password</label>
-      <input type="password" id="loginPassword" placeholder="Enter password" autocomplete="current-password">
+      <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter') handleLogin()">
     </div>
-    <button class="btn btn-primary" style="width: 100%; justify-content: center;" onclick="handleLogin()">Login</button>
-    <div id="loginError" style="color: var(--danger); font-size: 0.8rem; margin-top: 12px; display: none;">Invalid credentials</div>
+    <button class="btn-login" onclick="handleLogin()">Sign In →</button>
+    <div id="loginError"></div>
   </div>
 </div>
 
-<!-- Main App -->
-<div id="mainApp" style="display: none;">
-  <div class="app-container">
-    <!-- ENTERPRISE HEADER: Logo above text, left aligned -->
-    <header class="app-header">
-      <div class="logo-brand">
-        <img src="https://www.aiswindows.com/assets/images/ais-windows-logo.svg" alt="AIS Logo" class="logo-img">
-        <div class="brand-text">AIS Command Center</div>
-        <div class="brand-sub">Enterprise Execution · Showrooms & Dealers</div>
-      </div>
-      <div class="header-controls">
-        <span id="roleBadge"></span>
-        <button class="btn btn-outline btn-sm" onclick="showDashboard()">🏠 Showrooms</button>
-        <button class="btn btn-outline btn-sm" onclick="showAnalytics()">📊 Analytics</button>
-        <button class="btn btn-outline btn-sm" onclick="openDealerModule()">👥 Dealers</button>
-        <button class="btn btn-outline btn-sm" onclick="exportDashboardReport()">📥 Excel</button>
-        <button class="btn btn-outline btn-sm" onclick="generatePDF()">📄 PDF</button>
-        <button class="btn btn-outline btn-sm" onclick="backupData()">💾 Backup</button>
-        <button class="btn btn-outline btn-sm" onclick="logout()">🚪 Logout</button>
-      </div>
-    </header>
+<!-- ═══════════════════════ MAIN APP ═══════════════════════ -->
+<div id="mainApp">
+  <div class="shell">
 
-    <main class="main-content" id="mainContent">
-      <!-- Dashboard View -->
-      <div id="dashboardView">
-        <!-- TOP SUMMARY STRIP -->
-        <div id="topSummaryStrip" class="summary-strip">
-          <!-- dynamic js fill -->
+    <!-- ── SIDEBAR ── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <img src="https://www.aiswindows.com/assets/images/ais-windows-logo.svg" alt="AIS">
+          <div class="sidebar-appname">Command Center</div>
+          <div class="sidebar-tagline">Showrooms · Dealers · Ops</div>
         </div>
-        <div id="insightsBanner" class="insight-card" style="display: none;"></div>
-        <div class="kpi-grid" id="kpiGrid"></div>
-        <div class="filter-bar">
-          <div class="filter-group"><i class="fas fa-user-tie"></i><select id="filterRM"><option value="all">All RMs</option></select></div>
-          <div class="filter-group search-group"><i class="fas fa-search"></i><input type="text" id="globalSearch" placeholder="Search by name, city, RM..."></div>
-          <button class="btn btn-primary" onclick="applyFilters()">Apply Filters</button>
-          <button class="btn btn-outline" onclick="resetFilters()">Reset</button>
-          <button class="btn btn-primary" id="addShowroomBtn" onclick="openAddShowroomModal()">+ Add Showroom</button>
-        </div>
-        <!-- LOADING STATE: skeleton placeholder when empty -->
-        <div id="showroomGrid" class="showroom-grid"></div>
       </div>
 
-      <!-- Analytics View (unchanged) -->
-      <div id="analyticsView" style="display: none;">
-        <div class="kpi-grid" id="analyticsKpiGrid"></div>
-        <div class="analytics-grid">
-          <div class="card chart-card"><h3 class="card-title">🎯 Dealer Onboarding Funnel</h3><canvas id="funnelChart" height="200"></canvas></div>
-          <div class="card chart-card"><h3 class="card-title">📈 Completion Trend</h3><canvas id="trendChart" height="200"></canvas></div>
-        </div>
-        <div class="analytics-grid">
-          <div class="card chart-card"><h3 class="card-title">👥 RM Leaderboard</h3><div id="rmLeaderboard" style="max-height: 300px; overflow-y: auto;"></div></div>
-          <div class="card chart-card"><h3 class="card-title">⏰ Delay Distribution</h3><div id="delayDistribution"></div></div>
-        </div>
-        <div class="card chart-card"><h3 class="card-title">📋 Document Completion by Stage</h3><canvas id="docsChart" height="150"></canvas></div>
+      <!-- Critical alerts inline -->
+      <div class="sidebar-alert" id="sidebarAlert">
+        <strong>⚠ Critical Delays</strong>
+        <span id="sidebarAlertText"></span>
       </div>
 
-      <!-- Dealer View -->
-      <div id="dealerView" style="display: none;">
-        <div class="kpi-grid" id="dealerKpiGrid"></div>
-        <div class="filter-bar">
-          <div class="filter-group"><i class="fas fa-tag"></i><select id="dealerFilterStatus"><option value="all">All Status</option><option value="active">Active</option><option value="completed">Completed</option><option value="delayed">Delayed</option><option value="dropped">Dropped</option></select></div>
-          <div class="filter-group"><i class="fas fa-chart-simple"></i><select id="dealerFilterStage"><option value="all">All Stages</option><option value="Interested">Interested</option><option value="Shortlisted">Shortlisted</option><option value="CFT Selected">CFT Selected</option><option value="Documentation">Documentation</option><option value="Onboarded">Onboarded</option></select></div>
-          <div class="filter-group"><i class="fas fa-user-tie"></i><select id="dealerFilterRM"><option value="all">All RMs</option></select></div>
-          <div class="filter-group search-group"><i class="fas fa-search"></i><input type="text" id="dealerSearch" placeholder="Search dealers..."></div>
-          <button class="btn btn-primary" onclick="filterDealers()">Apply</button>
-          <button class="btn btn-outline" onclick="resetDealerFilters()">Reset Filters</button>
-          <button class="btn btn-outline" onclick="openAddDealerModal()">+ Add Dealer</button>
-        </div>
-        <div id="dealerGrid" class="showroom-grid"></div>
-      </div>
-    </main>
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">Operations</div>
+        <button class="nav-item active" id="nav-dashboard" onclick="showDashboard()">
+          <i class="nav-icon fas fa-th-large"></i>
+          <span>Showrooms</span>
+          <span class="nav-badge" id="navBadgeShowrooms" style="display:none"></span>
+        </button>
+        <button class="nav-item" id="nav-dealers" onclick="openDealerModule()">
+          <i class="nav-icon fas fa-users"></i>
+          <span>Dealers</span>
+          <span class="nav-badge" id="navBadgeDealers" style="display:none"></span>
+        </button>
+        <div class="nav-section-label">Intelligence</div>
+        <button class="nav-item" id="nav-analytics" onclick="showAnalytics()">
+          <i class="nav-icon fas fa-chart-bar"></i>
+          <span>Analytics</span>
+        </button>
+        <div class="nav-section-label">Tools</div>
+        <button class="nav-item" onclick="exportDashboardReport()">
+          <i class="nav-icon fas fa-file-excel"></i>
+          <span>Export Excel</span>
+        </button>
+        <button class="nav-item" onclick="generatePDF()">
+          <i class="nav-icon fas fa-file-pdf"></i>
+          <span>Export PDF</span>
+        </button>
+        <button class="nav-item" onclick="backupData()">
+          <i class="nav-icon fas fa-database"></i>
+          <span>Backup Data</span>
+        </button>
+      </nav>
 
-    <footer class="app-footer" style="text-align: center; padding: 20px; border-top: 1px solid var(--gray-200); margin-top: 32px;">
-      <span>Powered with ❤️ by <strong>Sanju G</strong> | AIS Windows</span>
-    </footer>
-  </div>
-</div>
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="user-avatar" id="userAvatar">U</div>
+          <div class="user-info">
+            <div class="user-name" id="userName">User</div>
+            <div class="user-role" id="userRoleText">Loading…</div>
+          </div>
+          <button class="btn-logout" onclick="logout()" title="Logout"><i class="fas fa-sign-out-alt"></i></button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ── MAIN WRAPPER ── -->
+    <div class="main-wrapper">
+
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <div>
+            <div class="page-title" id="pageTitle">Showrooms</div>
+            <div class="page-breadcrumb"><span>AIS Command Center</span><i class="fas fa-chevron-right" style="font-size:0.6rem"></i><span id="pageBreadcrumb">Showroom Execution</span></div>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <div class="role-chip" id="roleBadge"></div>
+          <button class="topbar-btn primary" id="addEntityBtn" onclick="openAddShowroomModal()"><i class="fas fa-plus"></i> Add Showroom</button>
+        </div>
+      </header>
+
+      <!-- PAGE CONTENT -->
+      <main class="page-content" id="mainContent">
+
+        <!-- ═══ DASHBOARD VIEW ═══ -->
+        <div id="dashboardView">
+          <!-- Alert banner -->
+          <div class="alert-banner" id="alertBanner">
+            <div class="alert-icon"></div>
+            <div class="alert-content">
+              <div class="alert-title" id="alertTitle"></div>
+              <div class="alert-desc" id="alertDesc"></div>
+            </div>
+            <button class="alert-dismiss" onclick="dismissAlert()">&times;</button>
+          </div>
+
+          <!-- KPI row -->
+          <div class="kpi-grid" id="kpiGrid"></div>
+
+          <!-- Filters -->
+          <div class="filter-bar">
+            <div class="filter-pill">
+              <i class="fas fa-user-tie"></i>
+              <select id="filterRM"><option value="all">All RMs</option></select>
+            </div>
+            <div class="filter-divider"></div>
+            <div class="filter-pill filter-search">
+              <i class="fas fa-search"></i>
+              <input type="text" id="globalSearch" placeholder="Search showrooms, city, RM…" oninput="renderDashboard()">
+            </div>
+            <button class="btn btn-outline btn-sm" onclick="resetFilters()"><i class="fas fa-rotate-left"></i> Reset</button>
+          </div>
+
+          <!-- Section header -->
+          <div class="section-header">
+            <div><span class="section-title">Active Showrooms</span><span class="section-count" id="showroomCount"></span></div>
+            <div style="display:flex;gap:8px">
+              <button class="btn btn-ghost btn-sm" onclick="toggleSort()" id="sortBtn"><i class="fas fa-sort"></i> Sort: Delay</button>
+            </div>
+          </div>
+
+          <!-- Grid -->
+          <div class="card-grid" id="showroomGrid"></div>
+        </div>
+
+        <!-- ═══ ANALYTICS VIEW ═══ -->
+        <div id="analyticsView" style="display:none">
+          <div class="kpi-grid" id="analyticsKpiGrid"></div>
+
+          <div class="analytics-grid">
+            <div class="chart-card">
+              <div class="chart-title"><i class="fas fa-filter" style="color:var(--blue-500)"></i> Dealer Funnel by Stage</div>
+              <canvas id="funnelChart"></canvas>
+            </div>
+            <div class="chart-card">
+              <div class="chart-title"><i class="fas fa-chart-line" style="color:var(--emerald-500)"></i> Showroom Completion Rate</div>
+              <canvas id="trendChart"></canvas>
+            </div>
+          </div>
+
+          <div class="analytics-grid">
+            <div class="chart-card">
+              <div class="chart-title"><i class="fas fa-trophy" style="color:var(--amber-500)"></i> RM Leaderboard</div>
+              <div id="rmLeaderboard"></div>
+            </div>
+            <div class="chart-card">
+              <div class="chart-title"><i class="fas fa-clock" style="color:var(--red-500)"></i> Delay Distribution</div>
+              <div id="delayDistribution" style="padding-top:12px;"></div>
+            </div>
+          </div>
+
+          <div class="chart-card" style="margin-bottom:20px">
+            <div class="chart-title"><i class="fas fa-file-alt" style="color:var(--purple-500)"></i> Document Completion by Stage</div>
+            <canvas id="docsChart"></canvas>
+          </div>
+        </div>
+
+        <!-- ═══ DEALER VIEW ═══ -->
+        <div id="dealerView" style="display:none">
+          <div class="alert-banner" id="dealerAlertBanner">
+            <div class="alert-icon"></div>
+            <div class="alert-content">
+              <div class="alert-title" id="dealerAlertTitle"></div>
+              <div class="alert-desc" id="dealerAlertDesc"></div>
+            </div>
+            <button class="alert-dismiss" onclick="dismissDealerAlert()">&times;</button>
+          </div>
+
+          <div class="kpi-grid" id="dealerKpiGrid"></div>
+
+          <div class="filter-bar">
+            <div class="filter-pill">
+              <i class="fas fa-tag"></i>
+              <select id="dealerFilterStatus">
+                <option value="all">All Status</option>
+                <option value="active">Active</option>
+                <option value="completed">Completed</option>
+                <option value="delayed">Delayed</option>
+                <option value="dropped">Dropped</option>
+              </select>
+            </div>
+            <div class="filter-pill">
+              <i class="fas fa-layer-group"></i>
+              <select id="dealerFilterStage">
+                <option value="all">All Stages</option>
+                <option value="Interested">Interested</option>
+                <option value="Shortlisted">Shortlisted</option>
+                <option value="CFT Selected">CFT Selected</option>
+                <option value="Documentation">Documentation</option>
+                <option value="Onboarded">Onboarded</option>
+              </select>
+            </div>
+            <div class="filter-pill">
+              <i class="fas fa-user-tie"></i>
+              <select id="dealerFilterRM"><option value="all">All RMs</option></select>
+            </div>
+            <div class="filter-divider"></div>
+            <div class="filter-pill filter-search">
+              <i class="fas fa-search"></i>
+              <input type="text" id="dealerSearch" placeholder="Search dealers…" oninput="renderDealerView()">
+            </div>
+            <button class="btn btn-outline btn-sm" onclick="resetDealerFilters()"><i class="fas fa-rotate-left"></i> Reset</button>
+          </div>
+
+          <div class="section-header">
+            <div><span class="section-title">Dealer Onboarding</span><span class="section-count" id="dealerCount"></span></div>
+          </div>
+          <div class="card-grid" id="dealerGrid"></div>
+        </div>
+
+      </main>
+
+      <footer class="app-footer">
+        Powered with ❤️ by <strong>Sanju G</strong> · AIS Windows Command Center v2.0
+      </footer>
+    </div><!-- end main-wrapper -->
+  </div><!-- end shell -->
+</div><!-- end mainApp -->
+
+<!-- ═══════════════════════ MODALS ═══════════════════════ -->
 
 <!-- Showroom Detail Modal -->
 <div id="showroomDetailModal" class="modal-overlay">
-  <div class="modal-container" style="max-width: 1000px;">
+  <div class="modal-container" style="max-width:1020px">
     <div class="modal-header">
-      <h3 class="modal-title" id="showroomDetailTitle"></h3>
-      <button onclick="closeModal('showroomDetailModal')" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+      <div class="modal-title" id="showroomDetailTitle"></div>
+      <button class="modal-close" onclick="closeModal('showroomDetailModal')">&times;</button>
     </div>
-    <div id="showroomDetailContent"></div>
-    <div class="modal-actions">
-      <button class="btn btn-primary" id="showroomEditBtn" style="display: none;" onclick="openShowroomEditFromDetail()">✏️ Edit Showroom</button>
-      <button class="btn btn-danger" id="showroomDeleteBtn" style="display: none;" onclick="deleteShowroomFromDetail()">🗑️ Delete Showroom</button>
-      <button class="btn btn-outline" onclick="closeModal('showroomDetailModal')">Close</button>
+    <div class="modal-body" id="showroomDetailContent"></div>
+    <div class="modal-footer">
+      <button class="btn btn-outline btn-sm" id="showroomEditBtn" style="display:none" onclick="openShowroomEditFromDetail()"><i class="fas fa-pen"></i> Edit</button>
+      <button class="btn btn-danger btn-sm" id="showroomDeleteBtn" style="display:none" onclick="deleteShowroomFromDetail()"><i class="fas fa-trash"></i> Delete</button>
+      <button class="btn btn-outline btn-sm" onclick="closeModal('showroomDetailModal')">Close</button>
     </div>
   </div>
 </div>
 
-<!-- Dealer Detail Modal with Stage Tracking -->
+<!-- Dealer Detail Modal -->
 <div id="dealerDetailModal" class="modal-overlay">
-  <div class="modal-container" style="max-width: 700px;">
+  <div class="modal-container" style="max-width:720px">
     <div class="modal-header">
-      <h3 class="modal-title" id="detailDealerName"></h3>
-      <button onclick="closeModal('dealerDetailModal')" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+      <div class="modal-title" id="detailDealerName"></div>
+      <button class="modal-close" onclick="closeModal('dealerDetailModal')">&times;</button>
     </div>
-    <div id="dealerDetailContent"></div>
-    <div class="modal-actions">
-      <button class="btn btn-primary" id="dealerEditBtn" style="display: none;" onclick="openDealerEditFromDetail()">✏️ Edit Dealer</button>
-      <button class="btn btn-danger" id="dealerDeleteBtn" style="display: none;" onclick="deleteDealerFromDetail()">🗑️ Delete Dealer</button>
-      <button class="btn btn-outline" onclick="closeModal('dealerDetailModal')">Close</button>
+    <div class="modal-body" id="dealerDetailContent"></div>
+    <div class="modal-footer">
+      <button class="btn btn-outline btn-sm" id="dealerEditBtn" style="display:none" onclick="openDealerEditFromDetail()"><i class="fas fa-pen"></i> Edit</button>
+      <button class="btn btn-danger btn-sm" id="dealerDeleteBtn" style="display:none" onclick="deleteDealerFromDetail()"><i class="fas fa-trash"></i> Delete</button>
+      <button class="btn btn-outline btn-sm" onclick="closeModal('dealerDetailModal')">Close</button>
     </div>
   </div>
 </div>
 
-<!-- Add/Edit Modals (same) -->
-<div id="addShowroomModal" class="modal-overlay"><div class="modal-container"><div class="modal-header"><h3 class="modal-title">Add New Showroom</h3><button onclick="closeModal('addShowroomModal')" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button></div><div class="form-group"><label class="form-label">Showroom Name</label><input type="text" id="newShowroomName" class="form-input" placeholder="Enter name"></div><div class="form-group"><label class="form-label">City</label><input type="text" id="newShowroomCity" class="form-input" placeholder="Enter city"></div><div class="form-group"><label class="form-label">RM Name</label><input type="text" id="newShowroomRM" class="form-input" placeholder="Enter RM name"></div><div class="form-group"><label class="form-label">Start Date</label><input type="date" id="newShowroomStart" class="form-input"></div><div class="modal-actions"><button class="btn btn-outline" onclick="closeModal('addShowroomModal')">Cancel</button><button class="btn btn-primary" onclick="confirmAddShowroom()">Create</button></div></div></div>
+<!-- Add Showroom Modal -->
+<div id="addShowroomModal" class="modal-overlay">
+  <div class="modal-container" style="max-width:520px">
+    <div class="modal-header">
+      <div class="modal-title">+ New Showroom</div>
+      <button class="modal-close" onclick="closeModal('addShowroomModal')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Showroom Name</label><input type="text" id="newShowroomName" class="form-input" placeholder="e.g. Delhi South Showroom"></div>
+        <div class="form-group"><label class="form-label">City</label><input type="text" id="newShowroomCity" class="form-input" placeholder="e.g. New Delhi"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">RM Name</label><input type="text" id="newShowroomRM" class="form-input" placeholder="Assigned RM"></div>
+        <div class="form-group"><label class="form-label">Start Date</label><input type="date" id="newShowroomStart" class="form-input"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('addShowroomModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="confirmAddShowroom()"><i class="fas fa-plus"></i> Create Showroom</button>
+    </div>
+  </div>
+</div>
 
-<div id="addDealerModal" class="modal-overlay"><div class="modal-container"><div class="modal-header"><h3 class="modal-title">Add New Dealer</h3><button onclick="closeModal('addDealerModal')" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button></div><div class="form-group"><label class="form-label">Dealer Name</label><input type="text" id="newDealerName" class="form-input"></div><div class="form-group"><label class="form-label">City</label><input type="text" id="newDealerCity" class="form-input"></div><div class="form-group"><label class="form-label">RM Name</label><input type="text" id="newDealerRM" class="form-input"></div><div class="form-group"><label class="form-label">Start Date</label><input type="date" id="newDealerStart" class="form-input"></div><div class="modal-actions"><button class="btn btn-outline" onclick="closeModal('addDealerModal')">Cancel</button><button class="btn btn-primary" onclick="confirmAddDealer()">Create</button></div></div></div>
+<!-- Add Dealer Modal -->
+<div id="addDealerModal" class="modal-overlay">
+  <div class="modal-container" style="max-width:520px">
+    <div class="modal-header">
+      <div class="modal-title">+ New Dealer</div>
+      <button class="modal-close" onclick="closeModal('addDealerModal')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Dealer Name</label><input type="text" id="newDealerName" class="form-input" placeholder="Dealer / Business Name"></div>
+        <div class="form-group"><label class="form-label">City</label><input type="text" id="newDealerCity" class="form-input" placeholder="City"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">RM Name</label><input type="text" id="newDealerRM" class="form-input" placeholder="Assigned RM"></div>
+        <div class="form-group"><label class="form-label">Start Date</label><input type="date" id="newDealerStart" class="form-input"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('addDealerModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="confirmAddDealer()"><i class="fas fa-plus"></i> Create Dealer</button>
+    </div>
+  </div>
+</div>
 
-<div id="edit-showroom-modal" class="modal-overlay"><div class="modal-container"><div class="modal-header"><h3 class="modal-title">✏️ Edit Showroom</h3><button onclick="closeModal('edit-showroom-modal')" style="background: none; border: none; font-size: 1.5rem;">&times;</button></div><div class="form-group"><label class="form-label">Name</label><input type="text" id="edit-showroom-name" class="form-input"></div><div class="form-group"><label class="form-label">City</label><input type="text" id="edit-showroom-city" class="form-input"></div><div class="form-group"><label class="form-label">RM</label><input type="text" id="edit-showroom-rm" class="form-input"></div><div class="form-group"><label class="form-label">Start Date</label><input type="date" id="edit-showroom-start" class="form-input"></div><div class="modal-actions"><button class="btn btn-outline" onclick="closeModal('edit-showroom-modal')">Cancel</button><button class="btn btn-primary" onclick="saveEditShowroom()">Save</button></div></div></div>
+<!-- Edit Showroom Modal -->
+<div id="edit-showroom-modal" class="modal-overlay">
+  <div class="modal-container" style="max-width:520px">
+    <div class="modal-header">
+      <div class="modal-title">Edit Showroom</div>
+      <button class="modal-close" onclick="closeModal('edit-showroom-modal')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Name</label><input type="text" id="edit-showroom-name" class="form-input"></div>
+        <div class="form-group"><label class="form-label">City</label><input type="text" id="edit-showroom-city" class="form-input"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">RM</label><input type="text" id="edit-showroom-rm" class="form-input"></div>
+        <div class="form-group"><label class="form-label">Start Date</label><input type="date" id="edit-showroom-start" class="form-input"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('edit-showroom-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveEditShowroom()">Save Changes</button>
+    </div>
+  </div>
+</div>
 
-<div id="edit-dealer-modal" class="modal-overlay"><div class="modal-container"><div class="modal-header"><h3 class="modal-title">✏️ Edit Dealer</h3><button onclick="closeModal('edit-dealer-modal')" style="background: none; border: none; font-size: 1.5rem;">&times;</button></div><div class="form-group"><label class="form-label">Name</label><input type="text" id="edit-dealer-name" class="form-input"></div><div class="form-group"><label class="form-label">City</label><input type="text" id="edit-dealer-city" class="form-input"></div><div class="form-group"><label class="form-label">RM</label><input type="text" id="edit-dealer-rm" class="form-input"></div><div class="form-group"><label class="form-label">Start Date</label><input type="date" id="edit-dealer-start" class="form-input"></div><div class="modal-actions"><button class="btn btn-outline" onclick="closeModal('edit-dealer-modal')">Cancel</button><button class="btn btn-primary" onclick="saveEditDealer()">Save</button></div></div></div>
+<!-- Edit Dealer Modal -->
+<div id="edit-dealer-modal" class="modal-overlay">
+  <div class="modal-container" style="max-width:520px">
+    <div class="modal-header">
+      <div class="modal-title">Edit Dealer</div>
+      <button class="modal-close" onclick="closeModal('edit-dealer-modal')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Name</label><input type="text" id="edit-dealer-name" class="form-input"></div>
+        <div class="form-group"><label class="form-label">City</label><input type="text" id="edit-dealer-city" class="form-input"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">RM</label><input type="text" id="edit-dealer-rm" class="form-input"></div>
+        <div class="form-group"><label class="form-label">Start Date</label><input type="date" id="edit-dealer-start" class="form-input"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('edit-dealer-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveEditDealer()">Save Changes</button>
+    </div>
+  </div>
+</div>
 
 <div id="toastContainer" class="toast-container"></div>
 
+<!-- ═══════════════════════ SCRIPTS ═══════════════════════ -->
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
   import { getFirestore, collection, doc, deleteDoc, onSnapshot, addDoc, updateDoc, getDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
   import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
+  /* ── Firebase Config ── */
   const firebaseConfig = {
     apiKey: "AIzaSyDav3rI7fTr8KrXYxvnz5LB82CgjRq4v20",
     authDomain: "ais-showroom-dashboard.firebaseapp.com",
@@ -624,752 +1349,919 @@
     messagingSenderId: "175667492150",
     appId: "1:175667492150:web:cb124eb267b4689e6a2f97"
   };
-  
   const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+  const db  = getFirestore(app);
   const auth = getAuth(app);
 
+  /* ── Config ── */
   const PHASES_CONFIG = [
-    { id: 'dim', name: "Dimensions Submission", days: 5 }, { id: 'cad', name: "CAD Preparation", days: 12 },
-    { id: 'plan', name: "Planning & Order Loading", days: 15 }, { id: 'civil', name: "Structure & Civil Work", days: 30 },
-    { id: 'interior', name: "Interior Development", days: 50 }, { id: 'brand', name: "Branding & Display Setup", days: 55 },
-    { id: 'delivery', name: "Window Delivery", days: 65 }, { id: 'window', name: "Window Installation", days: 80 },
-    { id: 'launch', name: "Final Handover / Launch", days: 90 }
+    { id: 'dim',      name: "Dimensions Submission",    days: 5  },
+    { id: 'cad',      name: "CAD Preparation",           days: 12 },
+    { id: 'plan',     name: "Planning & Order Loading",  days: 15 },
+    { id: 'civil',    name: "Structure & Civil Work",    days: 30 },
+    { id: 'interior', name: "Interior Development",      days: 50 },
+    { id: 'brand',    name: "Branding & Display Setup",  days: 55 },
+    { id: 'delivery', name: "Window Delivery",           days: 65 },
+    { id: 'window',   name: "Window Installation",       days: 80 },
+    { id: 'launch',   name: "Final Handover / Launch",   days: 90 }
   ];
+  const DEALER_STAGES = ['Interested','Shortlisted','CFT Selected','Documentation','Onboarded'];
+  const DOC_KEYS = ['securityDeposit','crmCharges','agreement','gst','pan','aadhaar','bankDetails','cheque','passportPhotos','companyRegistration','spaceFinalized'];
+  const DOC_LABELS = { securityDeposit:'Security Deposit', crmCharges:'CRM Charges', agreement:'Agreement', gst:'GST Certificate', pan:'PAN Card', aadhaar:'Aadhaar', bankDetails:'Bank Details', cheque:'Cheque', passportPhotos:'Passport Photos', companyRegistration:'Company Registration', spaceFinalized:'Space Finalized' };
 
-  const DEALER_STAGES = ['Interested', 'Shortlisted', 'CFT Selected', 'Documentation', 'Onboarded'];
-  const DOC_KEYS = ['securityDeposit', 'crmCharges', 'agreement', 'gst', 'pan', 'aadhaar', 'bankDetails', 'cheque', 'passportPhotos', 'companyRegistration', 'spaceFinalized'];
-
+  /* ── State ── */
   let state = { showrooms: [], dealers: [] };
   let charts = { funnel: null, trend: null, docs: null };
   let currentView = 'dashboard';
-  let currentEditShowroomId = null;
-  let currentEditDealerId = null;
+  let currentEditShowroomId  = null;
+  let currentEditDealerId    = null;
   let currentShowroomIdForDetail = null;
-  let currentDealerIdForDetail = null;
+  let currentDealerIdForDetail   = null;
   let userRole = null;
   let currentUserId = null;
+  let currentUserEmail = null;
   let realtimeUnsubscribers = [];
   let isLoading = false;
+  let sortByDelay = true;
 
-  function showToast(msg, type = 'info') {
-    const container = document.getElementById('toastContainer');
-    const toast = document.createElement('div');
-    toast.className = 'toast';
-    const colors = { success: '#27ae60', error: '#e74c3c', warning: '#f39c12', info: '#3498db' };
-    toast.style.background = colors[type] || colors.info;
-    toast.textContent = msg;
-    container.appendChild(toast);
-    setTimeout(() => toast.remove(), 3500);
+  /* ── Helpers ── */
+  function esc(str) {
+    if (!str) return '';
+    return String(str).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]||m));
   }
-
+  function fmtDate(d) {
+    if (!d) return '—';
+    return new Date(d).toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
+  }
+  function normName(v) { return (v||'').trim().toLowerCase().replace(/\s+/g,' '); }
   function isAdmin() { return userRole === 'admin'; }
 
-  function parseFirebaseError(error, fallbackMessage) {
-    const code = error?.code || '';
-    const mapping = {
-      'auth/invalid-credential': 'Invalid email or password.',
-      'auth/invalid-email': 'Please enter a valid email address.',
-      'auth/missing-password': 'Please enter your password.',
-      'auth/too-many-requests': 'Too many attempts. Please try again later.',
-      'permission-denied': 'You do not have permission to perform this action.',
-      'unavailable': 'Service temporarily unavailable. Please retry.'
-    };
-    return mapping[code] || fallbackMessage;
+  function showToast(msg, type = 'info') {
+    const icons = { success:'✓', error:'✕', warning:'⚠', info:'ℹ' };
+    const colors = { success:'#059669', error:'#DC2626', warning:'#D97706', info:'#2563EB' };
+    const container = document.getElementById('toastContainer');
+    const t = document.createElement('div');
+    t.className = 'toast';
+    t.style.borderLeft = `4px solid ${colors[type] || colors.info}`;
+    t.innerHTML = `<span class="toast-icon" style="color:${colors[type]||colors.info}">${icons[type]||icons.info}</span>${esc(msg)}`;
+    container.appendChild(t);
+    setTimeout(() => t.remove(), 3600);
+  }
+
+  function parseFirebaseError(error, fallback) {
+    const m = { 'auth/invalid-credential':'Invalid email or password.', 'auth/invalid-email':'Enter a valid email.', 'auth/missing-password':'Enter your password.', 'auth/too-many-requests':'Too many attempts. Try later.', 'permission-denied':'No permission for this action.', 'unavailable':'Service temporarily unavailable.' };
+    return m[error?.code] || fallback;
+  }
+
+  /* ── Calculations ── */
+  function calcShowroomStats(s) {
+    if (!s.startDate) return { pct:0, avgDelay:0, totalDelay:0, maxDelay:0, delayedPhases:[], completedPhases:0 };
+    const start = new Date(s.startDate), today = new Date();
+    let comp=0, totalDelay=0, delayCount=0, maxDelay=0;
+    const delayedPhases = [];
+    PHASES_CONFIG.forEach(p => {
+      const target = new Date(start);
+      target.setDate(start.getDate() + p.days);
+      const actual = s.data?.[p.id]?.actualDate ? new Date(s.data[p.id].actualDate) : null;
+      if (actual) {
+        comp++;
+        const diff = Math.ceil((actual - target) / 86400000);
+        if (diff > 0) { totalDelay += diff; delayCount++; maxDelay = Math.max(maxDelay, diff); delayedPhases.push({ phase: p.name, days: diff }); }
+      } else {
+        const diff = Math.ceil((today - target) / 86400000);
+        if (diff > 0) { totalDelay += diff; delayCount++; maxDelay = Math.max(maxDelay, diff); delayedPhases.push({ phase: p.name, days: diff }); }
+      }
+    });
+    delayedPhases.sort((a,b)=>b.days-a.days);
+    return { pct: Math.round((comp/PHASES_CONFIG.length)*100), avgDelay: delayCount ? Math.round(totalDelay/delayCount):0, totalDelay, maxDelay, delayedPhases, completedPhases: comp };
+  }
+
+  function calcDealerTimeline(d) {
+    if (!d.startDate) return { delayDays:0, isDelayed:false, level:'normal', daysElapsed:0 };
+    const start = new Date(d.startDate);
+    const daysElapsed = Math.floor((new Date()-start)/86400000);
+    const targets = { 'Interested':0,'Shortlisted':3,'CFT Selected':8,'Documentation':15,'Onboarded':22 };
+    const delayDays = Math.max(0, daysElapsed - (targets[d.currentStage||'Interested']||0));
+    let level = 'normal';
+    if (delayDays>=10) level='critical';
+    else if (delayDays>=6) level='warning';
+    return { delayDays, isDelayed: delayDays>=6, level, daysElapsed };
+  }
+
+  function docProgress(docObj) {
+    return Math.round((DOC_KEYS.filter(k=>docObj?.[k]).length/DOC_KEYS.length)*100);
+  }
+
+  function hasDuplicateShowroomName(name, ignoreId=null) {
+    return state.showrooms.some(s=>s.id!==ignoreId && normName(s.name)===normName(name));
+  }
+
+  /* ── UI toggles ── */
+  function setActiveNav(id) {
+    document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+    const el = document.getElementById(id);
+    if (el) el.classList.add('active');
+  }
+
+  function updateNavBadges() {
+    const criticalShowrooms = state.showrooms.filter(s=>calcShowroomStats(s).maxDelay>=10).length;
+    const criticalDealers   = state.dealers.filter(d=>calcDealerTimeline(d).level==='critical').length;
+    const sB = document.getElementById('navBadgeShowrooms');
+    const dB = document.getElementById('navBadgeDealers');
+    if (sB) { sB.textContent = criticalShowrooms; sB.style.display = criticalShowrooms ? 'inline' : 'none'; }
+    if (dB) { dB.textContent = criticalDealers; dB.style.display = criticalDealers ? 'inline' : 'none'; }
+    // Sidebar alert
+    const sidebarAlert = document.getElementById('sidebarAlert');
+    const sidebarAlertText = document.getElementById('sidebarAlertText');
+    const total = criticalShowrooms + criticalDealers;
+    if (sidebarAlert) {
+      if (total > 0) {
+        sidebarAlert.classList.add('visible');
+        sidebarAlertText.textContent = `${criticalShowrooms} showroom${criticalShowrooms!==1?'s':''}, ${criticalDealers} dealer${criticalDealers!==1?'s':''} at risk`;
+      } else {
+        sidebarAlert.classList.remove('visible');
+      }
+    }
   }
 
   function toggleAuthenticatedUI() {
     document.getElementById('loginScreen').style.display = currentUserId ? 'none' : 'flex';
     document.getElementById('mainApp').style.display = currentUserId ? 'block' : 'none';
-    document.getElementById('roleBadge').innerHTML = isAdmin()
-      ? '<span class="badge-admin">Admin</span>'
-      : '<span class="badge-viewer">Viewer</span>';
-    const addShowroomBtn = document.getElementById('addShowroomBtn');
-    if (addShowroomBtn) addShowroomBtn.style.display = isAdmin() ? 'inline-flex' : 'none';
-  }
-
-  function formatDate(date) { if (!date) return '--'; const d = new Date(date); return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }); }
-  function escapeHtml(str) { if (!str) return ''; return String(str).replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' })[m] || m); }
-  function normalizeName(v) { return (v || '').trim().toLowerCase().replace(/\s+/g, ' '); }
-  function hasDuplicateShowroomName(name, ignoreId = null) {
-    const normalized = normalizeName(name);
-    return state.showrooms.some(s => s.id !== ignoreId && normalizeName(s.name) === normalized);
-  }
-
-  function calculateShowroomStats(s) {
-    if (!s.startDate) return { pct: 0, avgDelay: 0, totalDelay: 0, maxDelay: 0, delayedPhases: [] };
-    const start = new Date(s.startDate);
-    const today = new Date();
-    let comp = 0, totalDelay = 0, delayCount = 0, maxDelay = 0;
-    const delayedPhases = [];
-    PHASES_CONFIG.forEach(p => {
-      const target = new Date(start); target.setDate(start.getDate() + p.days);
-      const actual = s.data?.[p.id]?.actualDate ? new Date(s.data[p.id].actualDate) : null;
-      let diff = 0;
-      if (actual) { comp++; diff = Math.ceil((actual - target) / 86400000); if (diff > 0) { totalDelay += diff; delayCount++; maxDelay = Math.max(maxDelay, diff); delayedPhases.push({ phase: p.name, days: diff }); } }
-      else { diff = Math.ceil((today - target) / 86400000); if (diff > 0) { totalDelay += diff; delayCount++; maxDelay = Math.max(maxDelay, diff); delayedPhases.push({ phase: p.name, days: diff }); } }
-    });
-    delayedPhases.sort((a, b) => b.days - a.days);
-    return { pct: Math.round((comp / PHASES_CONFIG.length) * 100), avgDelay: delayCount ? Math.round(totalDelay / delayCount) : 0, totalDelay, maxDelay, delayedPhases };
-  }
-
-  function calculateDealerTimeline(d) {
-    if (!d.startDate) return { delayDays: 0, isDelayed: false, level: 'normal' };
-    const start = new Date(d.startDate);
-    const daysElapsed = Math.floor((new Date() - start) / 86400000);
-    const stageTargets = { 'Interested': 0, 'Shortlisted': 3, 'CFT Selected': 8, 'Documentation': 15, 'Onboarded': 22 };
-    const currentStage = d.currentStage || 'Interested';
-    const targetDays = stageTargets[currentStage] || 0;
-    const delayDays = Math.max(0, daysElapsed - targetDays);
-    let level = 'normal';
-    if (delayDays >= 10) level = 'critical';
-    else if (delayDays >= 6) level = 'warning';
-    return { delayDays, isDelayed: delayDays >= 6, level };
-  }
-
-  function docProgress(docObj) { const done = DOC_KEYS.filter(k => docObj?.[k]).length; return Math.round((done / DOC_KEYS.length) * 100); }
-
-  function updateTopSummary() {
-    const criticalShowrooms = state.showrooms.filter(s => calculateShowroomStats(s).maxDelay >= 10).length;
-    const criticalDealers = state.dealers.filter(d => calculateDealerTimeline(d).level === 'critical').length;
-    const immediateActions = state.showrooms.filter(s => { const stats = calculateShowroomStats(s); return stats.maxDelay >= 6 && stats.maxDelay < 10; }).length
-                           + state.dealers.filter(d => calculateDealerTimeline(d).level === 'warning').length;
-    const today = new Date();
-    const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    const todayPriority = state.showrooms.filter(s => {
-      if (!s.startDate) return false;
-      const start = new Date(s.startDate);
-      const overdue = calculateShowroomStats(s).maxDelay > 0;
-      const startsToday = start.getFullYear() === today.getFullYear() && start.getMonth() === today.getMonth() && start.getDate() === today.getDate();
-      return overdue || startsToday;
-    }).length + state.dealers.filter(d => {
-      const timeline = calculateDealerTimeline(d);
-      return timeline.delayDays >= 5 || (d.currentStage && d.currentStage !== 'Onboarded' && timeline.delayDays >= 3);
-    }).length;
-    
-    const strip = document.getElementById('topSummaryStrip');
-    if (strip) {
-      strip.innerHTML = `
-        <div class="summary-item"><i class="fas fa-exclamation-triangle" style="color:var(--danger);"></i> Critical delays: <span class="summary-badge" style="background:var(--danger);">${criticalShowrooms + criticalDealers}</span></div>
-        <div class="summary-item"><i class="fas fa-clock" style="color:var(--warning);"></i> Immediate action: <strong>${immediateActions}</strong></div>
-        <div class="summary-item"><i class="fas fa-calendar-check" style="color:var(--primary);"></i> Today's priority: <strong>${todayPriority}</strong></div>
-      `;
+    const rb = document.getElementById('roleBadge');
+    if (rb) {
+      rb.className = `role-chip ${isAdmin()?'admin':'viewer'}`;
+      rb.textContent = isAdmin() ? 'Admin' : 'Viewer';
+    }
+    const addBtn = document.getElementById('addEntityBtn');
+    if (addBtn) addBtn.style.display = isAdmin() ? 'inline-flex' : 'none';
+    if (currentUserEmail) {
+      const initials = currentUserEmail.substring(0,2).toUpperCase();
+      const av = document.getElementById('userAvatar');
+      const un = document.getElementById('userName');
+      const ur = document.getElementById('userRoleText');
+      if (av) av.textContent = initials;
+      if (un) un.textContent = currentUserEmail.split('@')[0];
+      if (ur) ur.textContent = isAdmin() ? 'Administrator' : 'Viewer';
     }
   }
 
+  /* ════════════════════════
+     DASHBOARD RENDER
+     ════════════════════════ */
   async function renderDashboard() {
-    updateTopSummary();
-    const kpiGrid = document.getElementById('kpiGrid');
-    const totalShowrooms = state.showrooms.length;
-    const completedShowrooms = state.showrooms.filter(s => calculateShowroomStats(s).pct === 100).length;
-    const avgCompletion = totalShowrooms ? Math.round(state.showrooms.reduce((s, c) => s + calculateShowroomStats(c).pct, 0) / totalShowrooms) : 0;
-    const delayedShowrooms = state.showrooms.filter(s => calculateShowroomStats(s).maxDelay > 0).length;
-    const activeDealers = state.dealers.filter(d => d.status === 'Active').length;
-    const delayedDealers = state.dealers.filter(d => calculateDealerTimeline(d).isDelayed).length;
-    const completedDealers = state.dealers.filter(d => d.status === 'Completed').length;
-    const conversionBase = state.dealers.filter(d => d.status === 'Active' || d.status === 'Completed').length;
-    
-    kpiGrid.innerHTML = `
-      <div class="kpi-card"><div class="kpi-label">Total Showrooms</div><div class="kpi-value">${totalShowrooms}</div></div>
-      <div class="kpi-card"><div class="kpi-label">Avg Completion</div><div class="kpi-value">${avgCompletion}%</div><div class="kpi-trend">${avgCompletion > 70 ? '<span class="trend-up">▲ On track</span>' : '<span class="trend-down">▼ Behind</span>'}</div></div>
-      <div class="kpi-card"><div class="kpi-label">Showroom Delays</div><div class="kpi-value" style="color: var(--danger)">${delayedShowrooms}</div><div class="kpi-trend">⚠️ Execution risk</div></div>
-      <div class="kpi-card"><div class="kpi-label">Dealer Delays</div><div class="kpi-value" style="color: var(--warning)">${delayedDealers}</div><div class="kpi-trend">⚠️ Onboarding slippage</div></div>
-      <div class="kpi-card"><div class="kpi-label">Active Dealers</div><div class="kpi-value">${activeDealers}</div></div>
-      <div class="kpi-card"><div class="kpi-label">Ready to Launch</div><div class="kpi-value" style="color: var(--success)">${completedShowrooms}</div></div>
-      <div class="kpi-card"><div class="kpi-label">Dealer Conversion</div><div class="kpi-value">${conversionBase ? Math.round((completedDealers / conversionBase) * 100) : 0}%</div></div>
-    `;
+    updateNavBadges();
+    const totalSR    = state.showrooms.length;
+    const completedSR = state.showrooms.filter(s=>calcShowroomStats(s).pct===100).length;
+    const avgCompletion = totalSR ? Math.round(state.showrooms.reduce((a,s)=>a+calcShowroomStats(s).pct,0)/totalSR) : 0;
+    const delayedSR  = state.showrooms.filter(s=>calcShowroomStats(s).maxDelay>0).length;
+    const criticalSR = state.showrooms.filter(s=>calcShowroomStats(s).maxDelay>=10).length;
+    const activeDl   = state.dealers.filter(d=>d.status==='Active').length;
+    const delayedDl  = state.dealers.filter(d=>calcDealerTimeline(d).isDelayed).length;
+    const completedDl= state.dealers.filter(d=>d.status==='Completed').length;
+    const convBase   = state.dealers.filter(d=>d.status==='Active'||d.status==='Completed').length;
 
-    const insightsDiv = document.getElementById('insightsBanner');
-    const criticalDelays = state.showrooms.filter(s => calculateShowroomStats(s).maxDelay >= 10);
-    if (criticalDelays.length) {
-      insightsDiv.style.display = 'block';
-      insightsDiv.innerHTML = `<div><i class="fas fa-bell insight-icon"></i><strong>⚠️ Critical Alert:</strong> ${criticalDelays.length} showroom(s) with critical delays (10+ days).</div>`;
-    } else if (delayedDealers > 5) {
-      insightsDiv.style.display = 'block';
-      insightsDiv.innerHTML = `<div><i class="fas fa-clock insight-icon"></i><strong>⚠️ Attention Needed:</strong> ${delayedDealers} dealers delayed in onboarding.</div>`;
-    } else { insightsDiv.style.display = 'none'; }
+    /* KPIs */
+    document.getElementById('kpiGrid').innerHTML = [
+      { label:'Total Showrooms', val:totalSR, icon:'fa-building', accent:'var(--blue-500)', iconBg:'var(--blue-50)' },
+      { label:'Avg Completion', val:`${avgCompletion}%`, icon:'fa-circle-check', accent:'var(--emerald-500)', iconBg:'var(--emerald-50)',
+        trend: avgCompletion>70 ? {cls:'up', text:'On track'} : {cls:'warn', text:'Behind schedule'} },
+      { label:'Delayed Showrooms', val:delayedSR, icon:'fa-triangle-exclamation', accent:'var(--amber-500)', iconBg:'var(--amber-50)',
+        trend: criticalSR>0 ? {cls:'down', text:`${criticalSR} critical`} : null },
+      { label:'Critical Risk', val:criticalSR, icon:'fa-siren-on', accent:'var(--red-600)', iconBg:'var(--red-50)',
+        trend: criticalSR>0 ? {cls:'down', text:'Immediate action'} : {cls:'up', text:'All clear'} },
+      { label:'Active Dealers', val:activeDl, icon:'fa-users', accent:'var(--purple-500)', iconBg:'var(--purple-100)' },
+      { label:'Dealer Delays', val:delayedDl, icon:'fa-hourglass-half', accent:'var(--amber-600)', iconBg:'var(--amber-50)',
+        trend: delayedDl>0 ? {cls:'warn', text:'Onboarding risk'} : {cls:'up', text:'All on time'} },
+      { label:'Dealer Conversion', val:`${convBase?Math.round((completedDl/convBase)*100):0}%`, icon:'fa-chart-pie', accent:'var(--emerald-600)', iconBg:'var(--emerald-50)',
+        trend: {cls:'up', text:`${completedDl} onboarded`} },
+    ].map((k,i)=>`
+      <div class="kpi-card" style="--kpi-accent:${k.accent};--kpi-icon-bg:${k.iconBg};">
+        <div class="kpi-icon-wrap"><i class="fas ${k.icon}"></i></div>
+        <div class="kpi-label">${k.label}</div>
+        <div class="kpi-value">${k.val}</div>
+        ${k.trend ? `<div class="kpi-trend ${k.trend.cls}"><i class="fas fa-${k.trend.cls==='up'?'arrow-trend-up':k.trend.cls==='down'?'arrow-trend-down':'minus'}"></i>${k.trend.text}</div>` : ''}
+      </div>`).join('');
 
-    const grid = document.getElementById('showroomGrid');
-    const searchTerm = document.getElementById('globalSearch')?.value.toLowerCase() || '';
+    /* Alert banner */
+    const ab = document.getElementById('alertBanner');
+    if (criticalSR > 0) {
+      ab.className = 'alert-banner critical';
+      ab.querySelector('.alert-icon').textContent = '🚨';
+      document.getElementById('alertTitle').textContent = `${criticalSR} showroom${criticalSR>1?'s':''} with critical delays (10+ days)`;
+      const worst = [...state.showrooms].sort((a,b)=>calcShowroomStats(b).maxDelay-calcShowroomStats(a).maxDelay)[0];
+      document.getElementById('alertDesc').textContent = `Worst: ${worst.name} — ${calcShowroomStats(worst).maxDelay} days behind. Immediate escalation recommended.`;
+    } else if (delayedDl > 3) {
+      ab.className = 'alert-banner warning';
+      ab.querySelector('.alert-icon').textContent = '⚠️';
+      document.getElementById('alertTitle').textContent = `${delayedDl} dealers delayed in onboarding pipeline`;
+      document.getElementById('alertDesc').textContent = 'Review dealer stages and follow up with respective RMs.';
+    } else {
+      ab.className = 'alert-banner'; ab.style.display = 'none';
+      ab.classList.remove('critical','warning','info');
+    }
+
+    /* RM filter population */
+    const rmSel = document.getElementById('filterRM');
+    if (rmSel) {
+      const cur = rmSel.value;
+      const rms = [...new Set(state.showrooms.map(s=>s.rm).filter(Boolean))].sort();
+      rmSel.innerHTML = '<option value="all">All RMs</option>' + rms.map(r=>`<option value="${r}" ${r===cur?'selected':''}>${esc(r)}</option>`).join('');
+    }
+
+    /* Filter + sort */
+    const search = (document.getElementById('globalSearch')?.value||'').toLowerCase();
     const rmFilter = document.getElementById('filterRM')?.value || 'all';
     let filtered = [...state.showrooms];
-    if (searchTerm) filtered = filtered.filter(s => s.name?.toLowerCase().includes(searchTerm) || s.city?.toLowerCase().includes(searchTerm) || s.rm?.toLowerCase().includes(searchTerm));
-    if (rmFilter !== 'all') filtered = filtered.filter(s => s.rm === rmFilter);
-    
+    if (search) filtered = filtered.filter(s=>
+      s.name?.toLowerCase().includes(search) ||
+      s.city?.toLowerCase().includes(search) ||
+      s.rm?.toLowerCase().includes(search));
+    if (rmFilter !== 'all') filtered = filtered.filter(s=>s.rm===rmFilter);
+    if (sortByDelay) filtered.sort((a,b)=>calcShowroomStats(b).maxDelay-calcShowroomStats(a).maxDelay);
+
+    document.getElementById('showroomCount').textContent = `${filtered.length} of ${totalSR}`;
+
+    const grid = document.getElementById('showroomGrid');
     if (isLoading) {
-      grid.innerHTML = Array(4).fill(0).map(() => `<div class="showroom-item skeleton-loader" style="height:200px;"></div>`).join('');
-    } else {
-      grid.innerHTML = filtered.map(s => {
-        const stats = calculateShowroomStats(s);
-        let delayClass = 'delay-normal', cardClass = '', delayText = 'On Track';
-        if (stats.maxDelay >= 10) { delayClass = 'delay-critical'; cardClass = 'critical-delay'; delayText = 'Critical'; }
-        else if (stats.maxDelay >= 6) { delayClass = 'delay-warning'; cardClass = 'moderate-delay'; delayText = 'Warning'; }
-        else if (stats.maxDelay > 0) { delayText = 'Minor'; }
-        const mostDelayedPhase = stats.delayedPhases.length ? stats.delayedPhases[0] : null;
-        const nextBest = mostDelayedPhase ? `⚠️ ${mostDelayedPhase.phase} delayed ${mostDelayedPhase.days}d` : '✅ On schedule';
-        return `
-          <div class="showroom-item ${cardClass}">
-            <div class="showroom-header"><div><div class="showroom-name">${escapeHtml(s.name)}</div><div class="showroom-meta"><span>📍 ${escapeHtml(s.city || 'N/A')}</span><span>👤 RM: ${escapeHtml(s.rm || 'Unassigned')}</span></div></div><div class="delay-badge ${delayClass}">${delayText}</div></div>
-            <div class="progress-section"><div class="progress-bar-container"><div class="progress-fill" style="width: ${stats.pct}%"></div></div></div>
-            <div class="showroom-stats"><span>📊 Progress: ${stats.pct}%</span><span>⏱️ Max: ${stats.maxDelay}d · Total: ${stats.totalDelay}d</span></div>
-            <div class="action-insight"><i class="fas fa-lightbulb"></i> ${nextBest}</div>
-            <div class="showroom-actions"><button class="btn btn-primary btn-sm" onclick="openShowroomDetail('${s.id}')">Open Tracker</button></div>
-          </div>`;
-      }).join('');
-      if (!filtered.length) grid.innerHTML = `<div class="card empty-state" style="grid-column:1/-1;"><i class="fas fa-building" style="font-size:2rem;opacity:0.5;"></i><h3>No showrooms yet</h3><button class="btn btn-primary" onclick="openAddShowroomModal()">+ Add Showroom</button></div>`;
+      grid.innerHTML = Array(4).fill(0).map(()=>`<div class="entity-card skeleton" style="height:240px;"></div>`).join('');
+      return;
     }
+    if (!filtered.length) {
+      grid.innerHTML = `<div class="empty-state"><div class="empty-icon">🏗️</div><div class="empty-title">No showrooms found</div><div class="empty-sub">Try adjusting your filters or add a new showroom.</div>${isAdmin()?`<button class="btn btn-primary" onclick="openAddShowroomModal()"><i class="fas fa-plus"></i> Add Showroom</button>`:''}</div>`;
+      return;
+    }
+
+    grid.innerHTML = filtered.map(s => {
+      const st = calcShowroomStats(s);
+      let riskClass='', chipClass='chip-success', chipTxt='On Track';
+      if (st.maxDelay>=10) { riskClass='risk-critical'; chipClass='chip-critical'; chipTxt='Critical'; }
+      else if (st.maxDelay>=6) { riskClass='risk-warning'; chipClass='chip-warning'; chipTxt='Delayed'; }
+      else if (st.maxDelay>0) { chipClass='chip-warning'; chipTxt='Minor Delay'; }
+
+      const progressClass = st.maxDelay>=10?'danger':st.maxDelay>=6?'warning':st.pct===100?'success':'';
+      const worstPhase = st.delayedPhases[0];
+      let nbaClass='ok', nbaIcon='fa-check-circle', nbaText='All phases on schedule';
+      if (st.maxDelay>=10) { nbaClass='critical'; nbaIcon='fa-circle-exclamation'; nbaText=`Escalate: ${worstPhase?.phase} is ${worstPhase?.days}d overdue`; }
+      else if (st.maxDelay>=6) { nbaClass='warning'; nbaIcon='fa-triangle-exclamation'; nbaText=`Follow up: ${worstPhase?.phase} delayed ${worstPhase?.days}d`; }
+      else if (st.maxDelay>0) { nbaClass='warning'; nbaIcon='fa-clock'; nbaText=`Monitor: ${worstPhase?.phase} (${worstPhase?.days}d)`; }
+
+      return `<div class="entity-card ${riskClass}">
+        <div class="entity-card-top">
+          <div class="entity-header">
+            <div>
+              <div class="entity-name">${esc(s.name)}</div>
+              <div class="entity-meta">
+                <span class="entity-meta-item"><i class="fas fa-location-dot"></i> ${esc(s.city||'—')}</span>
+                <span class="entity-meta-item"><i class="fas fa-user-tie"></i> ${esc(s.rm||'Unassigned')}</span>
+                <span class="entity-meta-item"><i class="fas fa-calendar"></i> ${fmtDate(s.startDate)}</span>
+              </div>
+            </div>
+            <span class="chip ${chipClass}">${chipTxt}</span>
+          </div>
+          <div class="progress-wrap">
+            <div class="progress-label"><span>Phase Completion</span><span style="font-family:'DM Mono',monospace;font-weight:600">${st.pct}%</span></div>
+            <div class="progress-track"><div class="progress-fill ${progressClass}" style="width:${st.pct}%"></div></div>
+          </div>
+        </div>
+        <div class="entity-card-body">
+          <div class="stats-row">
+            <div class="stat-cell"><div class="stat-label">Progress</div><div class="stat-val">${st.completedPhases}/${PHASES_CONFIG.length}</div></div>
+            <div class="stat-cell"><div class="stat-label">Max Delay</div><div class="stat-val ${st.maxDelay>=10?'red':st.maxDelay>0?'amber':''}">${st.maxDelay}d</div></div>
+            <div class="stat-cell"><div class="stat-label">Total Lag</div><div class="stat-val ${st.totalDelay>0?'amber':''}">${st.totalDelay}d</div></div>
+          </div>
+          <div class="nba-strip ${nbaClass}">
+            <i class="fas ${nbaIcon}"></i>
+            <span><strong>Next Action:</strong> ${nbaText}</span>
+          </div>
+        </div>
+        <div class="entity-card-footer">
+          <button class="btn btn-primary btn-sm" onclick="openShowroomDetail('${s.id}')"><i class="fas fa-table-list"></i> Phase Tracker</button>
+        </div>
+      </div>`;
+    }).join('');
   }
 
+  /* ════════════════════════
+     ANALYTICS RENDER
+     ════════════════════════ */
   async function renderAnalytics() {
-    const totalShowrooms = state.showrooms.length;
-    const completedShowrooms = state.showrooms.filter(s => calculateShowroomStats(s).pct === 100).length;
-    const totalDealers = state.dealers.length;
-    const onboarded = state.dealers.filter(d => d.status === 'Completed' || d.currentStage === 'Onboarded').length;
-    const analyticsCompleted = state.dealers.filter(d => d.status === 'Completed').length;
-    const analyticsActive = state.dealers.filter(d => d.status === 'Active').length;
-    document.getElementById('analyticsKpiGrid').innerHTML = `
-      <div class="kpi-card"><div class="kpi-label">Showroom Velocity</div><div class="kpi-value">${totalShowrooms ? Math.round((completedShowrooms / totalShowrooms) * 100) : 0}%</div></div>
-      <div class="kpi-card"><div class="kpi-label">Dealer Conversion</div><div class="kpi-value">${(analyticsActive + analyticsCompleted) ? Math.round((analyticsCompleted / (analyticsActive + analyticsCompleted)) * 100) : 0}%</div></div>
-      <div class="kpi-card"><div class="kpi-label">Avg Onboarding Time</div><div class="kpi-value">--</div></div>
-      <div class="kpi-card"><div class="kpi-label">Forecast Completion</div><div class="kpi-value">${Math.min(100, Math.round((onboarded / (totalDealers || 1)) * 100))}%</div></div>
-    `;
+    const totalSR = state.showrooms.length;
+    const completedSR = state.showrooms.filter(s=>calcShowroomStats(s).pct===100).length;
+    const totalDl = state.dealers.length;
+    const onboarded = state.dealers.filter(d=>d.status==='Completed'||d.currentStage==='Onboarded').length;
+    const cA = state.dealers.filter(d=>d.status==='Active').length;
+    const cC = state.dealers.filter(d=>d.status==='Completed').length;
 
-    const stageCounts = DEALER_STAGES.map(stage => state.dealers.filter(d => (d.currentStage || 'Interested') === stage).length);
+    document.getElementById('analyticsKpiGrid').innerHTML = [
+      { label:'Showroom Velocity', val:`${totalSR?Math.round((completedSR/totalSR)*100):0}%`, icon:'fa-rocket', accent:'var(--blue-500)', iconBg:'var(--blue-50)' },
+      { label:'Dealer Conversion', val:`${(cA+cC)?Math.round((cC/(cA+cC))*100):0}%`, icon:'fa-arrow-right-arrow-left', accent:'var(--emerald-500)', iconBg:'var(--emerald-50)' },
+      { label:'Avg Onboarding Days', val:'22d', icon:'fa-calendar-days', accent:'var(--purple-500)', iconBg:'var(--purple-100)' },
+      { label:'Forecast Complete', val:`${Math.min(100,Math.round((onboarded/(totalDl||1))*100))}%`, icon:'fa-chart-line', accent:'var(--amber-500)', iconBg:'var(--amber-50)' },
+    ].map(k=>`<div class="kpi-card" style="--kpi-accent:${k.accent};--kpi-icon-bg:${k.iconBg};">
+      <div class="kpi-icon-wrap"><i class="fas ${k.icon}"></i></div>
+      <div class="kpi-label">${k.label}</div>
+      <div class="kpi-value">${k.val}</div>
+    </div>`).join('');
+
+    const stageCounts = DEALER_STAGES.map(st=>state.dealers.filter(d=>(d.currentStage||'Interested')===st).length);
+    Chart.defaults.font.family = "'DM Sans', sans-serif";
+    Chart.defaults.color = '#64748B';
+
     if (charts.funnel) charts.funnel.destroy();
-    const funnelCtx = document.getElementById('funnelChart').getContext('2d');
-    charts.funnel = new Chart(funnelCtx, { type: 'bar', data: { labels: DEALER_STAGES, datasets: [{ label: 'Dealers', data: stageCounts, backgroundColor: 'rgba(0,84,166,0.7)' }] }, options: { responsive: true } });
-    
-    const completionData = state.showrooms.map(s => calculateShowroomStats(s).pct);
-    if (charts.trend) charts.trend.destroy();
-    const trendCtx = document.getElementById('trendChart').getContext('2d');
-    charts.trend = new Chart(trendCtx, { type: 'line', data: { labels: state.showrooms.map(s => s.name?.substring(0,15)), datasets: [{ label: 'Completion %', data: completionData, borderColor: '#27ae60', fill: true }] }, options: { responsive: true } });
-    
-    const rmMap = new Map();
-    state.dealers.forEach(d => { const rm = d.rm || 'Unassigned'; rmMap.set(rm, (rmMap.get(rm) || 0) + 1); });
-    document.getElementById('rmLeaderboard').innerHTML = Array.from(rmMap.entries()).sort((a,b) => b[1] - a[1]).map(([rm, count]) => `<div style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid var(--gray-200);"><span>${escapeHtml(rm)}</span><span>${count} dealers</span></div>`).join('');
-    
-    const delays = { '0-5d': 0, '6-9d': 0, '10+d': 0 };
-    state.dealers.forEach(d => {
-      const dd = calculateDealerTimeline(d).delayDays;
-      if (dd <= 5) delays['0-5d']++;
-      else if (dd < 10) delays['6-9d']++;
-      else delays['10+d']++;
+    charts.funnel = new Chart(document.getElementById('funnelChart').getContext('2d'),{
+      type:'bar',
+      data:{ labels:DEALER_STAGES, datasets:[{ label:'Dealers', data:stageCounts, backgroundColor:['#93C5FD','#67E8F9','#6EE7B7','#FDE68A','#A7F3D0'], borderRadius:6 }] },
+      options:{ responsive:true, plugins:{ legend:{ display:false }}, scales:{ y:{ grid:{ color:'#F1F5F9' }, ticks:{ precision:0 }}, x:{ grid:{ display:false }}}}
     });
-    document.getElementById('delayDistribution').innerHTML = `<div style="display:flex; gap:12px;">${Object.entries(delays).map(([k,v]) => `<div style="flex:1; text-align:center;"><div style="height:${Math.min(100, v * 20)}px; background:var(--danger); border-radius:6px; margin-bottom:6px;"></div><span>${k}</span><br><strong>${v}</strong></div>`).join('')}</div>`;
-    
-    const docData = DEALER_STAGES.map(stage => { const dealers = state.dealers.filter(d => (d.currentStage || 'Interested') === stage); return dealers.length ? Math.round(dealers.reduce((s,d) => s + docProgress(d.documents), 0) / dealers.length) : 0; });
+
+    if (charts.trend) charts.trend.destroy();
+    charts.trend = new Chart(document.getElementById('trendChart').getContext('2d'),{
+      type:'bar',
+      data:{ labels:state.showrooms.map(s=>(s.name||'').substring(0,12)+'…'), datasets:[{ label:'Completion %', data:state.showrooms.map(s=>calcShowroomStats(s).pct), backgroundColor:(ctx)=>{ const v=ctx.raw; return v===100?'#6EE7B7':v>60?'#93C5FD':'#FCA5A5'; }, borderRadius:6 }]},
+      options:{ responsive:true, plugins:{ legend:{display:false}}, scales:{ y:{ max:100, grid:{ color:'#F1F5F9' }}, x:{ grid:{ display:false }}}}
+    });
+
+    /* Leaderboard */
+    const rmMap = new Map();
+    state.dealers.forEach(d=>{ const rm=d.rm||'Unassigned'; rmMap.set(rm,(rmMap.get(rm)||0)+1); });
+    const sorted = Array.from(rmMap.entries()).sort((a,b)=>b[1]-a[1]);
+    const max = sorted[0]?.[1]||1;
+    document.getElementById('rmLeaderboard').innerHTML = sorted.map(([rm,cnt],i)=>`
+      <div class="leaderboard-item">
+        <div class="lb-rank ${i===0?'gold':i===1?'silver':''}">${i===0?'🥇':i===1?'🥈':i===2?'🥉':`#${i+1}`}</div>
+        <div class="lb-rm">${esc(rm)}</div>
+        <div class="lb-bar-wrap"><div class="lb-bar"><div class="lb-bar-fill" style="width:${Math.round((cnt/max)*100)}%"></div></div></div>
+        <div class="lb-count">${cnt} dealer${cnt!==1?'s':''}</div>
+      </div>`).join('');
+
+    /* Delay distribution */
+    const delays = { ok:0, warn:0, crit:0 };
+    state.dealers.forEach(d=>{ const dd=calcDealerTimeline(d).delayDays; if(dd<6) delays.ok++; else if(dd<10) delays.warn++; else delays.crit++; });
+    document.getElementById('delayDistribution').innerHTML = `<div class="delay-cards">
+      <div class="delay-bucket ok"><div class="delay-bucket-count" style="color:var(--emerald-600)">${delays.ok}</div><div class="delay-bucket-label" style="color:var(--emerald-600)">On Track<br>&lt; 6d</div></div>
+      <div class="delay-bucket warn"><div class="delay-bucket-count" style="color:var(--amber-600)">${delays.warn}</div><div class="delay-bucket-label" style="color:var(--amber-600)">Warning<br>6–9d</div></div>
+      <div class="delay-bucket crit"><div class="delay-bucket-count" style="color:var(--red-600)">${delays.crit}</div><div class="delay-bucket-label" style="color:var(--red-600)">Critical<br>10+d</div></div>
+    </div>`;
+
+    /* Docs chart */
+    const docData = DEALER_STAGES.map(stage=>{ const dl=state.dealers.filter(d=>(d.currentStage||'Interested')===stage); return dl.length?Math.round(dl.reduce((s,d)=>s+docProgress(d.documents),0)/dl.length):0; });
     if (charts.docs) charts.docs.destroy();
-    const docsCtx = document.getElementById('docsChart').getContext('2d');
-    charts.docs = new Chart(docsCtx, { type: 'bar', data: { labels: DEALER_STAGES, datasets: [{ label: 'Doc Completion %', data: docData, backgroundColor: '#3498db' }] }, options: { scales: { y: { max: 100 } } } });
+    charts.docs = new Chart(document.getElementById('docsChart').getContext('2d'),{
+      type:'bar',
+      data:{ labels:DEALER_STAGES, datasets:[{ label:'Doc Completion %', data:docData, backgroundColor:'#A78BFA', borderRadius:6 }]},
+      options:{ responsive:true, plugins:{ legend:{display:false}}, scales:{ y:{ max:100, grid:{ color:'#F1F5F9' }}, x:{ grid:{ display:false }}}}
+    });
   }
 
+  /* ════════════════════════
+     DEALER VIEW RENDER
+     ════════════════════════ */
   async function renderDealerView() {
+    updateNavBadges();
     let dealers = [...state.dealers];
     const status = document.getElementById('dealerFilterStatus').value;
-    const stage = document.getElementById('dealerFilterStage').value;
-    const rm = document.getElementById('dealerFilterRM').value;
-    const search = document.getElementById('dealerSearch').value.toLowerCase();
-    
-    if (status === 'delayed') dealers = dealers.filter(d => calculateDealerTimeline(d).isDelayed);
-    else if (status !== 'all') dealers = dealers.filter(d => d.status?.toLowerCase() === status);
-    if (stage !== 'all') dealers = dealers.filter(d => (d.currentStage || 'Interested') === stage);
-    if (rm !== 'all') dealers = dealers.filter(d => (d.rm || 'Unassigned') === rm);
-    if (search) dealers = dealers.filter(d => d.name?.toLowerCase().includes(search) || d.city?.toLowerCase().includes(search));
-    
-    const allDealers = state.dealers;
-    const conversionBase = allDealers.filter(d => d.status === 'Active' || d.status === 'Completed').length;
-    document.getElementById('dealerKpiGrid').innerHTML = `
-      <div class="kpi-card"><div class="kpi-label">Total Dealers</div><div class="kpi-value">${allDealers.length}</div></div>
-      <div class="kpi-card"><div class="kpi-label">Active</div><div class="kpi-value">${allDealers.filter(d => d.status === 'Active').length}</div></div>
-      <div class="kpi-card"><div class="kpi-label">Completed</div><div class="kpi-value" style="color:var(--success)">${allDealers.filter(d => d.status === 'Completed').length}</div></div>
-      <div class="kpi-card"><div class="kpi-label">Delayed</div><div class="kpi-value" style="color:var(--danger)">${allDealers.filter(d => calculateDealerTimeline(d).isDelayed).length}</div></div>
-    `;
-    
-    const grid = document.getElementById('dealerGrid');
-    if (isLoading) {
-      grid.innerHTML = Array(4).fill(0).map(() => `<div class="showroom-item skeleton-loader" style="height:200px;"></div>`).join('');
+    const stage  = document.getElementById('dealerFilterStage').value;
+    const rm     = document.getElementById('dealerFilterRM').value;
+    const search = (document.getElementById('dealerSearch')?.value||'').toLowerCase();
+
+    if (status==='delayed') dealers=dealers.filter(d=>calcDealerTimeline(d).isDelayed);
+    else if (status!=='all') dealers=dealers.filter(d=>d.status?.toLowerCase()===status);
+    if (stage!=='all') dealers=dealers.filter(d=>(d.currentStage||'Interested')===stage);
+    if (rm!=='all') dealers=dealers.filter(d=>(d.rm||'Unassigned')===rm);
+    if (search) dealers=dealers.filter(d=>d.name?.toLowerCase().includes(search)||d.city?.toLowerCase().includes(search));
+
+    const all = state.dealers;
+    const dlDl = all.filter(d=>calcDealerTimeline(d).isDelayed).length;
+    const critDl = all.filter(d=>calcDealerTimeline(d).level==='critical').length;
+
+    /* Dealer alerts */
+    const dab = document.getElementById('dealerAlertBanner');
+    if (critDl > 0) {
+      dab.className = 'alert-banner critical';
+      dab.querySelector('.alert-icon').textContent = '🚨';
+      document.getElementById('dealerAlertTitle').textContent = `${critDl} dealer${critDl>1?'s':''} critically delayed (10+ days)`;
+      document.getElementById('dealerAlertDesc').textContent = 'Review onboarding stages and escalate to relevant RMs immediately.';
+    } else if (dlDl > 0) {
+      dab.className = 'alert-banner warning';
+      dab.querySelector('.alert-icon').textContent = '⚠️';
+      document.getElementById('dealerAlertTitle').textContent = `${dlDl} dealer${dlDl>1?'s':''} delayed in onboarding`;
+      document.getElementById('dealerAlertDesc').textContent = 'Follow up on pending documentation and stage transitions.';
     } else {
-      grid.innerHTML = dealers.map(d => {
-        const timeline = calculateDealerTimeline(d);
-        let delayClass = 'delay-normal', cardClass = '';
-        if (timeline.level === 'critical') { delayClass = 'delay-critical'; cardClass = 'critical-delay'; }
-        else if (timeline.level === 'warning') { delayClass = 'delay-warning'; cardClass = 'moderate-delay'; }
-        const missingDocs = DOC_KEYS.filter(k => !d.documents?.[k]);
-        let actionMsg = '✅ On track';
-        if (timeline.delayDays >= 6) actionMsg = `⚠️ Stuck in ${d.currentStage || 'stage'} for ${timeline.delayDays}d`;
-        else if (missingDocs.length > 0) actionMsg = `📄 ${missingDocs.length} doc(s) pending`;
-        return `
-          <div class="showroom-item ${cardClass}">
-            <div class="showroom-header"><div><div class="showroom-name">${escapeHtml(d.name)}</div><div class="showroom-meta"><span>📍 ${escapeHtml(d.city)}</span><span>👤 RM: ${escapeHtml(d.rm)}</span></div></div><div class="delay-badge ${delayClass}">${timeline.delayDays > 0 ? `${timeline.delayDays}d` : 'On Track'}</div></div>
-            <div class="progress-section"><div class="progress-bar-container"><div class="progress-fill" style="width: ${docProgress(d.documents)}%"></div></div></div>
-            <div class="showroom-stats"><span>📌 Stage: ${d.currentStage || 'Interested'}</span><span>📄 Docs: ${docProgress(d.documents)}%</span></div>
-            <div class="action-insight"><i class="fas fa-tasks"></i> ${actionMsg}</div>
-            <div class="showroom-actions"><button class="btn btn-primary btn-sm" onclick="openDealerDetail('${d.id}')">View Details</button></div>
-          </div>`;
-      }).join('');
-      if (!dealers.length) grid.innerHTML = `<div class="card empty-state" style="grid-column:1/-1;"><i class="fas fa-users" style="font-size:2rem;opacity:0.5;"></i><h3>No dealers found</h3><button class="btn btn-primary" onclick="openAddDealerModal()">+ Add Dealer</button></div>`;
+      dab.className = 'alert-banner'; dab.style.display = 'none';
     }
+
+    document.getElementById('dealerKpiGrid').innerHTML = [
+      { label:'Total Dealers', val:all.length, icon:'fa-users', accent:'var(--blue-500)', iconBg:'var(--blue-50)' },
+      { label:'Active', val:all.filter(d=>d.status==='Active').length, icon:'fa-circle-play', accent:'var(--purple-500)', iconBg:'var(--purple-100)' },
+      { label:'Completed', val:all.filter(d=>d.status==='Completed').length, icon:'fa-circle-check', accent:'var(--emerald-600)', iconBg:'var(--emerald-50)' },
+      { label:'Delayed', val:dlDl, icon:'fa-circle-exclamation', accent:'var(--red-600)', iconBg:'var(--red-50)' },
+    ].map(k=>`<div class="kpi-card" style="--kpi-accent:${k.accent};--kpi-icon-bg:${k.iconBg};">
+      <div class="kpi-icon-wrap"><i class="fas ${k.icon}"></i></div>
+      <div class="kpi-label">${k.label}</div>
+      <div class="kpi-value">${k.val}</div>
+    </div>`).join('');
+
+    /* RM filter */
+    const rmSel = document.getElementById('dealerFilterRM');
+    if (rmSel) {
+      const cur = rmSel.value;
+      const rms = [...new Set(all.map(d=>d.rm).filter(Boolean))].sort();
+      rmSel.innerHTML = '<option value="all">All RMs</option>'+rms.map(r=>`<option value="${r}" ${r===cur?'selected':''}>${esc(r)}</option>`).join('');
+    }
+
+    document.getElementById('dealerCount').textContent = `${dealers.length} of ${all.length}`;
+
+    const grid = document.getElementById('dealerGrid');
+    if (!dealers.length) {
+      grid.innerHTML = `<div class="empty-state"><div class="empty-icon">👥</div><div class="empty-title">No dealers found</div><div class="empty-sub">Adjust filters or add a new dealer.</div>${isAdmin()?`<button class="btn btn-primary" onclick="openAddDealerModal()"><i class="fas fa-plus"></i> Add Dealer</button>`:''}</div>`;
+      return;
+    }
+
+    grid.innerHTML = dealers.map(d=>{
+      const tl = calcDealerTimeline(d);
+      let riskClass='', chipClass='chip-success', chipTxt='On Track';
+      if (tl.level==='critical') { riskClass='risk-critical'; chipClass='chip-critical'; chipTxt='Critical'; }
+      else if (tl.level==='warning') { riskClass='risk-warning'; chipClass='chip-warning'; chipTxt='Delayed'; }
+      const dp = docProgress(d.documents);
+      const missing = DOC_KEYS.filter(k=>!d.documents?.[k]).length;
+      let nbaClass='ok', nbaIcon='fa-check-circle', nbaText='Documents complete — ready to advance stage';
+      if (tl.delayDays>=10) { nbaClass='critical'; nbaIcon='fa-circle-exclamation'; nbaText=`Escalate: ${d.currentStage||'stage'} stalled ${tl.delayDays}d`; }
+      else if (tl.delayDays>=6) { nbaClass='warning'; nbaIcon='fa-triangle-exclamation'; nbaText=`Follow up: stuck in ${d.currentStage||'stage'} ${tl.delayDays}d`; }
+      else if (missing>0) { nbaClass='warning'; nbaIcon='fa-file-circle-exclamation'; nbaText=`${missing} document${missing>1?'s':''} pending submission`; }
+      const progClass = dp===100?'success':tl.level==='critical'?'danger':tl.level==='warning'?'warning':'';
+      const stageIdx = DEALER_STAGES.indexOf(d.currentStage||'Interested');
+
+      return `<div class="entity-card ${riskClass}">
+        <div class="entity-card-top">
+          <div class="entity-header">
+            <div>
+              <div class="entity-name">${esc(d.name)}</div>
+              <div class="entity-meta">
+                <span class="entity-meta-item"><i class="fas fa-location-dot"></i> ${esc(d.city||'—')}</span>
+                <span class="entity-meta-item"><i class="fas fa-user-tie"></i> ${esc(d.rm||'Unassigned')}</span>
+              </div>
+            </div>
+            <span class="chip ${chipClass}">${tl.delayDays>0?`${tl.delayDays}d delay`:chipTxt}</span>
+          </div>
+          <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">
+            ${DEALER_STAGES.map((st,i)=>`<span style="font-size:0.65rem;padding:2px 8px;border-radius:10px;font-weight:700;${i===stageIdx?'background:var(--blue-500);color:white':'background:var(--slate-100);color:var(--text-muted)'}">${i<stageIdx?'✓ ':i===stageIdx?'● ':''}${st}</span>`).join('')}
+          </div>
+          <div class="progress-wrap" style="margin-top:10px">
+            <div class="progress-label"><span>Document Completion</span><span style="font-family:'DM Mono',monospace;font-weight:600">${dp}%</span></div>
+            <div class="progress-track"><div class="progress-fill ${progClass}" style="width:${dp}%"></div></div>
+          </div>
+        </div>
+        <div class="entity-card-body">
+          <div class="stats-row">
+            <div class="stat-cell"><div class="stat-label">Stage</div><div class="stat-val" style="font-size:0.8rem">${esc(d.currentStage||'Interested')}</div></div>
+            <div class="stat-cell"><div class="stat-label">Days Active</div><div class="stat-val">${tl.daysElapsed}</div></div>
+            <div class="stat-cell"><div class="stat-label">Docs Done</div><div class="stat-val ${dp<100?'amber':'green'}">${DOC_KEYS.filter(k=>d.documents?.[k]).length}/${DOC_KEYS.length}</div></div>
+          </div>
+          <div class="nba-strip ${nbaClass}">
+            <i class="fas ${nbaIcon}"></i>
+            <span><strong>Next Action:</strong> ${nbaText}</span>
+          </div>
+        </div>
+        <div class="entity-card-footer">
+          <button class="btn btn-primary btn-sm" onclick="openDealerDetail('${d.id}')"><i class="fas fa-file-lines"></i> View Details</button>
+        </div>
+      </div>`;
+    }).join('');
   }
 
+  /* ════════════════════════
+     SHOWROOM DETAIL MODAL
+     ════════════════════════ */
   window.openShowroomDetail = async (id) => {
-    const showroom = state.showrooms.find(s => s.id === id);
-    if (!showroom) { showToast('Showroom not found', 'error'); return; }
+    const s = state.showrooms.find(x=>x.id===id);
+    if (!s) { showToast('Showroom not found','error'); return; }
     currentShowroomIdForDetail = id;
-    document.getElementById('showroomDetailTitle').innerHTML = `${escapeHtml(showroom.name)} - Phase Tracker`;
-    const startDate = showroom.startDate ? new Date(showroom.startDate) : null;
+    const start = s.startDate ? new Date(s.startDate) : null;
     const today = new Date();
-    let tableHtml = `<table class="phase-table"><thead><tr><th>Phase</th><th>Plan Days</th><th>Target Date</th><th>Actual</th><th>Status</th><th>Variance</th><th>Notes</th></tr></thead><tbody>`;
-    for (const phase of PHASES_CONFIG) {
-      const target = startDate ? new Date(startDate) : null;
-      if (target) target.setDate(startDate.getDate() + phase.days);
-      const actualDate = showroom.data?.[phase.id]?.actualDate || '';
-      let status = 'Pending', variance = '', statusClass = 'status-pending', isDelayed = false;
+    document.getElementById('showroomDetailTitle').textContent = s.name + ' — Phase Tracker';
+    let rows = '';
+    for (const p of PHASES_CONFIG) {
+      const target = start ? new Date(start) : null;
+      if (target) target.setDate(start.getDate()+p.days);
+      const actualDate = s.data?.[p.id]?.actualDate||'';
+      let status='Pending', variance='', statusClass='chip-neutral', isDelayed=false;
       if (actualDate) {
         const actual = new Date(actualDate);
-        const diff = Math.ceil((actual - target) / 86400000);
-        if (diff <= 0) { status = 'Completed'; statusClass = 'status-completed'; variance = diff < 0 ? `${Math.abs(diff)}d ahead` : 'On time'; }
-        else { status = 'Delayed'; statusClass = 'status-delayed'; variance = `${diff}d late`; isDelayed = true; }
-      } else if (target && target < today) {
-        const diff = Math.ceil((today - target) / 86400000);
-        status = 'Overdue'; statusClass = 'status-delayed'; variance = `${diff}d overdue`; isDelayed = true;
+        const diff = Math.ceil((actual-target)/86400000);
+        if (diff<=0) { status='Completed'; statusClass='chip-success'; variance=diff<0?`${Math.abs(diff)}d early`:'On time'; }
+        else { status='Delayed'; statusClass='chip-critical'; variance=`+${diff}d late`; isDelayed=true; }
+      } else if (target && target<today) {
+        const diff = Math.ceil((today-target)/86400000);
+        status='Overdue'; statusClass='chip-critical'; variance=`${diff}d overdue`; isDelayed=true;
       }
-      const rowStyle = isDelayed ? 'style="background:#fff5f5;"' : '';
-      tableHtml += `<tr ${rowStyle}><td><strong>${phase.name}</strong></td><td>${phase.days}</td><td>${target ? formatDate(target) : '--'}</td>
-        <td><input type="date" class="form-input phase-date" data-phase="${phase.id}" value="${actualDate}" style="width:130px;"></td>
-        <td><span class="status-badge ${statusClass}">${status}</span></td><td>${variance || '--'}</td>
-        <td><input type="text" class="form-input phase-note" data-phase="${phase.id}" value="${escapeHtml(showroom.data?.[phase.id]?.reason || '')}" placeholder="Notes..."></td></tr>`;
+      rows += `<tr ${isDelayed?'class="row-delayed"':''}>
+        <td><span class="phase-name">${esc(p.name)}</span></td>
+        <td style="font-family:'DM Mono',monospace;font-size:0.78rem;color:var(--text-muted)">${p.days}</td>
+        <td style="font-size:0.78rem">${target?fmtDate(target):'—'}</td>
+        <td><input type="date" class="form-input phase-date" data-phase="${p.id}" value="${actualDate}" style="width:140px;font-size:0.8rem;padding:6px 10px"></td>
+        <td><span class="chip ${statusClass}" style="font-size:0.62rem">${status}</span></td>
+        <td style="font-family:'DM Mono',monospace;font-size:0.78rem;${isDelayed?'color:var(--red-600);font-weight:700':''}">${variance||'—'}</td>
+        <td><input type="text" class="form-input phase-note" data-phase="${p.id}" value="${esc(s.data?.[p.id]?.reason||'')}" placeholder="Notes…" style="font-size:0.78rem;padding:6px 10px"></td>
+      </tr>`;
     }
-    tableHtml += `</tbody></table><div class="modal-actions"><button class="btn btn-success" onclick="saveShowroomPhases('${id}')">Save Changes</button></div>`;
-    document.getElementById('showroomDetailContent').innerHTML = tableHtml;
-    document.getElementById('showroomEditBtn').style.display = isAdmin() ? 'inline-flex' : 'none';
-    document.getElementById('showroomDeleteBtn').style.display = isAdmin() ? 'inline-flex' : 'none';
+    document.getElementById('showroomDetailContent').innerHTML = `
+      <div style="overflow-x:auto">
+        <table class="phase-table">
+          <thead><tr><th>Phase</th><th>Plan Days</th><th>Target Date</th><th>Actual Date</th><th>Status</th><th>Variance</th><th>Notes</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+      <div style="margin-top:20px">
+        <button class="btn btn-success" onclick="saveShowroomPhases('${id}')"><i class="fas fa-save"></i> Save All Changes</button>
+      </div>`;
+    document.getElementById('showroomEditBtn').style.display = isAdmin()?'inline-flex':'none';
+    document.getElementById('showroomDeleteBtn').style.display = isAdmin()?'inline-flex':'none';
     document.getElementById('showroomDetailModal').style.display = 'flex';
   };
 
   window.openShowroomEditFromDetail = () => {
-    if (!currentShowroomIdForDetail || !isAdmin()) return;
-    const showroom = state.showrooms.find(s => s.id === currentShowroomIdForDetail);
-    if (!showroom) { showToast('Showroom not found', 'error'); return; }
-    currentEditShowroomId = showroom.id;
-    document.getElementById('edit-showroom-name').value = showroom.name || '';
-    document.getElementById('edit-showroom-city').value = showroom.city || '';
-    document.getElementById('edit-showroom-rm').value = showroom.rm || '';
-    document.getElementById('edit-showroom-start').value = showroom.startDate || '';
+    if (!currentShowroomIdForDetail||!isAdmin()) return;
+    const s = state.showrooms.find(x=>x.id===currentShowroomIdForDetail);
+    if (!s) return;
+    currentEditShowroomId = s.id;
+    document.getElementById('edit-showroom-name').value  = s.name||'';
+    document.getElementById('edit-showroom-city').value  = s.city||'';
+    document.getElementById('edit-showroom-rm').value    = s.rm||'';
+    document.getElementById('edit-showroom-start').value = s.startDate||'';
     closeModal('showroomDetailModal');
-    document.getElementById('edit-showroom-modal').style.display = 'flex';
+    document.getElementById('edit-showroom-modal').style.display='flex';
   };
 
   window.deleteShowroomFromDetail = async () => {
-    if (!currentShowroomIdForDetail || !isAdmin()) return;
-    const showroom = state.showrooms.find(s => s.id === currentShowroomIdForDetail);
-    const name = showroom?.name || 'this showroom';
-    if (!confirm(`⚠️ PERMANENTLY DELETE "${name}"? This action cannot be undone.`)) return;
-    if (!confirm(`Please confirm again: "${name}" will be permanently removed.`)) return;
+    if (!currentShowroomIdForDetail||!isAdmin()) return;
+    const s = state.showrooms.find(x=>x.id===currentShowroomIdForDetail);
+    if (!confirm(`⚠️ Permanently delete "${s?.name}"? Cannot be undone.`)) return;
+    if (!confirm(`Confirm again: remove "${s?.name}" permanently?`)) return;
     try {
-      await deleteDoc(doc(db, "showrooms", currentShowroomIdForDetail));
-      showToast(`Showroom "${name}" deleted`, 'success');
+      await deleteDoc(doc(db,"showrooms",currentShowroomIdForDetail));
+      showToast(`Deleted "${s?.name}"`, 'success');
       closeModal('showroomDetailModal');
       renderDashboard();
-    } catch (error) {
-      console.error('Delete showroom failed', error);
-      showToast('Failed to delete showroom', 'error');
-    }
+    } catch(e) { showToast(parseFirebaseError(e,'Failed to delete'),'error'); }
   };
 
   window.saveShowroomPhases = async (id) => {
-    const showroom = state.showrooms.find(s => s.id === id); if (!showroom) return;
+    const s = state.showrooms.find(x=>x.id===id); if(!s) return;
     try {
       const updates = {};
-      document.querySelectorAll('.phase-date').forEach(i => { const pid = i.getAttribute('data-phase'); if (!updates[pid]) updates[pid] = {}; updates[pid].actualDate = i.value; });
-      document.querySelectorAll('.phase-note').forEach(i => { const pid = i.getAttribute('data-phase'); if (!updates[pid]) updates[pid] = {}; updates[pid].reason = i.value; });
-      await updateDoc(doc(db, "showrooms", id), { data: { ...showroom.data, ...updates }, updatedAt: serverTimestamp() });
-      showToast('Phases saved successfully', 'success');
+      document.querySelectorAll('.phase-date').forEach(i=>{ const pid=i.dataset.phase; if(!updates[pid])updates[pid]={}; updates[pid].actualDate=i.value; });
+      document.querySelectorAll('.phase-note').forEach(i=>{ const pid=i.dataset.phase; if(!updates[pid])updates[pid]={}; updates[pid].reason=i.value; });
+      await updateDoc(doc(db,"showrooms",id),{ data:{...s.data,...updates}, updatedAt:serverTimestamp() });
+      showToast('Phases saved successfully','success');
       closeModal('showroomDetailModal');
       renderDashboard();
-    } catch (error) {
-      console.error('Save showroom phases failed', error);
-      showToast('Failed to save showroom phases', 'error');
-    }
+    } catch(e) { showToast(parseFirebaseError(e,'Failed to save'),'error'); }
   };
 
   window.saveEditShowroom = async () => {
     if (!currentEditShowroomId) return;
-    const name = document.getElementById('edit-showroom-name').value.trim();
-    const city = document.getElementById('edit-showroom-city').value.trim();
-    const rm = document.getElementById('edit-showroom-rm').value.trim();
-    const startDate = document.getElementById('edit-showroom-start').value;
-    if (!name || !city || !rm || !startDate) { showToast('All fields are required', 'error'); return; }
-    if (hasDuplicateShowroomName(name, currentEditShowroomId)) { showToast('Showroom name already exists', 'error'); return; }
+    const name  = document.getElementById('edit-showroom-name').value.trim();
+    const city  = document.getElementById('edit-showroom-city').value.trim();
+    const rm    = document.getElementById('edit-showroom-rm').value.trim();
+    const start = document.getElementById('edit-showroom-start').value;
+    if (!name||!city||!rm||!start) { showToast('All fields required','error'); return; }
+    if (hasDuplicateShowroomName(name,currentEditShowroomId)) { showToast('Name already exists','error'); return; }
     try {
-      await updateDoc(doc(db, "showrooms", currentEditShowroomId), { name, city, rm, startDate, updatedAt: serverTimestamp() });
-      showToast('Showroom updated successfully', 'success');
+      await updateDoc(doc(db,"showrooms",currentEditShowroomId),{ name,city,rm,startDate:start,updatedAt:serverTimestamp() });
+      showToast('Showroom updated','success');
       closeModal('edit-showroom-modal');
-      currentShowroomIdForDetail = currentEditShowroomId;
       renderDashboard();
       openShowroomDetail(currentEditShowroomId);
-    } catch (error) {
-      console.error('Edit showroom failed', error);
-      showToast('Failed to update showroom', 'error');
-    }
+    } catch(e) { showToast(parseFirebaseError(e,'Failed to update'),'error'); }
+  };
+
+  /* ════════════════════════
+     DEALER DETAIL MODAL
+     ════════════════════════ */
+  window.openDealerDetail = async (id) => {
+    const d = state.dealers.find(x=>x.id===id); if(!d) return;
+    currentDealerIdForDetail = id;
+    document.getElementById('detailDealerName').textContent = d.name;
+    const curStage = d.currentStage||'Interested';
+    const stageIdx = DEALER_STAGES.indexOf(curStage);
+    const tl = calcDealerTimeline(d);
+    let stepsHtml = `<div class="stage-stepper">`;
+    DEALER_STAGES.forEach((st,i)=>{
+      stepsHtml += `<button class="stage-step ${i===stageIdx?'active':i<stageIdx?'completed':''}" onclick="updateDealerStage('${id}','${st}')">${i<stageIdx?'✓ ':''}${st}</button>`;
+    });
+    stepsHtml += `</div>`;
+
+    const docs = d.documents||{};
+    let docsHtml = `<div style="margin-bottom:20px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div style="font-weight:700;font-size:0.9rem">📋 Document Checklist</div><div style="font-size:0.78rem;color:var(--text-muted)">${DOC_KEYS.filter(k=>docs[k]).length}/${DOC_KEYS.length} submitted</div></div><div class="doc-grid">`;
+    DOC_KEYS.forEach(key=>{
+      docsHtml += `<div class="doc-item"><input type="checkbox" ${docs[key]?'checked':''} onchange="updateDealerDoc('${id}','${key}',this.checked)"><span class="doc-item-label">${DOC_LABELS[key]||key}</span><span class="doc-item-status ${docs[key]?'done':'pending'}">${docs[key]?'✓':'⏳'}</span></div>`;
+    });
+    docsHtml += `</div></div>`;
+
+    const infoHtml = `<div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px">
+      <div class="stat-cell" style="flex:1;border:1px solid var(--slate-200);border-radius:var(--r-sm)"><div class="stat-label">Start Date</div><div class="stat-val" style="font-size:0.85rem">${fmtDate(d.startDate)}</div></div>
+      <div class="stat-cell" style="flex:1;border:1px solid var(--slate-200);border-radius:var(--r-sm)"><div class="stat-label">Days Active</div><div class="stat-val">${tl.daysElapsed}</div></div>
+      <div class="stat-cell" style="flex:1;border:1px solid var(--slate-200);border-radius:var(--r-sm)"><div class="stat-label">Delay</div><div class="stat-val ${tl.level==='critical'?'red':tl.level==='warning'?'amber':''}">${tl.delayDays}d</div></div>
+      <div class="stat-cell" style="flex:1;border:1px solid var(--slate-200);border-radius:var(--r-sm)"><div class="stat-label">City / RM</div><div class="stat-val" style="font-size:0.8rem">${esc(d.city||'—')} / ${esc(d.rm||'—')}</div></div>
+    </div>`;
+
+    document.getElementById('dealerDetailContent').innerHTML = infoHtml + stepsHtml + docsHtml;
+    document.getElementById('dealerEditBtn').style.display = isAdmin()?'inline-flex':'none';
+    document.getElementById('dealerDeleteBtn').style.display = isAdmin()?'inline-flex':'none';
+    document.getElementById('dealerDetailModal').style.display='flex';
   };
 
   window.updateDealerStage = async (id, newStage) => {
-    const dealer = state.dealers.find(d => d.id === id); if (!dealer) return;
-    const currentStage = dealer.currentStage || 'Interested';
-    const currentIdx = DEALER_STAGES.indexOf(currentStage);
-    const nextIdx = DEALER_STAGES.indexOf(newStage);
-    if (nextIdx === -1) return;
-    if (Math.abs(nextIdx - currentIdx) > 1) {
-      showToast('Only adjacent stage transitions are allowed', 'warning');
-      return;
-    }
-    if (!confirm(`Move dealer from ${currentStage} to ${newStage}?`)) return;
+    const d = state.dealers.find(x=>x.id===id); if(!d) return;
+    const cur = d.currentStage||'Interested';
+    const curIdx = DEALER_STAGES.indexOf(cur);
+    const newIdx = DEALER_STAGES.indexOf(newStage);
+    if (newIdx===-1) return;
+    if (Math.abs(newIdx-curIdx)>1) { showToast('Only adjacent stage transitions allowed','warning'); return; }
+    if (!confirm(`Move "${d.name}" from ${cur} → ${newStage}?`)) return;
     try {
-      const stageLog = { ...(dealer.stageLog || {}) };
-      if (!stageLog[newStage]) stageLog[newStage] = new Date().toISOString();
-      await updateDoc(doc(db, "dealerOnboarding", id), { currentStage: newStage, status: newStage === 'Onboarded' ? 'Completed' : 'Active', stageLog, updatedAt: serverTimestamp() });
-      showToast(`Stage updated to ${newStage}`, 'success');
+      const stageLog = {...(d.stageLog||{})};
+      if (!stageLog[newStage]) stageLog[newStage]=new Date().toISOString();
+      await updateDoc(doc(db,"dealerOnboarding",id),{ currentStage:newStage, status:newStage==='Onboarded'?'Completed':'Active', stageLog, updatedAt:serverTimestamp() });
+      showToast(`Stage updated to ${newStage}`,'success');
       await openDealerDetail(id);
-      if (currentView === 'dealer') renderDealerView();
-      if (currentView === 'dashboard') renderDashboard();
-    } catch (error) {
-      console.error('Update dealer stage failed', error);
-      showToast('Failed to update dealer stage', 'error');
-    }
+      if (currentView==='dealer') renderDealerView();
+      if (currentView==='dashboard') renderDashboard();
+    } catch(e) { showToast(parseFirebaseError(e,'Failed to update stage'),'error'); }
   };
 
   window.updateDealerDoc = async (id, docKey, checked) => {
-    const dealer = state.dealers.find(d => d.id === id); if (!dealer) return;
-    const docs = { ...(dealer.documents || {}), [docKey]: checked };
+    const d = state.dealers.find(x=>x.id===id); if(!d) return;
+    const docs = {...(d.documents||{}),[docKey]:checked};
     try {
-      const updates = { documents: docs, updatedAt: serverTimestamp() };
-      if (DOC_KEYS.every(k => docs[k])) {
-        updates.currentStage = 'Onboarded';
-        updates.status = 'Completed';
-      }
-      await updateDoc(doc(db, "dealerOnboarding", id), updates);
-      showToast('Document checklist updated', 'success');
+      const updates = { documents:docs, updatedAt:serverTimestamp() };
+      if (DOC_KEYS.every(k=>docs[k])) { updates.currentStage='Onboarded'; updates.status='Completed'; }
+      await updateDoc(doc(db,"dealerOnboarding",id),updates);
+      showToast('Checklist updated','success');
       await openDealerDetail(id);
-      if (currentView === 'dealer') renderDealerView();
-      if (currentView === 'dashboard') renderDashboard();
-    } catch (error) {
-      console.error('Update dealer document failed', error);
-      showToast('Failed to update checklist', 'error');
-    }
+      if (currentView==='dealer') renderDealerView();
+      if (currentView==='dashboard') renderDashboard();
+    } catch(e) { showToast(parseFirebaseError(e,'Failed to update'),'error'); }
   };
 
   window.openDealerEditFromDetail = () => {
-    if (!currentDealerIdForDetail || !isAdmin()) return;
-    const dealer = state.dealers.find(d => d.id === currentDealerIdForDetail);
-    if (!dealer) { showToast('Dealer not found', 'error'); return; }
-    currentEditDealerId = dealer.id;
-    document.getElementById('edit-dealer-name').value = dealer.name || '';
-    document.getElementById('edit-dealer-city').value = dealer.city || '';
-    document.getElementById('edit-dealer-rm').value = dealer.rm || '';
-    document.getElementById('edit-dealer-start').value = dealer.startDate || '';
+    if (!currentDealerIdForDetail||!isAdmin()) return;
+    const d = state.dealers.find(x=>x.id===currentDealerIdForDetail);
+    if (!d) return;
+    currentEditDealerId = d.id;
+    document.getElementById('edit-dealer-name').value  = d.name||'';
+    document.getElementById('edit-dealer-city').value  = d.city||'';
+    document.getElementById('edit-dealer-rm').value    = d.rm||'';
+    document.getElementById('edit-dealer-start').value = d.startDate||'';
     closeModal('dealerDetailModal');
-    document.getElementById('edit-dealer-modal').style.display = 'flex';
+    document.getElementById('edit-dealer-modal').style.display='flex';
   };
 
   window.saveEditDealer = async () => {
     if (!currentEditDealerId) return;
-    const name = document.getElementById('edit-dealer-name').value.trim();
-    const city = document.getElementById('edit-dealer-city').value.trim();
-    const rm = document.getElementById('edit-dealer-rm').value.trim();
-    const startDate = document.getElementById('edit-dealer-start').value;
-    if (!name || !city || !rm || !startDate) { showToast('All dealer fields are required', 'error'); return; }
+    const name  = document.getElementById('edit-dealer-name').value.trim();
+    const city  = document.getElementById('edit-dealer-city').value.trim();
+    const rm    = document.getElementById('edit-dealer-rm').value.trim();
+    const start = document.getElementById('edit-dealer-start').value;
+    if (!name||!city||!rm||!start) { showToast('All fields required','error'); return; }
     try {
-      await updateDoc(doc(db, "dealerOnboarding", currentEditDealerId), { name, city, rm, startDate, updatedAt: serverTimestamp() });
-      showToast('Dealer updated successfully', 'success');
+      await updateDoc(doc(db,"dealerOnboarding",currentEditDealerId),{ name,city,rm,startDate:start,updatedAt:serverTimestamp() });
+      showToast('Dealer updated','success');
       closeModal('edit-dealer-modal');
-      currentDealerIdForDetail = currentEditDealerId;
-      if (currentView === 'dealer') renderDealerView();
-      if (currentView === 'dashboard') renderDashboard();
+      if (currentView==='dealer') renderDealerView();
+      if (currentView==='dashboard') renderDashboard();
       openDealerDetail(currentEditDealerId);
-    } catch (error) {
-      console.error('Edit dealer failed', error);
-      showToast('Failed to update dealer', 'error');
-    }
+    } catch(e) { showToast(parseFirebaseError(e,'Failed to update'),'error'); }
   };
 
   window.deleteDealerFromDetail = async () => {
-    if (!currentDealerIdForDetail || !isAdmin()) return;
-    const dealer = state.dealers.find(d => d.id === currentDealerIdForDetail);
-    const dealerName = dealer?.name || 'this dealer';
-    if (!confirm(`Delete "${dealerName}" permanently? This action cannot be undone.`)) return;
-    if (!confirm(`Second confirmation: remove "${dealerName}" permanently now?`)) return;
+    if (!currentDealerIdForDetail||!isAdmin()) return;
+    const d = state.dealers.find(x=>x.id===currentDealerIdForDetail);
+    if (!confirm(`Delete "${d?.name}" permanently? Cannot be undone.`)) return;
+    if (!confirm(`Confirm: permanently remove "${d?.name}"?`)) return;
     try {
-      await deleteDoc(doc(db, "dealerOnboarding", currentDealerIdForDetail));
-      showToast(`Dealer "${dealerName}" deleted`, 'success');
+      await deleteDoc(doc(db,"dealerOnboarding",currentDealerIdForDetail));
+      showToast(`Deleted "${d?.name}"`,'success');
       closeModal('dealerDetailModal');
-      if (currentView === 'dealer') renderDealerView();
-      if (currentView === 'dashboard') renderDashboard();
-    } catch (error) {
-      console.error('Delete dealer failed', error);
-      showToast('Failed to delete dealer', 'error');
-    }
+      if (currentView==='dealer') renderDealerView();
+      if (currentView==='dashboard') renderDashboard();
+    } catch(e) { showToast(parseFirebaseError(e,'Failed to delete'),'error'); }
   };
 
-  window.openDealerDetail = async (id) => {
-    const dealer = state.dealers.find(d => d.id === id); if (!dealer) return;
-    currentDealerIdForDetail = id;
-    document.getElementById('detailDealerName').innerHTML = escapeHtml(dealer.name);
-    const currentStage = dealer.currentStage || 'Interested';
-    const stageIndex = DEALER_STAGES.indexOf(currentStage);
-    let stagesHtml = `<div class="stage-stepper">`;
-    DEALER_STAGES.forEach((stage, idx) => { stagesHtml += `<div class="stage-step ${idx === stageIndex ? 'active' : (idx < stageIndex ? 'completed' : '')}" onclick="updateDealerStage('${id}', '${stage}')">${stage}</div>`; });
-    stagesHtml += `</div>`;
-    const documents = dealer.documents || {};
-    let docsHtml = `<div class="doc-section"><h4>📋 Document Checklist</h4><div class="doc-grid">`;
-    DOC_KEYS.forEach(key => {
-      const label = key.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase());
-      docsHtml += `<div class="doc-item"><input type="checkbox" class="doc-checkbox" ${documents[key] ? 'checked' : ''} onchange="updateDealerDoc('${id}', '${key}', this.checked)"><span class="doc-label">${label}</span><span class="doc-status ${documents[key] ? 'completed' : 'pending'}">${documents[key] ? '✓' : '⏳'}</span></div>`;
-    });
-    docsHtml += `</div></div>`;
-    const timeline = calculateDealerTimeline(dealer);
-    document.getElementById('dealerDetailContent').innerHTML = stagesHtml + docsHtml + `<div style="margin-top:20px;"><strong>Delay:</strong> ${timeline.delayDays} days (${timeline.level})</div>`;
-    document.getElementById('dealerEditBtn').style.display = isAdmin() ? 'inline-flex' : 'none';
-    document.getElementById('dealerDeleteBtn').style.display = isAdmin() ? 'inline-flex' : 'none';
-    document.getElementById('dealerDetailModal').style.display = 'flex';
-  };
-
-  window.showDashboard = () => { currentView = 'dashboard'; document.getElementById('dashboardView').style.display = 'block'; document.getElementById('analyticsView').style.display = 'none'; document.getElementById('dealerView').style.display = 'none'; renderDashboard(); };
-  window.showAnalytics = () => { currentView = 'analytics'; document.getElementById('dashboardView').style.display = 'none'; document.getElementById('analyticsView').style.display = 'block'; document.getElementById('dealerView').style.display = 'none'; renderAnalytics(); };
-  window.openDealerModule = () => { currentView = 'dealer'; document.getElementById('dashboardView').style.display = 'none'; document.getElementById('analyticsView').style.display = 'none'; document.getElementById('dealerView').style.display = 'block'; renderDealerView(); };
-  window.applyFilters = renderDashboard;
-  window.resetFilters = () => { document.getElementById('globalSearch').value = ''; document.getElementById('filterRM').value = 'all'; renderDashboard(); };
-  window.filterDealers = renderDealerView;
-  window.resetDealerFilters = () => { document.getElementById('dealerFilterStatus').value = 'all'; document.getElementById('dealerFilterStage').value = 'all'; document.getElementById('dealerFilterRM').value = 'all'; document.getElementById('dealerSearch').value = ''; renderDealerView(); };
-  window.openAddDealerModal = () => document.getElementById('addDealerModal').style.display = 'flex';
-  window.openAddShowroomModal = () => document.getElementById('addShowroomModal').style.display = 'flex';
-  window.closeModal = (id) => document.getElementById(id).style.display = 'none';
-  
+  /* ════════════════════════
+     ADD ENTITIES
+     ════════════════════════ */
   window.confirmAddShowroom = async () => {
-    const name = document.getElementById('newShowroomName').value.trim();
-    const city = document.getElementById('newShowroomCity').value.trim();
-    const rm = document.getElementById('newShowroomRM').value.trim();
+    const name  = document.getElementById('newShowroomName').value.trim();
+    const city  = document.getElementById('newShowroomCity').value.trim();
+    const rm    = document.getElementById('newShowroomRM').value.trim();
     const start = document.getElementById('newShowroomStart').value;
-    if (!name || !city || !rm || !start) { showToast('All fields are required', 'error'); return; }
-    if (hasDuplicateShowroomName(name)) { showToast('Showroom name already exists', 'error'); return; }
+    if (!name||!city||!rm||!start) { showToast('All fields are required','error'); return; }
+    if (hasDuplicateShowroomName(name)) { showToast('Showroom name already exists','error'); return; }
     try {
-      await addDoc(collection(db, "showrooms"), { name, city, rm, startDate: start, data: {}, createdBy: currentUserId, createdAt: serverTimestamp(), updatedAt: serverTimestamp() });
+      await addDoc(collection(db,"showrooms"),{ name,city,rm,startDate:start,data:{},createdBy:currentUserId,createdAt:serverTimestamp(),updatedAt:serverTimestamp() });
       closeModal('addShowroomModal');
-      showToast(`Showroom "${name}" created successfully`, 'success');
-      document.getElementById('newShowroomName').value = '';
-      document.getElementById('newShowroomCity').value = '';
-      document.getElementById('newShowroomRM').value = '';
-      document.getElementById('newShowroomStart').value = '';
+      showToast(`Showroom "${name}" created`,'success');
+      ['newShowroomName','newShowroomCity','newShowroomRM','newShowroomStart'].forEach(id=>document.getElementById(id).value='');
       renderDashboard();
-    } catch (error) {
-      console.error('Create showroom failed', error);
-      showToast('Failed to create showroom', 'error');
-    }
+    } catch(e) { showToast(parseFirebaseError(e,'Failed to create'),'error'); }
   };
-  
+
   window.confirmAddDealer = async () => {
-    const name = document.getElementById('newDealerName').value.trim();
-    const city = document.getElementById('newDealerCity').value.trim();
-    const rm = document.getElementById('newDealerRM').value.trim();
+    const name  = document.getElementById('newDealerName').value.trim();
+    const city  = document.getElementById('newDealerCity').value.trim();
+    const rm    = document.getElementById('newDealerRM').value.trim();
     const start = document.getElementById('newDealerStart').value;
-    if (!name || !city || !rm || !start) { showToast('All fields are required', 'error'); return; }
+    if (!name||!city||!rm||!start) { showToast('All fields required','error'); return; }
     try {
-      await addDoc(collection(db, "dealerOnboarding"), { name, city, rm, startDate: start, currentStage: 'Interested', status: 'Active', documents: {}, createdBy: currentUserId, createdAt: serverTimestamp(), updatedAt: serverTimestamp() });
+      await addDoc(collection(db,"dealerOnboarding"),{ name,city,rm,startDate:start,currentStage:'Interested',status:'Active',documents:{},createdBy:currentUserId,createdAt:serverTimestamp(),updatedAt:serverTimestamp() });
       closeModal('addDealerModal');
-      showToast(`Dealer "${name}" created successfully`, 'success');
-      document.getElementById('newDealerName').value = '';
-      document.getElementById('newDealerCity').value = '';
-      document.getElementById('newDealerRM').value = '';
-      document.getElementById('newDealerStart').value = '';
-      if (currentView === 'dealer') renderDealerView();
-      if (currentView === 'dashboard') renderDashboard();
-    } catch (error) {
-      console.error('Create dealer failed', error);
-      showToast('Failed to create dealer', 'error');
-    }
+      showToast(`Dealer "${name}" created`,'success');
+      ['newDealerName','newDealerCity','newDealerRM','newDealerStart'].forEach(id=>document.getElementById(id).value='');
+      if (currentView==='dealer') renderDealerView();
+      if (currentView==='dashboard') renderDashboard();
+    } catch(e) { showToast(parseFirebaseError(e,'Failed to create'),'error'); }
   };
-  
+
+  /* ════════════════════════
+     NAVIGATION
+     ════════════════════════ */
+  window.showDashboard = () => {
+    currentView='dashboard';
+    setActiveNav('nav-dashboard');
+    document.getElementById('pageTitle').textContent='Showrooms';
+    document.getElementById('pageBreadcrumb').textContent='Showroom Execution';
+    document.getElementById('addEntityBtn').textContent=''; // rebuild
+    document.getElementById('addEntityBtn').innerHTML='<i class="fas fa-plus"></i> Add Showroom';
+    document.getElementById('addEntityBtn').onclick = openAddShowroomModal;
+    document.getElementById('addEntityBtn').style.display = isAdmin()?'inline-flex':'none';
+    document.getElementById('dashboardView').style.display='block';
+    document.getElementById('analyticsView').style.display='none';
+    document.getElementById('dealerView').style.display='none';
+    renderDashboard();
+  };
+  window.showAnalytics = () => {
+    currentView='analytics';
+    setActiveNav('nav-analytics');
+    document.getElementById('pageTitle').textContent='Analytics';
+    document.getElementById('pageBreadcrumb').textContent='Performance Intelligence';
+    document.getElementById('addEntityBtn').style.display='none';
+    document.getElementById('dashboardView').style.display='none';
+    document.getElementById('analyticsView').style.display='block';
+    document.getElementById('dealerView').style.display='none';
+    renderAnalytics();
+  };
+  window.openDealerModule = () => {
+    currentView='dealer';
+    setActiveNav('nav-dealers');
+    document.getElementById('pageTitle').textContent='Dealers';
+    document.getElementById('pageBreadcrumb').textContent='Dealer Onboarding';
+    document.getElementById('addEntityBtn').innerHTML='<i class="fas fa-plus"></i> Add Dealer';
+    document.getElementById('addEntityBtn').onclick = openAddDealerModal;
+    document.getElementById('addEntityBtn').style.display = isAdmin()?'inline-flex':'none';
+    document.getElementById('dashboardView').style.display='none';
+    document.getElementById('analyticsView').style.display='none';
+    document.getElementById('dealerView').style.display='block';
+    renderDealerView();
+  };
+
+  window.toggleSort = () => {
+    sortByDelay = !sortByDelay;
+    document.getElementById('sortBtn').innerHTML = `<i class="fas fa-sort"></i> Sort: ${sortByDelay?'Delay':'Name'}`;
+    renderDashboard();
+  };
+
+  window.applyFilters = renderDashboard;
+  window.resetFilters = () => {
+    document.getElementById('globalSearch').value='';
+    document.getElementById('filterRM').value='all';
+    renderDashboard();
+  };
+  window.filterDealers = renderDealerView;
+  window.resetDealerFilters = () => {
+    ['dealerFilterStatus','dealerFilterStage','dealerFilterRM'].forEach(id=>document.getElementById(id).value='all');
+    document.getElementById('dealerSearch').value='';
+    renderDealerView();
+  };
+  window.openAddDealerModal = () => document.getElementById('addDealerModal').style.display='flex';
+  window.openAddShowroomModal = () => document.getElementById('addShowroomModal').style.display='flex';
+  window.closeModal = (id) => document.getElementById(id).style.display='none';
+  window.dismissAlert = () => { const ab=document.getElementById('alertBanner'); ab.className='alert-banner'; ab.style.display='none'; };
+  window.dismissDealerAlert = () => { const ab=document.getElementById('dealerAlertBanner'); ab.className='alert-banner'; ab.style.display='none'; };
+
+  /* ════════════════════════
+     EXPORT / BACKUP
+     ════════════════════════ */
   window.exportDashboardReport = () => {
     try {
       const wb = XLSX.utils.book_new();
-      const showroomData = state.showrooms.map(s => {
-        const stats = calculateShowroomStats(s);
-        return {
-          'Showroom Name': s.name || '',
-          'City': s.city || '',
-          'RM': s.rm || '',
-          'Start Date': s.startDate || '',
-          'Completion %': stats.pct,
-          'Avg Delay (days)': stats.avgDelay,
-          'Max Delay (days)': stats.maxDelay,
-          'Total Delay (days)': stats.totalDelay
-        };
-      });
-      const dealerData = state.dealers.map(d => ({
-        'Dealer Name': d.name || '',
-        'City': d.city || '',
-        'RM': d.rm || '',
-        'Start Date': d.startDate || '',
-        'Current Stage': d.currentStage || 'Interested',
-        'Status': d.status || '',
-        'Doc Completion %': docProgress(d.documents),
-        'Delay Days': calculateDealerTimeline(d).delayDays,
-        'Delay Level': calculateDealerTimeline(d).level
-      }));
-      XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(showroomData), 'Showrooms');
-      XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(dealerData), 'Dealers');
-      XLSX.writeFile(wb, `AIS_Report_${new Date().toISOString().slice(0,10)}.xlsx`);
-      showToast('Report exported successfully', 'success');
-    } catch(e) {
-      console.error('Export failed', e);
-      showToast('Export failed', 'error');
-    }
+      const showroomData = state.showrooms.map(s=>{ const st=calcShowroomStats(s); return { 'Showroom Name':s.name,'City':s.city,'RM':s.rm,'Start Date':s.startDate,'Completion %':st.pct,'Completed Phases':st.completedPhases,'Total Phases':PHASES_CONFIG.length,'Avg Delay (days)':st.avgDelay,'Max Delay (days)':st.maxDelay,'Total Delay (days)':st.totalDelay,'Status':st.maxDelay>=10?'Critical':st.maxDelay>0?'Delayed':'On Track' }; });
+      const dealerData = state.dealers.map(d=>{ const tl=calcDealerTimeline(d); return { 'Dealer Name':d.name,'City':d.city,'RM':d.rm,'Start Date':d.startDate,'Current Stage':d.currentStage||'Interested','Status':d.status,'Doc Completion %':docProgress(d.documents),'Days Active':tl.daysElapsed,'Delay Days':tl.delayDays,'Risk Level':tl.level }; });
+      XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(showroomData),'Showrooms');
+      XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(dealerData),'Dealers');
+      XLSX.writeFile(wb,`AIS_Report_${new Date().toISOString().slice(0,10)}.xlsx`);
+      showToast('Excel report exported','success');
+    } catch(e) { showToast('Export failed','error'); }
   };
-  
   window.generatePDF = async () => {
     try {
-      const element = document.getElementById('mainContent');
-      const canvas = await html2canvas(element, { scale: 2 });
+      const el = document.getElementById('mainContent');
+      const canvas = await html2canvas(el,{ scale:2, useCORS:true });
       const imgData = canvas.toDataURL('image/png');
-      const pdf = new jspdf.jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
-      const imgProps = pdf.getImageProperties(imgData);
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      const pdf = new jspdf.jsPDF({ orientation:'landscape', unit:'mm', format:'a4' });
+      const pw = pdf.internal.pageSize.getWidth();
+      const ph = (canvas.height*pw)/canvas.width;
+      pdf.addImage(imgData,'PNG',0,0,pw,ph);
       pdf.save(`AIS_Dashboard_${new Date().toISOString().slice(0,10)}.pdf`);
-      showToast('PDF generated successfully', 'success');
-    } catch(e) {
-      console.error('PDF generation failed', e);
-      showToast('PDF generation failed', 'error');
-    }
+      showToast('PDF generated','success');
+    } catch(e) { showToast('PDF generation failed','error'); }
   };
-  
   window.backupData = () => {
     try {
-      const backup = { showrooms: state.showrooms, dealers: state.dealers, exportedAt: new Date().toISOString() };
-      const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `ais_backup_${new Date().toISOString().slice(0,19).replace(/:/g, '-')}.json`;
+      const backup = { showrooms:state.showrooms, dealers:state.dealers, exportedAt:new Date().toISOString(), version:'2.0' };
+      const a = Object.assign(document.createElement('a'),{ href:URL.createObjectURL(new Blob([JSON.stringify(backup,null,2)],{type:'application/json'})), download:`ais_backup_${new Date().toISOString().slice(0,19).replace(/:/g,'-')}.json` });
       a.click();
-      URL.revokeObjectURL(url);
-      showToast('Backup downloaded successfully', 'success');
-    } catch(e) {
-      console.error('Backup failed', e);
-      showToast('Backup failed', 'error');
-    }
+      showToast('Backup downloaded','success');
+    } catch(e) { showToast('Backup failed','error'); }
   };
-  
-  window.logout = async () => {
+
+  /* ════════════════════════
+     AUTH
+     ════════════════════════ */
+  window.handleLogin = async () => {
+    const email    = document.getElementById('loginUsername').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    const errEl    = document.getElementById('loginError');
+    errEl.style.display='none';
     try {
-      await signOut(auth);
-      showToast('Logged out successfully', 'success');
-    } catch (error) {
-      console.error('Logout failed', error);
-      showToast(parseFirebaseError(error, 'Failed to log out. Please try again.'), 'error');
+      await signInWithEmailAndPassword(auth,email,password);
+      document.getElementById('loginPassword').value='';
+    } catch(e) {
+      errEl.textContent = parseFirebaseError(e,'Login failed. Please check your credentials.');
+      errEl.style.display='block';
     }
   };
 
-  function cleanupRealtimeListeners() {
-    realtimeUnsubscribers.forEach(unsubscribe => unsubscribe());
-    realtimeUnsubscribers = [];
+  window.logout = async () => {
+    try { await signOut(auth); showToast('Logged out','success'); }
+    catch(e) { showToast(parseFirebaseError(e,'Logout failed'),'error'); }
+  };
+
+  function cleanupListeners() { realtimeUnsubscribers.forEach(u=>u()); realtimeUnsubscribers=[]; }
+
+  async function loadUserRole(uid) {
+    const snap = await getDoc(doc(db,"users",uid));
+    if (!snap.exists()) throw new Error('missing-user-role');
+    const role = snap.data()?.role;
+    if (role!=='admin'&&role!=='viewer') throw new Error('invalid-user-role');
+    userRole = role;
+    return role;
   }
 
   function initRealtime() {
-    cleanupRealtimeListeners();
-    isLoading = true;
-    renderDashboard();
-    const showroomsUnsub = onSnapshot(collection(db, "showrooms"), (snap) => {
-      state.showrooms = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-      const rmSelect = document.getElementById('filterRM');
-      if (rmSelect) {
-        const rms = [...new Set(state.showrooms.map(s => s.rm).filter(Boolean))];
-        rmSelect.innerHTML = '<option value="all">All RMs</option>' + rms.map(rm => `<option value="${rm}">${rm}</option>`).join('');
-      }
-      isLoading = false;
-      if (currentView === 'dashboard') renderDashboard();
-      else if (currentView === 'analytics') renderAnalytics();
-    }, (error) => {
-      console.error('Showrooms listener failed', error);
-      showToast(parseFirebaseError(error, 'Unable to load showrooms right now.'), 'error');
-      isLoading = false;
-    });
+    cleanupListeners();
+    isLoading=true; renderDashboard();
 
-    const dealersUnsub = onSnapshot(collection(db, "dealerOnboarding"), (snap) => {
-      state.dealers = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-      const rmSelect = document.getElementById('dealerFilterRM');
-      if (rmSelect) {
-        const rms = [...new Set(state.dealers.map(d => d.rm).filter(Boolean))];
-        rmSelect.innerHTML = '<option value="all">All RMs</option>' + rms.map(rm => `<option value="${rm}">${rm}</option>`).join('');
-      }
-      if (currentView === 'dashboard') renderDashboard();
-      else if (currentView === 'analytics') renderAnalytics();
-      else if (currentView === 'dealer') renderDealerView();
-    }, (error) => {
-      console.error('Dealers listener failed', error);
-      showToast(parseFirebaseError(error, 'Unable to load dealer data right now.'), 'error');
-    });
+    const showroomsUnsub = onSnapshot(collection(db,"showrooms"), snap=>{
+      state.showrooms = snap.docs.map(d=>({id:d.id,...d.data()}));
+      isLoading=false;
+      if (currentView==='dashboard') renderDashboard();
+      if (currentView==='analytics') renderAnalytics();
+    }, e=>{ showToast(parseFirebaseError(e,'Unable to load showrooms'),'error'); isLoading=false; });
 
-    realtimeUnsubscribers = [showroomsUnsub, dealersUnsub];
+    const dealersUnsub = onSnapshot(collection(db,"dealerOnboarding"), snap=>{
+      state.dealers = snap.docs.map(d=>({id:d.id,...d.data()}));
+      if (currentView==='dashboard') renderDashboard();
+      if (currentView==='analytics') renderAnalytics();
+      if (currentView==='dealer') renderDealerView();
+    }, e=>{ showToast(parseFirebaseError(e,'Unable to load dealers'),'error'); });
+
+    realtimeUnsubscribers=[showroomsUnsub,dealersUnsub];
   }
 
-  async function loadUserRole(uid) {
-    try {
-      const snap = await getDoc(doc(db, "users", uid));
-      if (!snap.exists()) throw new Error('missing-user-role');
-      const role = snap.data()?.role;
-      if (role !== 'admin' && role !== 'viewer') throw new Error('invalid-user-role');
-      userRole = role;
-      return role;
-    } catch (error) {
-      console.error('Load user role failed', error);
-      throw error;
-    }
-  }
-
-  function setLoginError(message) {
-    const errorEl = document.getElementById('loginError');
-    errorEl.textContent = message;
-    errorEl.style.display = 'block';
-    setTimeout(() => { errorEl.style.display = 'none'; }, 3500);
-  }
-
-  window.handleLogin = async () => {
-    const email = document.getElementById('loginUsername').value.trim();
-    const password = document.getElementById('loginPassword').value;
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      document.getElementById('loginPassword').value = '';
-    } catch (error) {
-      console.error('Login failed', error);
-      setLoginError(parseFirebaseError(error, 'Login failed. Please verify your credentials.'));
-    }
-  };
-
-  onAuthStateChanged(auth, async (user) => {
+  onAuthStateChanged(auth, async user=>{
     if (!user) {
-      cleanupRealtimeListeners();
-      currentUserId = null;
-      userRole = null;
-      state = { showrooms: [], dealers: [] };
+      cleanupListeners();
+      currentUserId=null; userRole=null; currentUserEmail=null;
+      state={showrooms:[],dealers:[]};
       toggleAuthenticatedUI();
       return;
     }
-
-    currentUserId = user.uid;
+    currentUserId=user.uid; currentUserEmail=user.email;
     try {
       await loadUserRole(user.uid);
       toggleAuthenticatedUI();
       initRealtime();
       showDashboard();
-    } catch (error) {
-      showToast('Unable to load your access role. Contact your administrator.', 'error');
-      try {
-        await signOut(auth);
-      } catch (logoutError) {
-        console.error('Forced sign-out failed', logoutError);
-      }
+    } catch(e) {
+      showToast('Unable to load access role. Contact administrator.','error');
+      try { await signOut(auth); } catch(_){}
     }
+  });
+
+  // Close modal on overlay click
+  document.querySelectorAll('.modal-overlay').forEach(overlay=>{
+    overlay.addEventListener('click', e=>{ if (e.target===overlay) overlay.style.display='none'; });
   });
 </script>
 </body>
