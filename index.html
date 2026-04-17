@@ -681,8 +681,10 @@ const PHASES_CONFIG = [
 ];
 const SHOWROOM_IDEAL_DAYS = 90;
 const DEALER_IDEAL_DAYS   = 22;
-const DEALER_STAGES = ['Interested','Shortlisted','CFT Selected','Documentation','Onboarded'];
-const DEALER_STAGE_TARGETS = { 'Interested':0,'Shortlisted':3,'CFT Selected':8,'Documentation':15,'Onboarded':22 };
+// 🔥 UPDATED: Added rejected stages
+const DEALER_STAGES = ['Interested','Shortlisted','CFT Selected','Documentation','Onboarded','Shortlist-reject','CFT-Reject'];
+// 🔥 UPDATED: Target days for new stages
+const DEALER_STAGE_TARGETS = { 'Interested':0,'Shortlisted':3,'CFT Selected':8,'Documentation':15,'Onboarded':22,'Rejected – Selection':0,'Rejected – CFT':0 };
 const DOC_KEYS   = ['securityDeposit','crmCharges','agreement','gst','pan','aadhaar','bankDetails','cheque','passportPhotos','companyRegistration','spaceFinalized'];
 const DOC_LABELS = { securityDeposit:'Security Deposit',crmCharges:'CRM Charges',agreement:'Agreement',gst:'GST Certificate',pan:'PAN Card',aadhaar:'Aadhaar',bankDetails:'Bank Details',cheque:'Cheque',passportPhotos:'Passport Photos',companyRegistration:'Company Registration',spaceFinalized:'Space Finalized' };
 
@@ -746,6 +748,16 @@ function debounce(fn, ms) {
   };
 }
 
+// 🆕 NEW: Helper to determine if entity is completed
+function isCompleted(entity, type) {
+  if (type === 'showroom') {
+    return !!entity.data?.launch?.actualDate;
+  } else if (type === 'dealer') {
+    return entity.currentStage === 'Onboarded' || entity.status === 'Completed';
+  }
+  return false;
+}
+
 function calcShowroomStats(s) {
   if (!s || !s.startDate) return { pct:0, avgDelay:0, totalDelay:0, maxDelay:0, delayedPhases:[], completedPhases:0 };
   const start = new Date(s.startDate);
@@ -778,7 +790,7 @@ function calcShowroomDayMetrics(s) {
   const st = calcShowroomStats(s);
   const pct = st.pct;
   let forecastDays;
-  if (pct >= 100) {
+  if (pct >= 100 || isCompleted(s, 'showroom')) {
     forecastDays = actualDays;
   } else if (pct > 0 && actualDays > 0) {
     forecastDays = Math.round(actualDays / (pct / 100));
@@ -789,8 +801,13 @@ function calcShowroomDayMetrics(s) {
   return { idealDays, actualDays, forecastDays, delayDays };
 }
 
+// 🔥 UPDATED: calcDealerTimeline handles rejected stages
 function calcDealerTimeline(d) {
   if (!d || !d.startDate) return { delayDays:0, isDelayed:false, level:'normal', daysElapsed:0 };
+  const rejectedStages = ['Rejected – Selection', 'Rejected – CFT'];
+  if (rejectedStages.includes(d.currentStage)) {
+    return { delayDays: 0, isDelayed: false, level: 'normal', daysElapsed: 0 };
+  }
   const start = new Date(d.startDate);
   const daysElapsed = Math.max(0, Math.floor((new Date() - start) / 86400000));
   const stageTarget = DEALER_STAGE_TARGETS[d.currentStage || 'Interested'] || 0;
@@ -801,15 +818,20 @@ function calcDealerTimeline(d) {
   return { delayDays, isDelayed: delayDays >= 6, level, daysElapsed };
 }
 
+// 🔥 UPDATED: calcDealerDayMetrics handles rejected and completed
 function calcDealerDayMetrics(d) {
   const idealDays = DEALER_IDEAL_DAYS;
   if (!d || !d.startDate) return { idealDays, actualDays:0, forecastDays:idealDays, delayDays:0 };
   const start = new Date(d.startDate);
   const actualDays = Math.max(0, Math.floor((new Date() - start) / 86400000));
+  const rejectedStages = ['Rejected – Selection', 'Rejected – CFT'];
+  if (rejectedStages.includes(d.currentStage)) {
+    return { idealDays, actualDays, forecastDays: actualDays, delayDays: Math.max(0, actualDays - idealDays) };
+  }
   const stageIdx = Math.max(0, DEALER_STAGES.indexOf(d.currentStage || 'Interested'));
   const progress = (stageIdx + 1) / DEALER_STAGES.length;
   let forecastDays;
-  if (d.status === 'Completed' || d.currentStage === 'Onboarded') {
+  if (d.status === 'Completed' || d.currentStage === 'Onboarded' || isCompleted(d, 'dealer')) {
     forecastDays = actualDays;
   } else if (progress > 0 && actualDays > 0) {
     forecastDays = Math.round(actualDays / progress);
@@ -826,9 +848,9 @@ function calculateShowroomMetrics(showrooms) {
   const days = showrooms.map(s => calcShowroomDayMetrics(s));
   return {
     total: showrooms.length,
-    completed: stats.filter(s => s.pct === 100).length,
-    delayed: stats.filter(s => s.maxDelay > 0).length,
-    critical: stats.filter(s => s.maxDelay >= 10).length,
+    completed: stats.filter(s => s.pct === 100 || isCompleted(s, 'showroom')).length,
+    delayed: stats.filter(s => s.maxDelay > 0 && !isCompleted(s, 'showroom')).length,
+    critical: stats.filter(s => s.maxDelay >= 10 && !isCompleted(s, 'showroom')).length,
     avgCompletion: avg(stats.map(s => s.pct)),
     avgIdealDays: avg(days.map(d => d.idealDays)),
     avgActualDays: avg(days.map(d => d.actualDays)),
@@ -836,16 +858,22 @@ function calculateShowroomMetrics(showrooms) {
   };
 }
 
+// 🔥 UPDATED: calculateDealerMetrics excludes rejected from active/completed
 function calculateDealerMetrics(dealers) {
   if (!dealers.length) return { total:0, active:0, completed:0, delayed:0, critical:0, avgIdealDays:0, avgActualDays:0, avgForecastDays:0 };
+  const rejectedStages = ['Rejected – Selection', 'Rejected – CFT'];
   const timelines = dealers.map(d => calcDealerTimeline(d));
   const days = dealers.map(d => calcDealerDayMetrics(d));
+  const activeDealers = dealers.filter(d => d.status === 'Active' && !rejectedStages.includes(d.currentStage));
+  const completedDealers = dealers.filter(d => d.status === 'Completed' || d.currentStage === 'Onboarded');
+  const delayedDealers = dealers.filter(d => calcDealerTimeline(d).isDelayed && !rejectedStages.includes(d.currentStage));
+  const criticalDealers = dealers.filter(d => calcDealerTimeline(d).level === 'critical' && !rejectedStages.includes(d.currentStage));
   return {
     total: dealers.length,
-    active: dealers.filter(d => d.status === 'Active').length,
-    completed: dealers.filter(d => d.status === 'Completed').length,
-    delayed: timelines.filter(t => t.isDelayed).length,
-    critical: timelines.filter(t => t.level === 'critical').length,
+    active: activeDealers.length,
+    completed: completedDealers.length,
+    delayed: delayedDealers.length,
+    critical: criticalDealers.length,
     avgIdealDays: avg(days.map(d => d.idealDays)),
     avgActualDays: avg(days.map(d => d.actualDays)),
     avgForecastDays: avg(days.map(d => d.forecastDays))
@@ -948,33 +976,67 @@ function renderDealerKpis(filtered) {
   document.getElementById('dealerKpiGrid').innerHTML = cards.join('');
 }
 
+// 🔥 UPDATED: buildShowroomCard with completed override
 function buildShowroomCard(s) {
   const st = calcShowroomStats(s);
   const days = calcShowroomDayMetrics(s);
-  let riskClass='', chipClass='chip-success', chipTxt='On Track';
-  if (st.maxDelay >= 10) { riskClass='risk-critical'; chipClass='chip-critical'; chipTxt='Critical'; }
-  else if (st.maxDelay >= 6) { riskClass='risk-warning'; chipClass='chip-warning'; chipTxt='Delayed'; }
-  else if (st.maxDelay > 0) { chipClass='chip-warning'; chipTxt='Minor Delay'; }
-  const progClass = st.maxDelay >= 10 ? 'danger' : st.maxDelay >= 6 ? 'warning' : st.pct === 100 ? 'success' : '';
+  const isLaunched = !!s.data?.launch?.actualDate;
+  
+  let riskClass = '', chipClass = 'chip-success', chipTxt = 'On Track';
+  if (isLaunched) {
+    riskClass = '';
+    chipClass = 'chip-success';
+    chipTxt = 'Completed';
+  } else if (st.maxDelay >= 10) {
+    riskClass = 'risk-critical';
+    chipClass = 'chip-critical';
+    chipTxt = 'Critical';
+  } else if (st.maxDelay >= 6) {
+    riskClass = 'risk-warning';
+    chipClass = 'chip-warning';
+    chipTxt = 'Delayed';
+  } else if (st.maxDelay > 0) {
+    chipClass = 'chip-warning';
+    chipTxt = 'Minor Delay';
+  }
+  
+  const progClass = (st.maxDelay >= 10 && !isLaunched) ? 'danger' : (st.maxDelay >= 6 && !isLaunched) ? 'warning' : (st.pct === 100 || isLaunched) ? 'success' : '';
   const worstPhase = st.delayedPhases[0];
-  let nbaClass='ok', nbaIcon='fa-check-circle', nbaText='All phases on schedule';
-  if (st.maxDelay >= 10) { nbaClass='critical'; nbaIcon='fa-circle-exclamation'; nbaText=`Escalate: ${worstPhase?.phase} is ${worstPhase?.days}d overdue`; }
-  else if (st.maxDelay >= 6) { nbaClass='warning'; nbaIcon='fa-triangle-exclamation'; nbaText=`Follow up: ${worstPhase?.phase} delayed ${worstPhase?.days}d`; }
-  else if (st.maxDelay > 0) { nbaClass='warning'; nbaIcon='fa-clock'; nbaText=`Monitor: ${worstPhase?.phase} (${worstPhase?.days}d)`; }
-  const actualColor = days.actualDays > days.idealDays ? 'red' : '';
-  const forecastColor = days.forecastDays > days.idealDays ? 'amber' : 'green';
+  let nbaClass = 'ok', nbaIcon = 'fa-check-circle', nbaText = 'All phases on schedule';
+  if (isLaunched) {
+    const delayInfo = days.delayDays > 0 ? `Delayed by ${days.delayDays} days` : 'On time';
+    nbaClass = 'ok';
+    nbaIcon = 'fa-flag-checkered';
+    nbaText = `Launched – Completed in ${days.actualDays} days (${delayInfo})`;
+  } else if (st.maxDelay >= 10) {
+    nbaClass = 'critical';
+    nbaIcon = 'fa-circle-exclamation';
+    nbaText = `Escalate: ${worstPhase?.phase} is ${worstPhase?.days}d overdue`;
+  } else if (st.maxDelay >= 6) {
+    nbaClass = 'warning';
+    nbaIcon = 'fa-triangle-exclamation';
+    nbaText = `Follow up: ${worstPhase?.phase} delayed ${worstPhase?.days}d`;
+  } else if (st.maxDelay > 0) {
+    nbaClass = 'warning';
+    nbaIcon = 'fa-clock';
+    nbaText = `Monitor: ${worstPhase?.phase} (${worstPhase?.days}d)`;
+  }
+  
+  const actualColor = (days.actualDays > days.idealDays && !isLaunched) ? 'red' : '';
+  const forecastColor = (days.forecastDays > days.idealDays && !isLaunched) ? 'amber' : 'green';
+  
   return `<div class="entity-card ${riskClass}">
     <div class="entity-card-top">
       <div class="entity-header">
         <div>
           <div class="entity-name">${esc(s.name)}</div>
           <div class="entity-meta">
-            <span class="entity-meta-item"><i class="fas fa-location-dot"></i>${esc(s.city||'—')}</span>
-            <span class="entity-meta-item"><i class="fas fa-user-tie"></i>${esc(s.rm||'Unassigned')}</span>
+            <span class="entity-meta-item"><i class="fas fa-location-dot"></i>${esc(s.city || '—')}</span>
+            <span class="entity-meta-item"><i class="fas fa-user-tie"></i>${esc(s.rm || 'Unassigned')}</span>
             <span class="entity-meta-item"><i class="fas fa-calendar"></i>${fmtDate(s.startDate)}</span>
           </div>
         </div>
-        <span class="chip ${chipClass}">${chipTxt}</span>
+        <span class="chip ${chipClass}" title="${isLaunched ? (days.delayDays > 0 ? `Delayed by ${days.delayDays} days` : 'On time') : ''}">${chipTxt}</span>
       </div>
       <div class="progress-wrap">
         <div class="progress-label"><span>Phase Completion</span><span style="font-family:'DM Mono',monospace;font-weight:600">${st.pct}%</span></div>
@@ -984,8 +1046,8 @@ function buildShowroomCard(s) {
     <div class="entity-card-body">
       <div class="stats-row">
         <div class="stat-cell"><div class="stat-label">Phases</div><div class="stat-val">${st.completedPhases}/${PHASES_CONFIG.length}</div></div>
-        <div class="stat-cell"><div class="stat-label">Max Delay</div><div class="stat-val ${st.maxDelay>=10?'red':st.maxDelay>0?'amber':''}">${st.maxDelay}d</div></div>
-        <div class="stat-cell"><div class="stat-label">Total Lag</div><div class="stat-val ${st.totalDelay>0?'amber':''}">${st.totalDelay}d</div></div>
+        <div class="stat-cell"><div class="stat-label">Max Delay</div><div class="stat-val ${st.maxDelay >= 10 && !isLaunched ? 'red' : st.maxDelay > 0 && !isLaunched ? 'amber' : ''}">${st.maxDelay}d</div></div>
+        <div class="stat-cell"><div class="stat-label">Total Lag</div><div class="stat-val ${st.totalDelay > 0 && !isLaunched ? 'amber' : ''}">${st.totalDelay}d</div></div>
       </div>
       <div class="stats-row-label">Schedule Days</div>
       <div class="stats-row">
@@ -1004,36 +1066,77 @@ function buildShowroomCard(s) {
   </div>`;
 }
 
+// 🔥 UPDATED: buildDealerCard with priority logic
 function buildDealerCard(d) {
   const tl = calcDealerTimeline(d);
   const days = calcDealerDayMetrics(d);
   const dp = docProgress(d.documents);
   const missing = DOC_KEYS.filter(k => !d.documents?.[k]).length;
   const stageIdx = DEALER_STAGES.indexOf(d.currentStage || 'Interested');
-  let riskClass='', chipClass='chip-success', chipTxt='On Track';
-  if (tl.level==='critical') { riskClass='risk-critical'; chipClass='chip-critical'; chipTxt='Critical'; }
-  else if (tl.level==='warning') { riskClass='risk-warning'; chipClass='chip-warning'; chipTxt='Delayed'; }
-  let nbaClass='ok', nbaIcon='fa-check-circle', nbaText='Documents complete — ready to advance stage';
-  if (tl.delayDays >= 10) { nbaClass='critical'; nbaIcon='fa-circle-exclamation'; nbaText=`Escalate: ${d.currentStage||'stage'} stalled ${tl.delayDays}d`; }
-  else if (tl.delayDays >= 6) { nbaClass='warning'; nbaIcon='fa-triangle-exclamation'; nbaText=`Follow up: stuck in ${d.currentStage||'stage'} ${tl.delayDays}d`; }
-  else if (missing > 0) { nbaClass='warning'; nbaIcon='fa-file-circle-exclamation'; nbaText=`${missing} document${missing>1?'s':''} pending submission`; }
-  const progClass = dp === 100 ? 'success' : tl.level==='critical' ? 'danger' : tl.level==='warning' ? 'warning' : '';
-  const actualColor = days.actualDays > days.idealDays ? 'red' : '';
-  const forecastColor = days.forecastDays > days.idealDays ? 'amber' : 'green';
+  const isOnboarded = (d.currentStage === 'Onboarded');
+  const isRejected = (d.currentStage === 'Rejected – Selection' || d.currentStage === 'Rejected – CFT');
+  
+  let riskClass = '', chipClass = 'chip-success', chipTxt = 'On Track';
+  if (isOnboarded || d.status === 'Completed') {
+    riskClass = '';
+    chipClass = 'chip-success';
+    chipTxt = 'Completed';
+  } else if (isRejected) {
+    riskClass = 'risk-critical';
+    chipClass = 'chip-critical';
+    chipTxt = d.currentStage === 'Rejected – Selection' ? 'Rejected (Selection)' : 'Rejected (CFT)';
+  } else if (tl.level === 'critical') {
+    riskClass = 'risk-critical';
+    chipClass = 'chip-critical';
+    chipTxt = 'Critical';
+  } else if (tl.level === 'warning') {
+    riskClass = 'risk-warning';
+    chipClass = 'chip-warning';
+    chipTxt = 'Delayed';
+  }
+  
+  let nbaClass = 'ok', nbaIcon = 'fa-check-circle', nbaText = 'Documents complete — ready to advance stage';
+  if (isOnboarded) {
+    const delayInfo = days.delayDays > 0 ? ` (Delayed by ${days.delayDays} days)` : ' (On Time)';
+    nbaClass = 'ok';
+    nbaIcon = 'fa-flag-checkered';
+    nbaText = `Onboarded – Completed in ${days.actualDays} days${delayInfo}`;
+  } else if (isRejected) {
+    nbaClass = 'critical';
+    nbaIcon = 'fa-ban';
+    nbaText = `Rejected – ${d.currentStage === 'Rejected – Selection' ? 'Post‑shortlisting' : 'Post‑CFT'}`;
+  } else if (tl.delayDays >= 10) {
+    nbaClass = 'critical';
+    nbaIcon = 'fa-circle-exclamation';
+    nbaText = `Escalate: ${d.currentStage || 'stage'} stalled ${tl.delayDays}d`;
+  } else if (tl.delayDays >= 6) {
+    nbaClass = 'warning';
+    nbaIcon = 'fa-triangle-exclamation';
+    nbaText = `Follow up: stuck in ${d.currentStage || 'stage'} ${tl.delayDays}d`;
+  } else if (missing > 0) {
+    nbaClass = 'warning';
+    nbaIcon = 'fa-file-circle-exclamation';
+    nbaText = `${missing} document${missing > 1 ? 's' : ''} pending submission`;
+  }
+  
+  const actualColor = (days.actualDays > days.idealDays && !isOnboarded && !isRejected) ? 'red' : '';
+  const forecastColor = (days.forecastDays > days.idealDays && !isOnboarded && !isRejected) ? 'amber' : 'green';
+  const progClass = dp === 100 ? 'success' : (tl.level === 'critical' && !isOnboarded && !isRejected) ? 'danger' : (tl.level === 'warning' && !isOnboarded && !isRejected) ? 'warning' : '';
+  
   return `<div class="entity-card ${riskClass}">
     <div class="entity-card-top">
       <div class="entity-header">
         <div>
           <div class="entity-name">${esc(d.name)}</div>
           <div class="entity-meta">
-            <span class="entity-meta-item"><i class="fas fa-location-dot"></i>${esc(d.city||'—')}</span>
-            <span class="entity-meta-item"><i class="fas fa-user-tie"></i>${esc(d.rm||'Unassigned')}</span>
+            <span class="entity-meta-item"><i class="fas fa-location-dot"></i>${esc(d.city || '—')}</span>
+            <span class="entity-meta-item"><i class="fas fa-user-tie"></i>${esc(d.rm || 'Unassigned')}</span>
           </div>
         </div>
-        <span class="chip ${chipClass}">${tl.delayDays>0?`${tl.delayDays}d delay`:chipTxt}</span>
+        <span class="chip ${chipClass}" title="${isOnboarded ? (days.delayDays > 0 ? `Delayed by ${days.delayDays} days` : 'On time') : ''}">${chipTxt}</span>
       </div>
       <div style="display:flex;gap:5px;margin-top:8px;flex-wrap:wrap">
-        ${DEALER_STAGES.map((st,i) => `<span style="font-size:0.62rem;padding:2px 7px;border-radius:10px;font-weight:700;${i===stageIdx?'background:var(--blue-500);color:white':'background:var(--slate-100);color:var(--text-muted)'}">${i<stageIdx?'✓ ':i===stageIdx?'● ':''}${st}</span>`).join('')}
+        ${DEALER_STAGES.map((st, i) => `<span style="font-size:0.62rem;padding:2px 7px;border-radius:10px;font-weight:700;${i === stageIdx ? 'background:var(--blue-500);color:white' : 'background:var(--slate-100);color:var(--text-muted)'}">${i < stageIdx ? '✓ ' : i === stageIdx ? '● ' : ''}${st}</span>`).join('')}
       </div>
       <div class="progress-wrap" style="margin-top:10px">
         <div class="progress-label"><span>Document Completion</span><span style="font-family:'DM Mono',monospace;font-weight:600">${dp}%</span></div>
@@ -1042,9 +1145,9 @@ function buildDealerCard(d) {
     </div>
     <div class="entity-card-body">
       <div class="stats-row">
-        <div class="stat-cell"><div class="stat-label">Stage</div><div class="stat-val" style="font-size:0.78rem">${esc(d.currentStage||'Interested')}</div></div>
-        <div class="stat-cell"><div class="stat-label">Docs Done</div><div class="stat-val ${dp<100?'amber':'green'}">${DOC_KEYS.filter(k=>d.documents?.[k]).length}/${DOC_KEYS.length}</div></div>
-        <div class="stat-cell"><div class="stat-label">Status</div><div class="stat-val ${tl.level==='critical'?'red':tl.level==='warning'?'amber':'green'}" style="font-size:0.78rem">${d.status||'Active'}</div></div>
+        <div class="stat-cell"><div class="stat-label">Stage</div><div class="stat-val" style="font-size:0.78rem">${esc(d.currentStage || 'Interested')}</div></div>
+        <div class="stat-cell"><div class="stat-label">Docs Done</div><div class="stat-val ${dp < 100 ? 'amber' : 'green'}">${DOC_KEYS.filter(k => d.documents?.[k]).length}/${DOC_KEYS.length}</div></div>
+        <div class="stat-cell"><div class="stat-label">Status</div><div class="stat-val ${isRejected ? 'red' : (tl.level === 'critical' ? 'red' : tl.level === 'warning' ? 'amber' : 'green')}" style="font-size:0.78rem">${isRejected ? 'Dropped' : (d.status || 'Active')}</div></div>
       </div>
       <div class="stats-row-label">Schedule Days</div>
       <div class="stats-row">
@@ -1174,9 +1277,18 @@ function populateRMFilter(elId, rmList, currentVal=null) {
   sel.innerHTML = `<option value="all">All RMs</option>` + rms.map(r => `<option value="${esc(r)}" ${r===prev?'selected':''}>${esc(r)}</option>`).join('');
 }
 
+// 🆕 NEW: Populate dealer stage filter dynamically
+function populateDealerStageFilter() {
+  const select = document.getElementById('dealerFilterStage');
+  if (!select) return;
+  const currentVal = select.value;
+  select.innerHTML = '<option value="all">All Stages</option>' +
+    DEALER_STAGES.map(stage => `<option value="${esc(stage)}" ${currentVal === stage ? 'selected' : ''}>${esc(stage)}</option>`).join('');
+}
+
 function updateNavBadges() {
-  const critSR = state.showrooms.filter(s => calcShowroomStats(s).maxDelay >= 10).length;
-  const critDL = state.dealers.filter(d => calcDealerTimeline(d).level === 'critical').length;
+  const critSR = state.showrooms.filter(s => calcShowroomStats(s).maxDelay >= 10 && !isCompleted(s, 'showroom')).length;
+  const critDL = state.dealers.filter(d => calcDealerTimeline(d).level === 'critical' && !['Rejected – Selection','Rejected – CFT'].includes(d.currentStage) && !isCompleted(d, 'dealer')).length;
   const sB = document.getElementById('navBadgeShowrooms');
   const dB = document.getElementById('navBadgeDealers');
   if (sB) { sB.textContent = critSR; sB.style.display = critSR ? 'inline' : 'none'; }
@@ -1196,10 +1308,10 @@ function updateNavBadges() {
 
 async function renderAnalytics() {
   const totalSR = state.showrooms.length;
-  const completedSR = state.showrooms.filter(s => calcShowroomStats(s).pct === 100).length;
+  const completedSR = state.showrooms.filter(s => calcShowroomStats(s).pct === 100 || isCompleted(s, 'showroom')).length;
   const totalDl = state.dealers.length;
   const onboarded = state.dealers.filter(d => d.status==='Completed'||d.currentStage==='Onboarded').length;
-  const active = state.dealers.filter(d => d.status==='Active').length;
+  const active = state.dealers.filter(d => d.status==='Active' && !['Rejected – Selection','Rejected – CFT'].includes(d.currentStage)).length;
   const srMetrics = calculateShowroomMetrics(state.showrooms);
   const dlMetrics = calculateDealerMetrics(state.dealers);
   document.getElementById('analyticsKpiGrid').innerHTML = [
@@ -1214,7 +1326,7 @@ async function renderAnalytics() {
   if (charts.funnel) charts.funnel.destroy();
   charts.funnel = new Chart(document.getElementById('funnelChart').getContext('2d'), {
     type:'bar',
-    data:{ labels:DEALER_STAGES, datasets:[{ label:'Dealers', data:stageCounts, backgroundColor:['#93C5FD','#67E8F9','#6EE7B7','#FDE68A','#A7F3D0'], borderRadius:6 }]},
+    data:{ labels:DEALER_STAGES, datasets:[{ label:'Dealers', data:stageCounts, backgroundColor:['#93C5FD','#67E8F9','#6EE7B7','#FDE68A','#A7F3D0','#FCA5A5','#FCA5A5'], borderRadius:6 }]},
     options:{ responsive:true, plugins:{ legend:{display:false}}, scales:{ y:{ grid:{color:'#F1F5F9'}, ticks:{precision:0}}, x:{grid:{display:false}}}}
   });
   if (charts.trend) charts.trend.destroy();
@@ -1235,7 +1347,13 @@ async function renderAnalytics() {
       <div class="lb-count">${cnt} dealer${cnt!==1?'s':''}</div>
     </div>`).join('');
   const delays = { ok:0, warn:0, crit:0 };
-  state.dealers.forEach(d => { const dd=calcDealerTimeline(d).delayDays; if(dd<6) delays.ok++; else if(dd<10) delays.warn++; else delays.crit++; });
+  state.dealers.forEach(d => { 
+    if (['Rejected – Selection','Rejected – CFT'].includes(d.currentStage)) return;
+    const dd=calcDealerTimeline(d).delayDays; 
+    if(dd<6) delays.ok++; 
+    else if(dd<10) delays.warn++; 
+    else delays.crit++; 
+  });
   document.getElementById('delayDistribution').innerHTML = `<div class="delay-cards">
     <div class="delay-bucket ok"><div class="delay-bucket-count" style="color:var(--emerald-600)">${delays.ok}</div><div class="delay-bucket-label" style="color:var(--emerald-600)">On Track<br>&lt; 6d</div></div>
     <div class="delay-bucket warn"><div class="delay-bucket-count" style="color:var(--amber-600)">${delays.warn}</div><div class="delay-bucket-label" style="color:var(--amber-600)">Warning<br>6–9d</div></div>
@@ -1294,6 +1412,7 @@ function openDealerModule() {
   document.getElementById('dashboardView').style.display = 'none';
   document.getElementById('analyticsView').style.display = 'none';
   document.getElementById('dealerView').style.display = 'block';
+  populateDealerStageFilter(); // 🆕 NEW: refresh stage filter
   renderDealerView();
 }
 
@@ -1469,6 +1588,7 @@ async function openDealerDetail(id) {
   document.getElementById('dealerDeleteBtn').onclick = deleteDealerFromDetail;
 }
 
+// 🔥 UPDATED: updateDealerStage with rejection logic
 async function updateDealerStage(id, newStage) {
   const d = state.dealers.find(x => x.id === id);
   if (!d) return;
@@ -1476,22 +1596,58 @@ async function updateDealerStage(id, newStage) {
   const curIdx = DEALER_STAGES.indexOf(cur);
   const newIdx = DEALER_STAGES.indexOf(newStage);
   if (newIdx === -1) return;
-  if (Math.abs(newIdx - curIdx) > 1) { showToast('Only adjacent stage transitions allowed','warning'); return; }
-  if (!confirm(`Move "${d.name}" from ${cur} → ${newStage}?`)) return;
+  
+  if (cur === 'Rejected – Selection' || cur === 'Rejected – CFT') {
+    showToast('Rejected dealers cannot be modified', 'warning');
+    return;
+  }
+  
+  const isRejection = (newStage === 'Rejected – Selection' && cur === 'Shortlisted') ||
+                      (newStage === 'Rejected – CFT' && cur === 'CFT Selected');
+  if (!isRejection && Math.abs(newIdx - curIdx) > 1) {
+    showToast('Only adjacent stage transitions allowed', 'warning');
+    return;
+  }
+  if (!isRejection && newIdx < curIdx) {
+    if (!confirm(`Move back from ${cur} to ${newStage}? This may affect timeline.`)) return;
+  }
+  
+  let confirmMsg = `Move "${d.name}" from ${cur} → ${newStage}?`;
+  if (isRejection) confirmMsg = `⚠️ Reject "${d.name}"? This will mark as DROPPED and cannot be undone.`;
+  if (!confirm(confirmMsg)) return;
+  
   try {
-    const stageLog = {...(d.stageLog||{})};
+    const stageLog = { ...(d.stageLog || {}) };
     if (!stageLog[newStage]) stageLog[newStage] = new Date().toISOString();
-    await updateDoc(doc(db,'dealerOnboarding',id), { currentStage:newStage, status:newStage==='Onboarded'?'Completed':'Active', stageLog, updatedAt:serverTimestamp() });
-    showToast(`Stage updated to ${newStage}`,'success');
+    let updates = {
+      currentStage: newStage,
+      stageLog,
+      updatedAt: serverTimestamp()
+    };
+    if (newStage === 'Onboarded') {
+      updates.status = 'Completed';
+    } else if (isRejection) {
+      updates.status = 'Dropped';
+    } else {
+      updates.status = 'Active';
+    }
+    await updateDoc(doc(db, 'dealerOnboarding', id), updates);
+    showToast(isRejection ? `Dealer rejected and marked as Dropped` : `Stage updated to ${newStage}`, 'success');
     await openDealerDetail(id);
     if (currentView === 'dealer') renderDealerView();
     if (currentView === 'dashboard') renderDashboard();
-  } catch(e) { showToast(parseFirebaseError(e,'Failed to update stage'),'error'); }
+  } catch (e) {
+    showToast(parseFirebaseError(e, 'Failed to update stage'), 'error');
+  }
 }
 
 async function updateDealerDoc(id, docKey, checked) {
   const d = state.dealers.find(x => x.id === id);
   if (!d) return;
+  if (d.currentStage === 'Rejected – Selection' || d.currentStage === 'Rejected – CFT') {
+    showToast('Cannot edit documents for rejected dealers', 'warning');
+    return;
+  }
   const docs = {...(d.documents||{}), [docKey]:checked};
   try {
     const updates = { documents:docs, updatedAt:serverTimestamp() };
@@ -1508,6 +1664,10 @@ function openDealerEditFromDetail() {
   if (!currentDealerIdForDetail || !isAdmin()) return;
   const d = state.dealers.find(x => x.id === currentDealerIdForDetail);
   if (!d) return;
+  if (d.currentStage === 'Rejected – Selection' || d.currentStage === 'Rejected – CFT') {
+    showToast('Cannot edit rejected dealers', 'warning');
+    return;
+  }
   currentEditDealerId = d.id;
   document.getElementById('edit-dealer-name').value = d.name || '';
   document.getElementById('edit-dealer-city').value = d.city || '';
@@ -1759,6 +1919,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('dealerFilterStage').addEventListener('change', renderDealerView);
   document.getElementById('dealerFilterRM').addEventListener('change', renderDealerView);
   document.getElementById('dealerSearch').addEventListener('input', debouncedRenderDealers);
+  populateDealerStageFilter(); // 🆕 NEW: initial population of stage filter
 });
 </script>
 </body>
