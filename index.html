@@ -1889,7 +1889,13 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('exportExcelBtn').addEventListener('click', exportDashboardReport);
   document.getElementById('exportPdfBtn').addEventListener('click', generatePDF);
   document.getElementById('backupDataBtn').addEventListener('click', backupData);
-  document.getElementById('addEntityBtn').addEventListener('click', openAddShowroomModal);
+  document.getElementById('addEntityBtn').addEventListener('click', () => {
+  if (currentView === 'dealer') {
+    openAddDealerModal();
+  } else {
+    openAddShowroomModal();
+  }
+});
   document.getElementById('sortBtn').addEventListener('click', toggleSort);
   document.getElementById('resetFiltersBtn').addEventListener('click', resetFilters);
   document.getElementById('resetDealerFiltersBtn').addEventListener('click', resetDealerFilters);
