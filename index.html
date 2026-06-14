@@ -210,10 +210,10 @@ a{color:inherit;text-decoration:none;}
 .af-section-title:first-child{border-top:none;margin-top:0;padding-top:0;}
 .action-card{background:var(--c-bg1);border:1px solid var(--c-border);border-radius:var(--r-lg);padding:16px 18px;margin-bottom:8px;display:flex;gap:14px;align-items:flex-start;cursor:pointer;transition:all 180ms;position:relative;overflow:hidden;}
 .action-card:hover{border-color:var(--c-border2);box-shadow:var(--shadow-md);transform:translateX(2px);}
-.action-card.priority-critical{border-left:3px solid var(--c-red);}
-.action-card.priority-warning{border-left:3px solid var(--c-amber);}
-.action-card.priority-info{border-left:3px solid var(--c-blue);}
-.action-card.priority-ok{border-left:3px solid var(--c-green);}
+.action-card.priority-critical{border-left:2px solid rgba(239,68,68,0.6);}
+.action-card.priority-warning{border-left:2px solid rgba(245,158,11,0.5);}
+.action-card.priority-info{border-left:2px solid rgba(59,130,246,0.4);}
+.action-card.priority-ok{border-left:2px solid rgba(16,185,129,0.35);}
 .ac-icon{width:38px;height:38px;border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;font-size:0.9rem;flex-shrink:0;}
 .ac-icon.crit{background:var(--c-critical);color:var(--c-red);}
 .ac-icon.warn{background:var(--c-warn);color:var(--c-amber);}
@@ -281,8 +281,8 @@ a{color:inherit;text-decoration:none;}
 .ml-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
 
 /* AI BRIEF */
-.ai-brief{background:var(--c-bg1);border:1px solid rgba(139,92,246,0.25);border-radius:var(--r-xl);overflow:hidden;margin-bottom:24px;}
-.ai-head{padding:14px 18px;background:linear-gradient(135deg,rgba(139,92,246,0.15),rgba(59,130,246,0.1));border-bottom:1px solid rgba(139,92,246,0.15);display:flex;align-items:center;justify-content:space-between;cursor:pointer;}
+.ai-brief{background:var(--c-bg1);border:1px solid var(--c-border);border-radius:var(--r-xl);overflow:hidden;margin-bottom:24px;}
+.ai-head{padding:12px 16px;background:var(--c-bg2);border-bottom:1px solid var(--c-border);display:flex;align-items:center;justify-content:space-between;cursor:pointer;}
 .ai-head-left{display:flex;align-items:center;gap:12px;}
 .ai-icon{width:36px;height:36px;background:linear-gradient(135deg,#8B5CF6,#3B82F6);border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;font-size:0.9rem;color:#fff;flex-shrink:0;}
 .ai-title{font-size:0.88rem;font-weight:700;margin-bottom:2px;}
@@ -426,6 +426,25 @@ canvas{max-height:220px;}
 @keyframes shimmer{to{background-position:-200% 0}}
 
 /* FILTER BAR */
+
+.preset-bar{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
+.preset-chip{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:var(--r-full);font-size:0.68rem;font-weight:600;border:1px solid var(--c-border2);background:var(--c-bg2);color:var(--c-text2);cursor:pointer;transition:all 120ms;white-space:nowrap;}
+.preset-chip:hover{border-color:var(--c-blue);color:#93C5FD;background:var(--c-info);}
+.preset-chip.del-x{color:var(--c-red);border-color:transparent;background:transparent;padding:3px 5px;font-size:0.6rem;}
+.preset-chip.del-x:hover{background:var(--c-critical);}
+.preset-save-btn{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:var(--r-full);font-size:0.65rem;font-weight:600;border:1px dashed var(--c-border2);background:transparent;color:var(--c-text3);cursor:pointer;transition:all 120ms;}
+.preset-save-btn:hover{border-color:var(--c-blue);color:#93C5FD;}
+.qf-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
+.qf-btn{padding:4px 12px;border-radius:var(--r-full);font-size:0.7rem;font-weight:600;border:1px solid var(--c-border2);background:var(--c-bg2);color:var(--c-text2);cursor:pointer;transition:all 120ms;white-space:nowrap;}
+.qf-btn:hover,.qf-btn.on{border-color:var(--c-blue);color:#93C5FD;background:var(--c-info);}
+.qf-btn.on{background:var(--c-blue);color:#fff;border-color:var(--c-blue);}
+.bulk-bar{position:sticky;bottom:12px;z-index:50;display:none;align-items:center;gap:8px;padding:10px 16px;background:var(--c-bg1);border:1px solid var(--c-blue);border-radius:var(--r-xl);box-shadow:var(--shadow-lg),0 0 0 2px rgba(59,130,246,0.15);margin-top:12px;flex-wrap:wrap;}
+.bulk-bar.on{display:flex;}
+.bulk-count{font-size:0.78rem;font-weight:700;color:var(--c-blue);white-space:nowrap;}
+.sel-ov{position:absolute;top:9px;left:9px;width:17px;height:17px;background:var(--c-bg2);border:2px solid var(--c-border2);border-radius:4px;display:flex;align-items:center;justify-content:center;z-index:3;cursor:pointer;font-size:0;transition:all 120ms;}
+.ecard.picked .sel-ov{background:var(--c-blue);border-color:var(--c-blue);color:#fff;font-size:0.62rem;font-weight:800;}
+.ecard.picked .sel-ov::after{content:'✓';}
+.ecard.picked{border-color:rgba(59,130,246,0.4)!important;box-shadow:0 0 0 2px rgba(59,130,246,0.15)!important;}
 .filter-bar{background:var(--c-bg1);border:1px solid var(--c-border);border-radius:var(--r-lg);padding:10px 14px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:16px;}
 .fpill{display:flex;align-items:center;gap:7px;padding:6px 11px;background:var(--c-bg2);border:1px solid var(--c-border);border-radius:var(--r-sm);min-width:120px;}
 .fpill i{color:var(--c-text3);font-size:0.72rem;flex-shrink:0;}
@@ -641,6 +660,7 @@ canvas{max-height:220px;}
       <span class="pulse-dot live" style="margin-left:4px" title="Live data"></span>
     </div>
     <div class="topbar-right">
+      <img src="logo.png" alt="AIS Windows" style="height:26px;object-fit:contain;opacity:0.88;margin-right:6px;flex-shrink:0" onerror="this.style.display='none'">
       <button class="search-trigger" id="cmdTrigger" aria-label="Search (Ctrl+K)">
         <i class="fas fa-search"></i>
         <span>Search…</span>
@@ -663,6 +683,7 @@ canvas{max-height:220px;}
         </div>
       </div>
       <div class="role-pill viewer" id="rolePill"></div>
+      <div class="sync-indicator" id="syncIndicator" title="Last data sync"><span class="sync-dot live" id="syncDot"></span><span id="syncText">Live</span></div>
       <button class="topbar-add" id="addBtn" style="display:none">
         <i class="fas fa-plus"></i> Add
       </button>
@@ -929,7 +950,7 @@ let editSrId=null,editDlId=null;
 let sound=localStorage.getItem('ais_sound')!=='off';
 let undoStack=[],cmdIdx=-1;
 let leafletMap=null,mapInitialized=false;
-let claudeKey=localStorage.getItem('ais_claude_key')||'';
+let geminiKey=localStorage.getItem('ais_gemini_key')||'';
 
 /* ── THEMES ── */
 const THEMES=[
@@ -1106,26 +1127,26 @@ function buildActions(){
   activeSR().forEach(s=>{
     const st=srStats(s);if(st.max>=10){
       const rm=s.rm||'Unassigned';const worst=st.delayed[0];
-      actions.push({priority:'critical',type:'sr-critical',title:`${s.name} — Critical Delay`,desc:`${worst?.phase||'Phase'} is ${worst?.days||st.max}d behind. Immediate escalation needed.`,entity:s,rm,tags:[{t:rm,c:'rm'},{t:worst?.days+'d delay',c:'phase'},{t:s.city,c:'age'}],actions:[{label:'Open Tracker',fn:()=>openSRDetail(s.id)},{label:'WhatsApp CP',fn:()=>window.open(waLink(s.mobileNumber,`Hi, ${s.name} - phase '${worst?.phase||'phase'}' delayed ${worst?.days||0}d. Please coordinate with RM ${rm}.`),'_blank'),cls:'wa-btn'}]});
+      actions.push({priority:'critical',type:'sr-critical',title:`${s.name} — Critical Delay`,desc:`${worst?.phase||'Phase'} is ${worst?.days||st.max}d behind. Immediate escalation needed.`,why:`Max delay ${st.max}d > 10d threshold`,entity:s,rm,tags:[{t:rm,c:'rm'},{t:worst?.days+'d delay',c:'phase'},{t:s.city,c:'age'}],actions:[{label:'Open Tracker',fn:()=>openSRDetail(s.id)},{label:'WhatsApp CP',fn:()=>window.open(waLink(s.mobileNumber,`Hi, ${s.name} - phase '${worst?.phase||'phase'}' delayed ${worst?.days||0}d. Please coordinate with RM ${rm}.`),'_blank'),cls:'wa-btn'}]});
     }
   });
   /* Warning showrooms */
   activeSR().forEach(s=>{
     const st=srStats(s);if(st.max>=6&&st.max<10){
       const worst=st.delayed[0];const rm=s.rm||'Unassigned';
-      actions.push({priority:'warning',type:'sr-warn',title:`${s.name} — ${st.max}d Behind`,desc:`${worst?.phase||'Phase'} is falling behind. Review with ${rm}.`,entity:s,rm,tags:[{t:rm,c:'rm'},{t:worst?.days+'d',c:'phase'},{t:s.city,c:'age'}],actions:[{label:'Open Tracker',fn:()=>openSRDetail(s.id)}]});
+      actions.push({priority:'warning',type:'sr-warn',title:`${s.name} — ${st.max}d Behind`,desc:`${worst?.phase||'Phase'} is falling behind. Review with ${rm}.`,why:`Delay ${st.max}d > 6d warning threshold`,entity:s,rm,tags:[{t:rm,c:'rm'},{t:worst?.days+'d',c:'phase'},{t:s.city,c:'age'}],actions:[{label:'Open Tracker',fn:()=>openSRDetail(s.id)}]});
     }
   });
   /* Critical dealers */
   activeDL().forEach(d=>{
     const tl=dlTimeline(d);if(tl.level==='critical'){
-      actions.push({priority:'critical',type:'dl-critical',title:`${d.name} — Partner Stuck`,desc:`In "${d.currentStage}" for ${tl.elapsed}d (target ${tl.tgt}d). ${11-docPct(d.documents)}% docs pending.`,entity:d,rm:d.rm||'Unassigned',tags:[{t:d.rm||'—',c:'rm'},{t:tl.delay+'d late',c:'phase'},{t:d.city,c:'age'}],actions:[{label:'View Partner',fn:()=>openDLDetail(d.id)},{label:'WhatsApp CP',fn:()=>window.open(waLink(d.mobileNumber,`Hi ${d.name}, please submit pending documents for your AIS partnership. Docs: ${docPct(d.documents)}% complete.`),'_blank'),cls:'wa-btn'}]});
+      actions.push({priority:'critical',type:'dl-critical',title:`${d.name} — Partner Stuck`,desc:`In "${d.currentStage}" for ${tl.elapsed}d (target ${tl.tgt}d). ${11-docPct(d.documents)}% docs pending.`,why:`Stage delay ${tl.delay}d > 10d threshold`,entity:d,rm:d.rm||'Unassigned',tags:[{t:d.rm||'—',c:'rm'},{t:tl.delay+'d late',c:'phase'},{t:d.city,c:'age'}],actions:[{label:'View Partner',fn:()=>openDLDetail(d.id)},{label:'WhatsApp CP',fn:()=>window.open(waLink(d.mobileNumber,`Hi ${d.name}, please submit pending documents for your AIS partnership. Docs: ${docPct(d.documents)}% complete.`),'_blank'),cls:'wa-btn'}]});
     }
   });
   /* Near-completion dealers */
   activeDL().forEach(d=>{
     const dp=docPct(d.documents);if(dp>=80&&dp<100&&!isDLRej(d)){
-      actions.push({priority:'info',type:'dl-docs',title:`${d.name} — Almost Complete`,desc:`${dp}% docs done. One final push for onboarding.`,entity:d,rm:d.rm||'Unassigned',tags:[{t:d.rm||'—',c:'rm'},{t:dp+'% docs',c:'phase'},{t:d.city,c:'age'}],actions:[{label:'View Checklist',fn:()=>openDLDetail(d.id)},{label:'WhatsApp CP',fn:()=>window.open(waLink(d.mobileNumber,`Hi ${d.name}, just ${100-dp}% more docs needed to complete your AIS partnership onboarding!`),'_blank'),cls:'wa-btn'}]});
+      actions.push({priority:'info',type:'dl-docs',title:`${d.name} — Almost Complete`,desc:`${dp}% docs done. One final push for onboarding.`,why:`Docs ≥80% — near completion`,entity:d,rm:d.rm||'Unassigned',tags:[{t:d.rm||'—',c:'rm'},{t:dp+'% docs',c:'phase'},{t:d.city,c:'age'}],actions:[{label:'View Checklist',fn:()=>openDLDetail(d.id)},{label:'WhatsApp CP',fn:()=>window.open(waLink(d.mobileNumber,`Hi ${d.name}, just ${100-dp}% more docs needed to complete your AIS partnership onboarding!`),'_blank'),cls:'wa-btn'}]});
     }
   });
   /* Old leads in pipeline */
@@ -1133,7 +1154,7 @@ function buildActions(){
     const ts=p.createdAt?.toDate?p.createdAt.toDate().getTime():(p.createdAt?new Date(p.createdAt).getTime():Date.now());
     const age=Math.floor((Date.now()-ts)/86400000);
     if(age>21&&p.stage!=='Live'){
-      actions.push({priority:'warning',type:'pl-stale',title:`Pipeline Lead: ${p.name}`,desc:`In "${p.stage}" for ${age} days. Follow up required.`,entity:p,rm:p.rm||'Unassigned',tags:[{t:p.rm||'—',c:'rm'},{t:age+'d old',c:'age'},{t:p.city,c:'age'}],actions:[{label:'Open Lead',fn:()=>openPLDetail(p.id)},{label:'WhatsApp Lead',fn:()=>window.open(waLink(p.mobile,`Hi ${p.contact||p.name}, following up on the AIS expansion opportunity for ${p.city}. Are you still interested?`),'_blank'),cls:'wa-btn'}]});
+      actions.push({priority:'warning',type:'pl-stale',title:`Pipeline Lead: ${p.name}`,desc:`In "${p.stage}" for ${age} days. Follow up required.`,why:`Age ${age}d > 21d follow-up threshold`,entity:p,rm:p.rm||'Unassigned',tags:[{t:p.rm||'—',c:'rm'},{t:age+'d old',c:'age'},{t:p.city,c:'age'}],actions:[{label:'Open Lead',fn:()=>openPLDetail(p.id)},{label:'WhatsApp Lead',fn:()=>window.open(waLink(p.mobile,`Hi ${p.contact||p.name}, following up on the AIS expansion opportunity for ${p.city}. Are you still interested?`),'_blank'),cls:'wa-btn'}]});
     }
   });
   /* All good items */
@@ -1237,6 +1258,7 @@ function renderActionCard(a,ai){
     <div class="ac-body">
       <div class="ac-title">${esc(a.title)}</div>
       <div class="ac-desc">${esc(a.desc)}</div>
+      ${a.why?`<div style="font-size:0.61rem;color:var(--c-text3);margin-top:2px;font-style:italic"><i class="fas fa-circle-info" style="opacity:0.5;margin-right:3px;font-size:0.58rem"></i>${esc(a.why)}</div>`:''}
       <div class="ac-meta">${tagsHtml}</div>
     </div>
     <div class="ac-actions">${btnsHtml}</div>
@@ -1250,7 +1272,7 @@ async function renderAIBrief(){
     <div class="ai-head" id="aiBriefToggle">
       <div class="ai-head-left">
         <div class="ai-icon"><i class="fas fa-robot"></i></div>
-        <div><div class="ai-title">AI Executive Brief</div><div class="ai-sub">Powered by Claude AI</div></div>
+        <div><div class="ai-title">AI Executive Brief</div><div class="ai-sub">Powered by Gemini</div></div>
       </div>
       <div class="ai-actions">
         <button id="refreshBriefBtn"><i class="fas fa-sync-alt"></i> Refresh</button>
@@ -1260,12 +1282,12 @@ async function renderAIBrief(){
     <div id="aiBriefBody"><div class="ai-loading"><i class="fas fa-spinner"></i> Generating insights…</div></div>
     <div class="ai-key">
       <i class="fas fa-key" style="color:var(--c-purple)"></i>
-      <span>Claude API Key:</span>
-      <input type="password" id="claudeKeyInput" placeholder="sk-ant-..." value="${esc(claudeKey)}">
+      <span>Gemini API Key:</span>
+      <input type="password" id="geminiKeyInput" placeholder="AIza..." value="${esc(geminiKey)}">
       <button id="saveKeyBtn">Save</button>
     </div>
   </div>`;
-  document.getElementById('saveKeyBtn')?.addEventListener('click',()=>{claudeKey=document.getElementById('claudeKeyInput').value.trim();localStorage.setItem('ais_claude_key',claudeKey);toast('API key saved','success');generateAIBrief();});
+  document.getElementById('saveKeyBtn')?.addEventListener('click',()=>{geminiKey=document.getElementById('geminiKeyInput').value.trim();localStorage.setItem('ais_gemini_key',geminiKey);toast('API key saved','success');generateAIBrief();});
   document.getElementById('refreshBriefBtn')?.addEventListener('click',generateAIBrief);
   document.getElementById('toggleBriefBtn')?.addEventListener('click',()=>{const b=document.getElementById('aiBriefBody');const i=document.querySelector('#toggleBriefBtn i');if(!b||!i)return;if(b.style.display==='none'){b.style.display='';i.className='fas fa-chevron-up';}else{b.style.display='none';i.className='fas fa-chevron-down';}});
   generateAIBrief();
@@ -1273,7 +1295,7 @@ async function renderAIBrief(){
 async function generateAIBrief(){
   const body=document.getElementById('aiBriefBody');if(!body)return;
   body.innerHTML='<div class="ai-loading"><i class="fas fa-spinner"></i> Generating insights…</div>';
-  if(!claudeKey||!claudeKey.startsWith('sk-ant-')){
+  if(!geminiKey||geminiKey.length<20){
     body.innerHTML=`<div class="ai-body">
       <div class="ai-col green"><div class="ai-col-title green"><i class="fas fa-check-circle"></i> What's Working</div>${buildRuleBased('positive')}</div>
       <div class="ai-col amber"><div class="ai-col-title amber"><i class="fas fa-exclamation-triangle"></i> Needs Attention</div>${buildRuleBased('concerns')}</div>
@@ -1287,9 +1309,10 @@ async function generateAIBrief(){
   const plCount=S.pipeline.length,propCount=S.properties.length;
   const prompt=`You are a sharp executive advisor for AIS Windows, an Indian building materials company. Here is the current state of their expansion operations:\n\nSHOWROOMS: ${srM.total} active, ${srM.critical} critical (>10d delay), ${srM.delayed} warning, ${srM.completed} completed\nTOP DELAYED: ${topDelayed||'None'}\nPARTNERS: ${dlM.total} active, ${dlM.critical} critical, ${dlM.dropped} dropped, ${dlM.completed} onboarded\nPIPELINE: ${plCount} expansion leads\nPROPERTIES: ${propCount} tracked\n\nProvide a concise executive brief in exactly this JSON format (no markdown, no explanation, just the JSON):\n{"positive":["item1","item2","item3"],"concerns":["item1","item2","item3"],"actions":["item1","item2","item3"]}\n\nEach item should be 1 short sentence (max 15 words). Be specific, not generic. Reference real numbers.`;
   try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':claudeKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:600,messages:[{role:'user',content:prompt}]})});
-    if(!res.ok)throw new Error(`API ${res.status}`);
-    const data=await res.json();const raw=data.content[0]?.text||'{}';
+    const gUrl=`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${encodeURIComponent(geminiKey)}`;
+    const res=await fetch(gUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{temperature:0.3,maxOutputTokens:600}})});
+    if(!res.ok)throw new Error(`Gemini API ${res.status}`);
+    const data=await res.json();const raw=data.candidates?.[0]?.content?.parts?.[0]?.text||'{}';
     let parsed;try{parsed=JSON.parse(raw.replace(/```json?|```/g,'').trim());}catch(e){parsed=null;}
     if(parsed&&parsed.positive&&parsed.concerns&&parsed.actions){
       body.innerHTML=`<div class="ai-body">
@@ -1381,7 +1404,37 @@ function renderShowrooms(){
   document.getElementById('srRmF')?.addEventListener('change',()=>{pgSR=1;refresh();});
   document.getElementById('srSortBtn')?.addEventListener('click',()=>{sortSR=!sortSR;document.getElementById('srSortBtn').innerHTML=`<i class="fas fa-sort"></i> ${sortSR?'By Delay':'By Name'}`;pgSR=1;refresh();});
   document.getElementById('srGroupBtn')?.addEventListener('click',()=>{groupSR=!groupSR;document.getElementById('srGroupBtn').innerHTML=`<i class="fas fa-layer-group"></i> ${groupSR?'Flat':'Group'}`;refresh();});
-  document.getElementById('srResetBtn')?.addEventListener('click',()=>{pgSR=1;['srSearch','srStageF','srRmF'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=el.tagName==='SELECT'?'all':'';});refresh();});
+  document.getElementById('srResetBtn')?.addEventListener('click',()=>{pgSR=1;['srSearch','srStageF','srRmF'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=el.tagName==='SELECT'?'all':'';});clearBulk();refresh();});
+  /* preset bar */
+  const _srPW=document.createElement('div');_srPW.id='srPresetBar';const _srSH=c.querySelector('.sh');if(_srSH)c.insertBefore(_srPW,_srSH);else c.prepend(_srPW);
+  const _srGS=()=>({stage:document.getElementById('srStageF')?.value||'all',rm:document.getElementById('srRmF')?.value||'all',search:document.getElementById('srSearch')?.value||''});
+  const _srAP=p=>{if(!p)return;pgSR=1;const s=p.s||p.state||{};
+    if(s.stage)document.getElementById('srStageF').value=s.stage;
+    if(s.rm&&s.rm!=='all')document.getElementById('srRmF').value=s.rm;else if(document.getElementById('srRmF'))document.getElementById('srRmF').value='all';
+    if(s.search!==undefined&&document.getElementById('srSearch'))document.getElementById('srSearch').value=s.search;
+    refresh();toast('Preset: '+p.name,'info');};
+  renderPresetBar('sr',_srGS,_srAP,'srPresetBar');
+  /* quick filters */
+  const _srQR=document.createElement('div');_srQR.className='qf-row';
+  const _myRM=email?email.split('@')[0]:'';
+  _srQR.innerHTML='<span style="font-size:0.61rem;color:var(--c-text3);font-weight:700;margin-right:2px">Quick:</span>'+
+    (_myRM?`<button class="qf-btn" data-sqf="mine">My Items</button>`:'')+
+    '<button class="qf-btn" data-sqf="unassigned">Unassigned</button>'+
+    '<button class="qf-btn" data-sqf="critical">Critical</button>'+
+    '<button class="qf-btn" data-sqf="done">Completed</button>'+
+    '<button class="qf-btn" id="srBulkBtn">☑ Select</button>';
+  const _srSH2=c.querySelector('.sh');if(_srSH2)c.insertBefore(_srQR,_srSH2);else c.prepend(_srQR);
+  /* bulk bar */
+  const _srBB=document.createElement('div');_srBB.id='bulkBar';_srBB.className='bulk-bar';_srBB.innerHTML=_bulkBarHTML;c.appendChild(_srBB);
+  _srQR.querySelectorAll('.qf-btn[data-sqf]').forEach(b=>b.addEventListener('click',()=>{
+    pgSR=1;_srQR.querySelectorAll('.qf-btn[data-sqf]').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+    const rmEl=document.getElementById('srRmF'),stEl=document.getElementById('srStageF'),srEl=document.getElementById('srSearch');
+    if(b.dataset.sqf==='mine'&&_myRM&&rmEl){const o=[...rmEl.options].find(x=>x.value.toLowerCase().includes(_myRM.toLowerCase()));if(o)rmEl.value=o.value;}
+    else if(b.dataset.sqf==='unassigned'){if(srEl)srEl.value='Unassigned';}
+    else if(b.dataset.sqf==='critical'){sortSR=true;}
+    else if(b.dataset.sqf==='done'&&stEl)stEl.value='completed';
+    refresh();}));
+  document.getElementById('srBulkBtn')?.addEventListener('click',function(){this.classList.toggle('on');if(!this.classList.contains('on'))clearBulk();refresh();});
   refresh();
 }
 function buildSRCard(s){
@@ -1393,7 +1446,9 @@ function buildSRCard(s){
   const nbaC=done?'ok':crit?'crit':warn?'warn':'ok';
   const nbaI=done?'fa-flag-checkered':crit?'fa-circle-exclamation':warn?'fa-triangle-exclamation':'fa-check-circle';
   const fc=forecastSR(s);
-  return`<div class="ecard ${crit?'crit':warn?'warn':''}">
+  const _srBulk=document.getElementById('srBulkBtn')?.classList.contains('on');
+  return`<div class="ecard ${crit?'crit':warn?'warn':''}" data-bid="${s.id}"${_srBulk?` onclick="event.stopPropagation();toggleBulkItem('${s.id}','sr')" style="cursor:pointer"`:''}>
+    ${_srBulk?'<div class="sel-ov" aria-hidden="true"></div>':''}
     <div class="ecard-top">
       <div class="ecard-head">
         <div>
@@ -1604,8 +1659,42 @@ function renderPartners(){
   document.getElementById('dlStageF')?.addEventListener('change',refresh);
   document.getElementById('dlStatusF')?.addEventListener('change',refresh);
   document.getElementById('dlRmF')?.addEventListener('change',refresh);
-  document.getElementById('dlResetBtn')?.addEventListener('click',()=>{['dlSearch','dlStageF','dlStatusF','dlRmF'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=el.tagName==='SELECT'?'all':'';});refresh();});
+  document.getElementById('dlResetBtn')?.addEventListener('click',()=>{['dlSearch','dlStageF','dlStatusF','dlRmF'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=el.tagName==='SELECT'?'all':'';});clearBulk();refresh();});
   document.getElementById('dlViewToggle')?.addEventListener('click',()=>{window._dlKanban=!window._dlKanban;document.getElementById('dlViewToggle').innerHTML=`<i class="fas fa-th-large"></i> ${window._dlKanban?'Cards':'Kanban'}`;refresh();});
+  /* DL preset bar */
+  const _dlPW=document.createElement('div');_dlPW.id='dlPresetBar';
+  const _dlSH=c.querySelector('.sh');if(_dlSH)c.insertBefore(_dlPW,_dlSH);else c.prepend(_dlPW);
+  const _dlGS=()=>({stage:document.getElementById('dlStageF')?.value||'all',status:document.getElementById('dlStatusF')?.value||'all',rm:document.getElementById('dlRmF')?.value||'all',search:document.getElementById('dlSearch')?.value||''});
+  const _dlAP=p=>{if(!p)return;pgDL=1;const s=p.s||p.state||{};
+    if(s.status&&document.getElementById('dlStatusF'))document.getElementById('dlStatusF').value=s.status;
+    if(s.stage&&document.getElementById('dlStageF'))document.getElementById('dlStageF').value=s.stage;
+    if(s.rm&&document.getElementById('dlRmF'))document.getElementById('dlRmF').value=s.rm;
+    if(s.search!==undefined&&document.getElementById('dlSearch'))document.getElementById('dlSearch').value=s.search;
+    refresh();toast('Preset: '+p.name,'info');};
+  renderPresetBar('dl',_dlGS,_dlAP,'dlPresetBar');
+  /* DL quick filters */
+  const _dlQR=document.createElement('div');_dlQR.className='qf-row';
+  const _myRMdl=email?email.split('@')[0]:'';
+  _dlQR.innerHTML='<span style="font-size:0.61rem;color:var(--c-text3);font-weight:700;margin-right:2px">Quick:</span>'+
+    (_myRMdl?'<button class="qf-btn" data-dqf="mine">My Items</button>':'')+
+    '<button class="qf-btn" data-dqf="unassigned">Unassigned</button>'+
+    '<button class="qf-btn" data-dqf="critical">Critical</button>'+
+    '<button class="qf-btn" data-dqf="docs80">Docs 80%+</button>'+
+    '<button class="qf-btn" data-dqf="done">Completed</button>'+
+    '<button class="qf-btn" id="dlBulkBtn">☑ Select</button>';
+  const _dlSH2=c.querySelector('.sh');if(_dlSH2)c.insertBefore(_dlQR,_dlSH2);else c.prepend(_dlQR);
+  /* DL bulk bar */
+  const _dlBB=document.createElement('div');_dlBB.id='bulkBar';_dlBB.className='bulk-bar';_dlBB.innerHTML=_bulkBarHTML;c.appendChild(_dlBB);
+  _dlQR.querySelectorAll('.qf-btn[data-dqf]').forEach(b=>b.addEventListener('click',()=>{
+    pgDL=1;_dlQR.querySelectorAll('.qf-btn[data-dqf]').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+    const stEl=document.getElementById('dlStatusF'),rmEl=document.getElementById('dlRmF'),srEl=document.getElementById('dlSearch');
+    if(b.dataset.dqf==='mine'&&_myRMdl&&rmEl){const o=[...rmEl.options].find(x=>x.value.toLowerCase().includes(_myRMdl.toLowerCase()));if(o)rmEl.value=o.value;}
+    else if(b.dataset.dqf==='unassigned'){if(srEl)srEl.value='Unassigned';}
+    else if(b.dataset.dqf==='critical'&&stEl)stEl.value='delayed';
+    else if(b.dataset.dqf==='docs80'&&stEl)stEl.value='active';
+    else if(b.dataset.dqf==='done'&&stEl)stEl.value='completed';
+    refresh();}));
+  document.getElementById('dlBulkBtn')?.addEventListener('click',function(){this.classList.toggle('on');if(!this.classList.contains('on'))clearBulk();refresh();});
   refresh();
 }
 function renderDLKanban(list,board){
@@ -1671,10 +1760,12 @@ function buildDLCard(d){
   const tl=dlTimeline(d);const dp=docPct(d.documents);const si=DEALER_STAGES.indexOf(d.currentStage||'Interested');
   const done=isDLDone(d),rej=isDLRej(d);
   const crit=tl.level==='critical'&&!done&&!rej,warn=tl.level==='warning'&&!done&&!rej;
+  const _dlBulk=document.getElementById('dlBulkBtn')?.classList.contains('on');
   const chipCls=done?'chip-ok':rej?'chip-crit':crit?'chip-crit':warn?'chip-warn':'chip-info';
   const chipTxt=done?'Onboarded':rej?'Dropped':crit?'Critical':warn?'Delayed':'Active';
   const nbaC=done?'ok':rej||crit?'crit':warn?'warn':'ok';
-  return`<div class="ecard ${crit?'crit':warn?'warn':''}">
+  return`<div class="ecard ${crit?'crit':warn?'warn':''}" data-bid="${d.id}"${_dlBulk?` onclick="event.stopPropagation();toggleBulkItem('${d.id}','dl')" style="cursor:pointer"`:''}>
+    ${_dlBulk?'<div class="sel-ov" aria-hidden="true"></div>':''}
     <div class="ecard-top">
       <div class="ecard-head">
         <div><div class="ecard-name">${esc(d.name)}</div>
@@ -2046,11 +2137,100 @@ async function renderInsights(){
   const dc=document.getElementById('docsChart');if(dc){dk('docs');charts.docs=new Chart(dc.getContext('2d'),{type:'bar',data:{labels:DEALER_STAGES,datasets:[{label:'Doc %',data:docData,backgroundColor:'rgba(139,92,246,0.7)',borderRadius:6}]},options:{responsive:true,plugins:{legend:{display:false},datalabels:{...dlPluginPct,display:ctx=>ctx.dataset.data[ctx.dataIndex]>0}},scales:{y:{max:100,grid:{color:gc}},x:{grid:{display:false},ticks:{maxRotation:30}}}}});}
 }
 
+
+/* ── FILTER PRESETS ─────────────────────────────── */
+const PRESET_DEFAULTS={
+  sr:[
+    {id:'crit-sr',name:'🚨 Critical SR',s:{stage:'all',rm:'all',search:''},desc:'Max delay>10d'},
+    {id:'warn-sr',name:'⚠️ Warning SR',s:{stage:'all',rm:'all',search:''},desc:'Delay 6-10d'},
+    {id:'unassigned-sr',name:'Unassigned',s:{stage:'all',rm:'all',search:'Unassigned'},desc:'No RM'},
+  ],
+  dl:[
+    {id:'crit-dl',name:'🚨 Critical CP',s:{stage:'all',status:'delayed',rm:'all',search:''},desc:'Delayed partners'},
+    {id:'docs80-dl',name:'Docs 80%+',s:{stage:'all',status:'active',rm:'all',search:''},desc:'Near completion'},
+    {id:'done-dl',name:'Completed',s:{stage:'all',status:'completed',rm:'all',search:''},desc:'Onboarded'},
+    {id:'unassigned-dl',name:'Unassigned',s:{stage:'all',status:'all',rm:'all',search:'Unassigned'},desc:'No RM'},
+  ],
+  pl:[
+    {id:'live-pl',name:'Live',s:{search:'Live'},desc:'Converted leads'},
+  ]
+};
+function getPresets(ns){const saved=JSON.parse(localStorage.getItem('ais_presets_'+ns)||'[]');return[...(PRESET_DEFAULTS[ns]||[]),...saved];}
+function savePreset(ns,name,stateFn){if(!name)return;const saved=JSON.parse(localStorage.getItem('ais_presets_'+ns)||'[]');saved.push({id:'u'+Date.now(),name,s:stateFn(),user:true});localStorage.setItem('ais_presets_'+ns,JSON.stringify(saved.slice(-10)));}
+function delPreset(ns,id){const saved=JSON.parse(localStorage.getItem('ais_presets_'+ns)||'[]');localStorage.setItem('ais_presets_'+ns,JSON.stringify(saved.filter(p=>p.id!==id)));}
+function renderPresetBar(ns,getStateFn,applyFn,elId){
+  const el=document.getElementById(elId);if(!el)return;
+  const presets=getPresets(ns);
+  el.innerHTML=`<div class="preset-bar"><span style="font-size:0.61rem;color:var(--c-text3);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin-right:3px">Presets</span>${presets.map(p=>`<span class="preset-chip" data-pid="${esc(p.id)}" title="${esc(p.desc||p.name)}">${esc(p.name)}</span>${p.user?`<span class="preset-chip del-x" data-pdel="${esc(p.id)}">✕</span>`:''}`).join('')}<button class="preset-save-btn" id="psbtn-${ns}"><i class="fas fa-bookmark"></i> Save</button></div>`;
+  el.querySelectorAll('.preset-chip[data-pid]').forEach(chip=>chip.addEventListener('click',()=>applyFn(presets.find(p=>p.id===chip.dataset.pid))));
+  el.querySelectorAll('[data-pdel]').forEach(btn=>btn.addEventListener('click',e=>{e.stopPropagation();delPreset(ns,btn.dataset.pdel);renderPresetBar(ns,getStateFn,applyFn,elId);}));
+  document.getElementById('psbtn-'+ns)?.addEventListener('click',()=>{const name=prompt('Preset name:');if(!name)return;savePreset(ns,name,getStateFn);renderPresetBar(ns,getStateFn,applyFn,elId);toast('Preset saved','success');});
+}
+/* ── BULK SELECTION ─────────────────────────────── */
+let _bulkSel=new Set(),_bulkNS='';
+function clearBulk(){_bulkSel.clear();_bulkNS='';document.querySelectorAll('.ecard.picked').forEach(e=>e.classList.remove('picked'));_updateBulkBar();}
+function toggleBulkItem(id,ns){
+  if(_bulkNS&&_bulkNS!==ns)clearBulk();
+  _bulkNS=ns;
+  _bulkSel.has(id)?_bulkSel.delete(id):_bulkSel.add(id);
+  document.querySelectorAll(`.ecard[data-bid="${CSS.escape(id)}"]`).forEach(e=>e.classList.toggle('picked',_bulkSel.has(id)));
+  _updateBulkBar();
+}
+function _updateBulkBar(){
+  const tb=document.getElementById('bulkBar');if(!tb)return;
+  tb.classList.toggle('on',_bulkSel.size>0);
+  const ce=tb.querySelector('.bulk-count');if(ce)ce.textContent=_bulkSel.size+' selected';
+}
+function bulkExportCSV(){
+  const all=[...S.showrooms,...S.dealers,...S.pipeline];
+  const rows=[['Name','City','RM','Mobile','Stage'].join(',')];
+  _bulkSel.forEach(id=>{const e=all.find(x=>x.id===id);if(!e)return;rows.push([e.name||'',e.city||'',e.rm||'',e.mobileNumber||e.mobile||'',e.currentStage||e.stage||''].map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(','));});
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([rows.join('\n')],{type:'text/csv'}));a.download='export_'+new Date().toISOString().slice(0,10)+'.csv';a.click();toast('Exported '+_bulkSel.size+' items','success');
+}
+function bulkCopyPhones(){
+  const all=[...S.showrooms,...S.dealers,...S.pipeline];const phones=[];
+  _bulkSel.forEach(id=>{const e=all.find(x=>x.id===id);if(e){const p=e.mobileNumber||e.mobile||'';if(p)phones.push(p);}});
+  if(!phones.length){toast('No phones in selection','warning');return;}
+  navigator.clipboard?.writeText(phones.join('\n')).then(()=>toast('Copied '+phones.length+' numbers','success')).catch(()=>toast(phones.slice(0,5).join(', '),'info'));
+}
+function bulkCopyNames(){
+  const all=[...S.showrooms,...S.dealers,...S.pipeline];const names=[];
+  _bulkSel.forEach(id=>{const e=all.find(x=>x.id===id);if(e&&e.name)names.push(e.name);});
+  if(!names.length){toast('Nothing selected','warning');return;}
+  navigator.clipboard?.writeText(names.join('\n')).then(()=>toast('Copied '+names.length+' names','success')).catch(()=>toast(names.slice(0,5).join(', '),'info'));
+}
+const _bulkBarHTML='<span class="bulk-count">0 selected</span><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn btn-outline btn-xs" onclick="bulkExportCSV()"><i class="fas fa-file-csv"></i> Export</button><button class="btn btn-outline btn-xs" onclick="bulkCopyPhones()"><i class="fas fa-phone"></i> Phones</button><button class="btn btn-outline btn-xs" onclick="bulkCopyNames()"><i class="fas fa-copy"></i> Names</button><button class="btn btn-ghost btn-xs" onclick="clearBulk()">✕ Clear</button></div>';
+/* ── DATA QUALITY ────────────────────────────────── */
+function renderDataQuality(elId){
+  const el=document.getElementById(elId);if(!el)return;
+  const issues=[];
+  const check=(label,count,sev,view)=>{if(count>0)issues.push({label,count,sev,view});};
+  check('Showrooms missing RM',S.showrooms.filter(s=>!s.rm).length,'crit','showrooms');
+  check('Showrooms missing start date',S.showrooms.filter(s=>!s.startDate).length,'crit','showrooms');
+  check('Showrooms missing mobile',S.showrooms.filter(s=>!s.mobileNumber).length,'warn','showrooms');
+  check('Showrooms without map coords',S.showrooms.filter(s=>!s.lat&&!s.lng).length,'info','map');
+  check('Partners missing RM',S.dealers.filter(d=>!d.rm).length,'crit','partners');
+  check('Partners missing start date',S.dealers.filter(d=>!d.startDate).length,'warn','partners');
+  check('Partners missing mobile',S.dealers.filter(d=>!d.mobileNumber).length,'warn','partners');
+  check('Partners without map coords',S.dealers.filter(d=>!d.lat&&!d.lng).length,'info','map');
+  check('Pipeline leads missing RM',S.pipeline.filter(p=>!p.rm).length,'warn','pipeline');
+  check('Pipeline leads missing city',S.pipeline.filter(p=>!p.city).length,'info','pipeline');
+  if(!issues.length){el.innerHTML='<div style="text-align:center;padding:16px;color:var(--c-green);font-size:0.8rem"><i class="fas fa-check-circle" style="margin-right:6px"></i>No data quality issues found</div>';return;}
+  const sc={crit:'var(--c-red)',warn:'var(--c-amber)',info:'var(--c-blue)'};
+  const sb={crit:'var(--c-critical)',warn:'var(--c-warn)',info:'var(--c-info)'};
+  el.innerHTML='<div style="display:flex;flex-direction:column;gap:5px">'+issues.map(i=>`<div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:${sb[i.sev]};border-radius:var(--r-sm);cursor:pointer" data-dqv="${esc(i.view)}"><div style="font-weight:700;font-size:0.9rem;color:${sc[i.sev]};min-width:26px;text-align:right">${i.count}</div><div style="flex:1;font-size:0.75rem;font-weight:500">${esc(i.label)}</div><i class="fas fa-arrow-right" style="font-size:0.58rem;color:var(--c-text3)"></i></div>`).join('')+'</div>';
+  el.querySelectorAll('[data-dqv]').forEach(r=>r.addEventListener('click',()=>setView(r.dataset.dqv)));
+}
+
 /* ── SETTINGS VIEW ── */
 function renderSettings(){
   const c=document.getElementById('content');if(!c)return;
   c.innerHTML=`<div class="sh-title" style="margin-bottom:20px">Settings</div>
   <div class="settings-grid">
+    <div class="setting-card" style="grid-column:1/-1">
+      <h3><i class="fas fa-triangle-exclamation" style="color:var(--c-amber)"></i> Data Quality</h3>
+      <div id="dqPanel"><div style="color:var(--c-text3);font-size:0.78rem;padding:8px">Loading…</div></div>
+    </div>
     <div class="setting-card">
       <h3><i class="fas fa-palette" style="color:var(--c-purple)"></i> Color Theme</h3>
       <div class="theme-swatches" id="themeSwatches"></div>
@@ -2061,9 +2241,9 @@ function renderSettings(){
       <div class="toggle-row"><label><i class="fas fa-th-large" style="margin-right:6px;color:var(--c-text3)"></i>Kanban Default (Partners)</label><button class="toggle${window._dlKanban!==false?' on':''}" id="kanbanToggle"></button></div>
     </div>
     <div class="setting-card">
-      <h3><i class="fas fa-robot" style="color:var(--c-purple)"></i> Claude AI Integration</h3>
-      <div class="form-group"><label class="form-label">API Key</label><input type="password" id="settingsClaudeKey" class="form-input" placeholder="sk-ant-..." value="${esc(claudeKey)}"><div class="form-note">Get your key at console.anthropic.com — enables real AI briefs</div></div>
-      <button class="btn btn-primary btn-sm" id="saveClaudeKeyBtn"><i class="fas fa-save"></i> Save Key</button>
+      <h3><i class="fas fa-robot" style="color:var(--c-purple)"></i> Gemini AI Integration</h3>
+      <div class="form-group"><label class="form-label">API Key</label><input type="password" id="settingsGeminiKey" class="form-input" placeholder="AIza..." value="${esc(geminiKey)}"><div class="form-note">Get your key at aistudio.google.com — enables real AI briefs</div></div>
+      <button class="btn btn-primary btn-sm" id="saveGeminiKeyBtn"><i class="fas fa-save"></i> Save Key</button>
     </div>
     <div class="setting-card">
       <h3><i class="fas fa-database" style="color:var(--c-green)"></i> Data & Exports</h3>
@@ -2102,7 +2282,7 @@ function renderSettings(){
   document.getElementById('soundToggleSetting')?.addEventListener('click',function(){sound=!sound;localStorage.setItem('ais_sound',sound?'on':'off');this.classList.toggle('on',sound);updateSoundIcon();toast('Sound '+(sound?'enabled':'disabled'),'info');});
   document.getElementById('kanbanToggle')?.addEventListener('click',function(){window._dlKanban=!window._dlKanban;this.classList.toggle('on',window._dlKanban);});
   /* Claude key */
-  document.getElementById('saveClaudeKeyBtn')?.addEventListener('click',()=>{claudeKey=document.getElementById('settingsClaudeKey').value.trim();localStorage.setItem('ais_claude_key',claudeKey);toast('API key saved','success');});
+  document.getElementById('saveGeminiKeyBtn')?.addEventListener('click',()=>{geminiKey=document.getElementById('settingsGeminiKey').value.trim();localStorage.setItem('ais_gemini_key',geminiKey);toast('API key saved','success');});
   /* Exports */
   document.getElementById('exportSRBtn')?.addEventListener('click',exportSR);
   document.getElementById('exportDLBtn')?.addEventListener('click',exportDL);
@@ -2238,9 +2418,10 @@ function renderCmd(q){
 }
 
 /* ── REALTIME LISTENERS ── */
+function updateSyncUI(s2){const dot=document.getElementById('syncDot'),txt=document.getElementById('syncText');if(!dot||!txt)return;const t=new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});if(s2==='live'){dot.className='sync-dot live';txt.textContent='Live · '+t;}else if(s2==='syncing'){dot.className='sync-dot syncing';txt.textContent='Syncing…';}else{dot.className='sync-dot stale';txt.textContent='Stale · '+t;}}
 function startRealtime(){
-  stopRealtime();isLoading=true;firstLoad=false;
-  const onSR=snap=>{S.showrooms=snap.docs.map(d=>({id:d.id,...d.data()}));if(!firstLoad){isLoading=false;firstLoad=true;stopP();}checkAndNotify();updateBadges();if(['today','showrooms','insights'].includes(view))renderView();};
+  stopRealtime();isLoading=true;firstLoad=false;updateSyncUI('syncing');
+  const onSR=snap=>{S.showrooms=snap.docs.map(d=>({id:d.id,...d.data()}));if(!firstLoad){isLoading=false;firstLoad=true;stopP();}checkAndNotify();updateBadges();updateSyncUI('live');if(['today','showrooms','insights'].includes(view))renderView();};
   const onDL=snap=>{S.dealers=snap.docs.map(d=>({id:d.id,...d.data()}));checkAndNotify();updateBadges();if(['today','partners','insights'].includes(view))renderView();};
   const onPL=snap=>{S.pipeline=snap.docs.map(d=>({id:d.id,...d.data()}));if(['today','pipeline','map'].includes(view))renderView();};
   const onPR=snap=>{S.properties=snap.docs.map(d=>({id:d.id,...d.data()}));if(['properties','map'].includes(view))renderView();};
